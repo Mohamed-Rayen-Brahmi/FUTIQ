@@ -164,9 +164,20 @@ async function main() {
 
       const { code, group } = normalizePosition(posString);
       
-      // Optional: Only include players from major leagues to keep game playable, or remove this to have ALL
-      const majorLeagues = ['English Premier League', 'Spain Primera Division', 'Italian Serie A', 'German 1. Bundesliga', 'French Ligue 1', 'Saudi Pro League', 'Major League Soccer'];
-      // if (!majorLeagues.includes(league)) return;
+      // STRICT FILTER: Only include players from Top 5 Leagues, MLS, and Saudi Pro League
+      const allowedLeagues = [
+        'Premier League', 
+        'La Liga', 
+        'Serie A', 
+        'Bundesliga', 
+        'Ligue 1', 
+        'Pro League', // Saudi
+        'Major League Soccer'
+      ];
+      if (!allowedLeagues.includes(league.trim())) return;
+
+      // STRICT FILTER: Only include players with a valid photo
+      if (!photo) return;
 
       batch.push({
         name: name.trim(),

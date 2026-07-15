@@ -104,6 +104,19 @@ async function main() {
       const dobStr = row.dob || null;
       const imageUrl = (row.coach_face_url || '').trim() || null;
 
+      if (!teamInfo || !teamInfo.league) return;
+      const allowedLeagues = [
+        'Premier League', 
+        'La Liga', 
+        'Serie A', 
+        'Bundesliga', 
+        'Ligue 1', 
+        'Pro League', 
+        'Major League Soccer'
+      ];
+      if (!allowedLeagues.includes(teamInfo.league.trim())) return;
+      if (!imageUrl) return;
+
       batch.push({
         name,
         nationality,

@@ -5,9 +5,9 @@ import { MAX_GUESSES, getDailySeed } from '../lib/constants';
 import { useAuth } from '../auth/AuthContext';
 import { loadGuestState, updateGuestAfterGame, loadRoundState, saveRoundState, clearRoundState } from '../lib/guest';
 
-// Daily and Training both cap at MAX_GUESSES; Unlimited has no cap.
+// Daily, Training, and Unlimited all cap at MAX_GUESSES (8).
 function maxGuessesForMode(mode: GameMode): number | null {
-  return mode === 'unlimited' ? null : MAX_GUESSES;
+  return MAX_GUESSES;
 }
 
 export function useGame(mode: GameMode) {

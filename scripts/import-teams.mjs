@@ -43,9 +43,22 @@ async function main() {
       const name = (row.team_name || '').trim();
       if (!name) return;
 
+      const leagueName = (row.league_name || '').trim();
+
+      const allowedLeagues = [
+        'Premier League', 
+        'La Liga', 
+        'Serie A', 
+        'Bundesliga', 
+        'Ligue 1', 
+        'Pro League', 
+        'Major League Soccer'
+      ];
+      if (!allowedLeagues.includes(leagueName)) return;
+
       batch.push({
         name,
-        league: (row.league_name || '').trim() || null,
+        league: leagueName || null,
         country: (row.nationality_name || '').trim() || null,
         overall: parseInt(row.overall, 10) || null,
         attack: parseInt(row.attack, 10) || null,
