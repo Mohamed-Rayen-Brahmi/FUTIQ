@@ -31,12 +31,7 @@ export function PlayerSearch({ onGuess, disabled, guessedNames }: PlayerSearchPr
     debounceRef.current = setTimeout(async () => {
       try {
         const { data, error } = await supabase
-          .from('players')
-          .select('*')
-          .ilike('name', `%${query.trim()}%`)
-          .eq('active', true)
-          .limit(10)
-          .order('name');
+          .rpc('search_players', { search_query: query.trim() });
 
         if (error) throw error;
         setResults(data || []);
