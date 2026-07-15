@@ -15,6 +15,7 @@ const ProfilePage   = lazy(() => import('./pages/ProfilePage').then(m => ({ defa
 const AboutPage     = lazy(() => import('./pages/AboutPage').then(m => ({ default: m.AboutPage })));
 const PrivacyPage   = lazy(() => import('./pages/PrivacyPage').then(m => ({ default: m.PrivacyPage })));
 const ContactPage   = lazy(() => import('./pages/ContactPage').then(m => ({ default: m.ContactPage })));
+const RankingsPage  = lazy(() => import('./pages/RankingsPage').then(m => ({ default: m.RankingsPage })));
 
 // Trivia Party mode — fully separate module bundle
 const TriviaLandingPage = lazy(() => import('./trivia/pages/TriviaLandingPage').then(m => ({ default: m.TriviaLandingPage })));
@@ -60,6 +61,7 @@ function AppRoutes() {
       <Route path="/about" element={<Suspense fallback={<PageLoader />}><AboutPage /></Suspense>} />
       <Route path="/privacy" element={<Suspense fallback={<PageLoader />}><PrivacyPage /></Suspense>} />
       <Route path="/contact" element={<Suspense fallback={<PageLoader />}><ContactPage /></Suspense>} />
+      <Route path="/rankings" element={<Suspense fallback={<PageLoader />}><RankingsPage /></Suspense>} />
       {/* Trivia Party mode — all guest-accessible, no auth required */}
       <Route path="/trivia" element={<Suspense fallback={<PageLoader />}><TriviaLandingPage /></Suspense>} />
       <Route path="/trivia/solo" element={<Suspense fallback={<PageLoader />}><TriviaSoloPage /></Suspense>} />
