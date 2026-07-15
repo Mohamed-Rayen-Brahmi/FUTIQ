@@ -93,7 +93,70 @@ export interface GuessRow {
   };
 }
 
-export type GameMode = 'daily' | 'training' | 'unlimited';
+export interface Coach {
+  id: string;
+  name: string;
+  nationality: string | null;
+  continent: string | null;
+  club: string | null;
+  league: string | null;
+  age: number | null;
+  dob: string | null;
+  image_url: string | null;
+  active: boolean;
+  created_at: string;
+}
+
+export interface Team {
+  id: string;
+  name: string;
+  league: string | null;
+  country: string | null;
+  overall: number | null;
+  attack: number | null;
+  midfield: number | null;
+  defence: number | null;
+  stadium: string | null;
+  def_style: string | null;
+  off_style: string | null;
+  image_url: string | null;
+  active: boolean;
+  created_at: string;
+}
+
+export interface CoachGuessRow {
+  coach: Coach;
+  cells: {
+    name: GuessCell;
+    nationality: GuessCell;
+    club: GuessCell;
+    league: GuessCell;
+    age: GuessCell;
+  };
+}
+
+export interface TeamGuessRow {
+  team: Team;
+  cells: {
+    name: GuessCell;
+    league: GuessCell;
+    country: GuessCell;
+    overall: GuessCell;
+    stadium: GuessCell;
+    defStyle: GuessCell;
+    offStyle: GuessCell;
+  };
+}
+
+export interface RankingRow {
+  rank: number;
+  user_id: string;
+  username: string;
+  wins: number;
+  best_streak: number;
+}
+
+export type GameMode = 'daily' | 'unlimited' | 'coaches_daily' | 'teams_daily';
 export type GameStatus = 'playing' | 'won' | 'lost';
 
 export interface GuestState {
