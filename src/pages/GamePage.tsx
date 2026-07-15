@@ -201,7 +201,7 @@ export function GamePage() {
             </div>
 
             {/* Card */}
-            <div className="lg:sticky lg:top-6">
+            <div className="w-full lg:w-auto lg:sticky lg:top-6 mb-2 lg:mb-0">
               <PlayerCard
                 player={game.mysteryPlayer}
                 status={game.status}

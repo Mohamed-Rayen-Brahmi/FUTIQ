@@ -17,9 +17,9 @@ export function Navbar() {
         </Link>
 
         {/* Nav links */}
-        <nav className="flex items-center gap-4">
-          <Link to="/trivia" className="font-label text-sm uppercase tracking-wide text-cta hover:text-cta-light transition-colors hidden sm:inline flex items-center gap-1">
-            🎭 Party
+        <nav className="flex items-center gap-3 sm:gap-4">
+          <Link to="/trivia" className="font-label text-sm uppercase tracking-wide text-cta hover:text-cta-light transition-colors flex items-center gap-1">
+            🎭 <span className="hidden sm:inline">Bluff</span>
           </Link>
           <Link to="/about" className="font-label text-sm uppercase tracking-wide text-slate-500 hover:text-gold transition-colors hidden sm:inline">
             About
