@@ -67,8 +67,24 @@ export function TeamCard({ team, status, unlockedStats }: TeamCardProps) {
         )}
 
         <div className="absolute inset-0 z-0 bg-ink-deep flex items-center justify-center" style={{ clipPath: CLIP_PATH, overflow: 'hidden' }}>
-           <span className={`text-9xl transition-all duration-500 ${!showName ? 'opacity-20 blur-sm' : 'opacity-100'}`}>🏟️</span>
-           <div className="absolute inset-0" style={{ background: 'linear-gradient(to top, rgba(10,14,20,0.95) 0%, rgba(10,14,20,0.4) 50%, transparent 100%)' }} />
+          {team.image_url ? (
+            <>
+              {!showName && <div className="absolute inset-0" style={{ background: `linear-gradient(135deg, #222, #0a0e14)` }} />}
+              <img
+                src={team.image_url}
+                alt={team.name}
+                loading="lazy"
+                className="absolute inset-0 w-full h-full object-contain p-12"
+                style={{ filter: !showName ? `blur(10px)` : 'none', transform: 'scale(1.2)', transition: 'filter 0.4s ease-out' }}
+              />
+              <div className="absolute inset-0" style={{ background: 'linear-gradient(to top, rgba(10,14,20,0.95) 0%, rgba(10,14,20,0.5) 50%, transparent 100%)' }} />
+            </>
+          ) : (
+            <>
+               <span className={`text-9xl transition-all duration-500 ${!showName ? 'opacity-20 blur-sm' : 'opacity-100'}`}>🏟️</span>
+               <div className="absolute inset-0" style={{ background: 'linear-gradient(to top, rgba(10,14,20,0.95) 0%, rgba(10,14,20,0.4) 50%, transparent 100%)' }} />
+            </>
+          )}
         </div>
 
         <div className="absolute top-0 left-0 z-20 p-5 pl-6 flex flex-col items-start gap-2" style={{ width: '45%' }}>

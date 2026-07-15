@@ -1,4 +1,5 @@
 #!/usr/bin/env node
+import 'dotenv/config';
 import fs from 'fs';
 import path from 'path';
 import { fileURLToPath } from 'url';
@@ -56,6 +57,8 @@ async function main() {
       ];
       if (!allowedLeagues.includes(leagueName)) return;
 
+      const teamId = (row.team_id || '').trim();
+
       batch.push({
         name,
         league: leagueName || null,
@@ -67,7 +70,7 @@ async function main() {
         stadium: (row.home_stadium || '').trim() || null,
         def_style: (row.def_style || '').trim() || null,
         off_style: (row.off_style || '').trim() || null,
-        image_url: null, // teams don't have face images in this CSV
+        image_url: teamId ? `https://cdn.futwiz.com/assets/img/fc24/badges/${teamId}.png` : null,
         active: true,
       });
     },
