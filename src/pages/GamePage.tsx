@@ -127,19 +127,12 @@ export function GamePage() {
       {/* Game content */}
       {!game.loading && !game.error && game.mysteryPlayer && (
         <>
-          <div className="grid lg:grid-cols-[1fr_340px] gap-6 items-start">
+          <div className="flex flex-col-reverse lg:grid lg:grid-cols-[1fr_340px] gap-6 items-start">
             {/* Grid + search */}
-            <div>
-              <GameGrid guesses={game.guesses} maxGuesses={game.maxGuesses} />
-
-              {/* Ad slot below grid */}
-              <div className="h-[90px] bg-ink-deep/30 border border-ink-border/40 rounded-lg flex items-center justify-center mt-4 mb-4">
-                <span className="font-label text-xs uppercase tracking-widest text-slate-700">Ad Slot</span>
-              </div>
-
+            <div className="w-full">
               {/* Search */}
               {game.status === 'playing' && (
-                <div className="mt-4">
+                <div className="mb-4">
                   <PlayerSearch
                     onGuess={game.makeGuess}
                     disabled={game.status !== 'playing'}
@@ -147,6 +140,15 @@ export function GamePage() {
                   />
                 </div>
               )}
+
+              <GameGrid guesses={game.guesses} maxGuesses={game.maxGuesses} />
+
+              {/* Ad slot below grid */}
+              <div className="h-[90px] bg-ink-deep/30 border border-ink-border/40 rounded-lg flex items-center justify-center mt-4 mb-4">
+                <span className="font-label text-xs uppercase tracking-widest text-slate-700">Ad Slot</span>
+              </div>
+
+
 
               {/* Give up / reveal answer — Unlimited mode only, since it has no guess cap */}
               {mode === 'unlimited' && game.status === 'playing' && game.guesses.length > 0 && (
