@@ -9,6 +9,7 @@ import type { GameMode } from '../types/database';
 import { loadGuestState } from '../lib/guest';
 import { useAuth } from '../auth/AuthContext';
 import { Link } from 'react-router-dom';
+import { AdBanner } from '../components/AdBanner';
 
 export function GamePage() {
   const [mode, setMode] = useState<GameMode>('daily');
@@ -72,9 +73,7 @@ export function GamePage() {
       </div>
 
       {/* Ad slot above the fold */}
-      <div className="h-[90px] bg-ink-deep/30 border border-ink-border/40 rounded-lg flex items-center justify-center mb-6">
-        <span className="font-label text-xs uppercase tracking-widest text-slate-700">Ad Slot</span>
-      </div>
+      <AdBanner dataAdSlot="home-top" className="mb-6" />
 
       {/* Stats bar */}
       <div className="flex items-center justify-center gap-3 mb-6 flex-wrap">
@@ -144,9 +143,7 @@ export function GamePage() {
               <GameGrid guesses={game.guesses} maxGuesses={game.maxGuesses} />
 
               {/* Ad slot below grid */}
-              <div className="h-[90px] bg-ink-deep/30 border border-ink-border/40 rounded-lg flex items-center justify-center mt-4 mb-4">
-                <span className="font-label text-xs uppercase tracking-widest text-slate-700">Ad Slot</span>
-              </div>
+              <AdBanner dataAdSlot="home-bottom" />
 
 
 
