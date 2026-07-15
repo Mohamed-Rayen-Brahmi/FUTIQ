@@ -26,8 +26,19 @@ export function CoachCard({ coach, status, unlockedStats }: CoachCardProps) {
           <p className="font-label text-sm text-slate-300">{coach.club}</p>
         </div>
       ) : (
-        <div className="z-10">
-          <div className="w-32 h-32 rounded-full border-4 border-ink-border mx-auto mb-4 bg-ink-deep flex items-center justify-center text-4xl text-slate-600">?</div>
+        <div className="z-10 flex flex-col items-center">
+          {coach.image_url ? (
+            <div className="w-32 h-32 rounded-full border-4 border-ink-border mx-auto mb-4 overflow-hidden relative bg-ink-deep">
+              <img 
+                src={coach.image_url} 
+                alt="Mystery Coach" 
+                className="w-full h-full object-cover absolute inset-0"
+                style={{ filter: 'blur(10px)', transform: 'scale(1.1)' }} 
+              />
+            </div>
+          ) : (
+            <div className="w-32 h-32 rounded-full border-4 border-ink-border mx-auto mb-4 bg-ink-deep flex items-center justify-center text-4xl text-slate-600">?</div>
+          )}
           <h2 className="font-display text-2xl text-slate-500 mb-1">???</h2>
         </div>
       )}
