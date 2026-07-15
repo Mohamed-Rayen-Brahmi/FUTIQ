@@ -59,7 +59,6 @@ const POSITION_MAP = {
 
 function normalizePosition(posString) {
   if (!posString) return { code: '??', group: '??' };
-  // "ST, CF" -> take the first one
   const mainPos = posString.split(',')[0].trim().toUpperCase();
   return POSITION_MAP[mainPos] || { code: mainPos, group: '??' };
 }
@@ -78,14 +77,18 @@ function hashSeed(str) {
   return Math.abs(h).toString(36);
 }
 
-// Random aesthetic colors if club colors aren't mapped
 function randomColor() {
   const colors = ['#EF0107', '#034694', '#FFFFFF', '#000000', '#FDE100', '#1E3A8A', '#00A651'];
-  return colors[Math.floor(Math.random() * colors.length)];
+  return Math.floor(Math.random() * colors.length);
+}
+
+// EA Sports FC 24 Image URLs use the Futwiz CDN format
+function getImageUrl(playerId) {
+  if (!playerId) return null;
+  return `https://cdn.futwiz.com/assets/img/fc24/faces/${playerId}.png`;
 }
 
 async function processBatch(rows, stats) {
-  // Dedupe the batch itself by name+club
   const dedupedRows = [];
   const seen = new Set();
   
@@ -97,7 +100,6 @@ async function processBatch(rows, stats) {
     }
   }
 
-  // Use ignoreDuplicates: true to safely skip players that are already in the DB
   const { data, error } = await supabase
     .from('players')
     .upsert(dedupedRows, { onConflict: 'name,club', ignoreDuplicates: true })
@@ -108,13 +110,25 @@ async function processBatch(rows, stats) {
   } else {
     stats.inserted += (data || []).length;
     stats.skipped += (dedupedRows.length - (data || []).length);
-    console.log(`Progress: Processed batch of ${dedupedRows.length} (Inserted new: ${(data||[]).length}, Skipped existing: ${dedupedRows.length - (data||[]).length})`);
+    console.log(`Progress: Processed batch of ${dedupedRows.length} (Inserted: ${(data||[]).length}, Skipped: ${dedupedRows.length - (data||[]).length})`);
   }
 }
 
 async function main() {
+  console.log('Clearing old duplicate players from database so we can start completely fresh...');
+  // We delete in batches to avoid timeout just in case
+  const { error: deleteErr } = await supabase
+    .from('players')
+    .delete()
+    .neq('name', 'dummy_safeguard'); // deletes everything
+
+  if (deleteErr) {
+    console.error("Warning: Could not clear database:", deleteErr.message);
+  } else {
+    console.log("Database cleared successfully!");
+  }
+
   console.log(`Reading CSV from ${csvFilePath}...`);
-  
   const fileContent = fs.readFileSync(csvFilePath, 'utf8');
   let batch = [];
   const stats = { inserted: 0, skipped: 0, total: 0 };
@@ -126,7 +140,12 @@ async function main() {
     step: function(results) {
       const row = results.data;
       
-      // Accept either standard EA Kaggle names or common FIFA CSV names
+      // The dataset has MULTIPLE historical years of Ronaldo/Messi (FIFA 15, 16, 17, etc.)
+      // We ONLY want the FC 24 version to avoid duplicates across old teams!
+      if (row.fifa_version && parseFloat(row.fifa_version) !== 24.0) {
+        return; 
+      }
+
       const name = row.short_name || row.Name || row.name;
       const club = row.club_name || row.Club || row.club;
       const league = row.league_name || row.League || row.league || 'Unknown League';
@@ -134,16 +153,21 @@ async function main() {
       const posString = row.player_positions || row.Position || row.position;
       const ageStr = row.age || row.Age;
       let age = parseInt(ageStr, 10);
-      if (isNaN(age)) age = 25; // fallback
+      if (isNaN(age)) age = 25;
       
-      const photo = row.player_face_url || row.Photo || row.photoUrl || null;
+      const playerId = row.player_id || row.ID || null;
+      const photo = getImageUrl(playerId);
       const shirtStr = row.club_jersey_number || row.JerseyNumber || null;
       let shirt = parseInt(shirtStr, 10);
       
-      if (!name || !club) return; // Skip invalid rows
+      if (!name || !club) return;
 
       const { code, group } = normalizePosition(posString);
       
+      // Optional: Only include players from major leagues to keep game playable, or remove this to have ALL
+      const majorLeagues = ['English Premier League', 'Spain Primera Division', 'Italian Serie A', 'German 1. Bundesliga', 'French Ligue 1', 'Saudi Pro League', 'Major League Soccer'];
+      // if (!majorLeagues.includes(league)) return;
+
       batch.push({
         name: name.trim(),
         club: club.trim(),
@@ -156,7 +180,7 @@ async function main() {
         birth_date: null,
         shirt_number: isNaN(shirt) ? null : shirt,
         avatar_seed: hashSeed(`${name.trim()}-${club.trim()}`),
-        club_primary_color: randomColor(),
+        club_primary_color: '#333333',
         club_secondary_color: '#FFFFFF',
         active: true,
         image_url: photo
@@ -166,8 +190,7 @@ async function main() {
     }
   });
 
-  // Now that parsing is done (synchronously because file is in memory), process the batches sequentially
-  console.log(`Found ${batch.length} valid players. Uploading in batches...`);
+  console.log(`Found ${batch.length} valid FC 24 players. Uploading in batches...`);
   
   for (let i = 0; i < batch.length; i += BATCH_SIZE) {
     const chunk = batch.slice(i, i + BATCH_SIZE);
@@ -175,9 +198,8 @@ async function main() {
   }
 
   console.log('\n=== DONE ===');
-  console.log(`Total players found in CSV: ${stats.total}`);
-  console.log(`Newly inserted into Supabase: ${stats.inserted}`);
-  console.log(`Skipped (already existed): ${stats.skipped}`);
+  console.log(`Total FC 24 players processed: ${stats.total}`);
+  console.log(`Successfully saved in Supabase: ${stats.inserted}`);
 }
 
 main().catch(err => {
