@@ -61,10 +61,9 @@ export function useGame(mode: GameMode) {
         } else {
           // UNLIMITED MODE: Client-side comparison (practice, no rankings)
           const seed = getDailySeed();
-          const { data: dailyData } = await supabase
-            .rpc('get_daily_player', { date_seed: seed })
-            .maybeSingle();
-          const excludeId = (dailyData as Player | null)?.id || null;
+          const { data: excludeId } = await supabase
+            .rpc('get_daily_player_id', { date_seed: seed })
+            .single();
 
           const { data, error: rpcError } = await supabase
             .rpc('get_random_player', { exclude_player_id: excludeId })
