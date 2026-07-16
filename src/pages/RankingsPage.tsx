@@ -3,21 +3,12 @@ import { supabase } from '../lib/supabase';
 import type { RankingRow } from '../types/database';
 import { SkewButton, Panel, Spinner } from '../components/ui';
 
-const TABS = [
-  { label: 'Players Daily', mode: 'daily' },
-  { label: 'Coaches Daily', mode: 'coaches_daily' },
-  { label: 'Teams Daily', mode: 'teams_daily' },
-] as const;
-
 const MEDALS = ['🥇', '🥈', '🥉'];
 
 export function RankingsPage() {
-  const [activeTab, setActiveTab] = useState(0);
   const [rankings, setRankings] = useState<RankingRow[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
-
-  const currentMode = TABS[activeTab].mode;
 
   useEffect(() => {
     let cancelled = false;
@@ -27,7 +18,7 @@ export function RankingsPage() {
       setError(null);
       try {
         const { data, error: rpcError } = await supabase
-          .rpc('get_rankings', { p_mode: currentMode });
+          .rpc('get_rankings', { p_mode: 'all' });
         if (rpcError) throw rpcError;
         if (!cancelled) setRankings(data || []);
       } catch (err) {
@@ -38,28 +29,14 @@ export function RankingsPage() {
     })();
 
     return () => { cancelled = true; };
-  }, [currentMode]);
+  }, []);
 
   return (
     <div className="max-w-3xl mx-auto px-4 py-10">
       {/* Title */}
       <h1 className="font-display text-4xl text-gold text-center mb-8 tracking-wide">
-        Rankings
+        Global Leaderboard
       </h1>
-
-      {/* Tabs */}
-      <div className="flex justify-center gap-3 mb-8 flex-wrap">
-        {TABS.map((tab, idx) => (
-          <SkewButton
-            key={tab.mode}
-            variant={activeTab === idx ? 'gold' : 'ghost'}
-            size="sm"
-            onClick={() => setActiveTab(idx)}
-          >
-            {tab.label}
-          </SkewButton>
-        ))}
-      </div>
 
       {/* Content */}
       <Panel className="p-0 overflow-hidden">
