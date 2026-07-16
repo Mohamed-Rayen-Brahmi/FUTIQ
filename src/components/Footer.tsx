@@ -12,6 +12,9 @@ export function Footer() {
           <Link to="/about" className="text-sm font-label uppercase tracking-wide text-slate-500 hover:text-gold transition-colors">
             About
           </Link>
+          <Link to="/terms" className="text-sm font-label uppercase tracking-wide text-slate-500 hover:text-gold transition-colors">
+            Terms of Service
+          </Link>
           <Link to="/privacy" className="text-sm font-label uppercase tracking-wide text-slate-500 hover:text-gold transition-colors">
             Privacy Policy
           </Link>

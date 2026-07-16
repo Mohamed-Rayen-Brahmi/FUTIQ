@@ -13,6 +13,7 @@ import { NotFoundPage } from './pages/NotFoundPage';
 // Code-split secondary routes for faster initial load
 const ProfilePage   = lazy(() => import('./pages/ProfilePage').then(m => ({ default: m.ProfilePage })));
 const AboutPage     = lazy(() => import('./pages/AboutPage').then(m => ({ default: m.AboutPage })));
+const TermsPage     = lazy(() => import('./pages/TermsPage').then(m => ({ default: m.TermsPage })));
 const PrivacyPage   = lazy(() => import('./pages/PrivacyPage').then(m => ({ default: m.PrivacyPage })));
 const ContactPage   = lazy(() => import('./pages/ContactPage').then(m => ({ default: m.ContactPage })));
 const RankingsPage  = lazy(() => import('./pages/RankingsPage').then(m => ({ default: m.RankingsPage })));
@@ -59,6 +60,7 @@ function AppRoutes() {
         }
       />
       <Route path="/about" element={<Suspense fallback={<PageLoader />}><AboutPage /></Suspense>} />
+      <Route path="/terms" element={<Suspense fallback={<PageLoader />}><TermsPage /></Suspense>} />
       <Route path="/privacy" element={<Suspense fallback={<PageLoader />}><PrivacyPage /></Suspense>} />
       <Route path="/contact" element={<Suspense fallback={<PageLoader />}><ContactPage /></Suspense>} />
       <Route path="/rankings" element={<Suspense fallback={<PageLoader />}><RankingsPage /></Suspense>} />

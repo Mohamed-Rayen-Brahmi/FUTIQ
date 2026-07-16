@@ -1,71 +1,32 @@
-import { useState, useCallback } from 'react';
-import { SkewButton, Panel } from '../components/ui';
+import { Panel } from '../components/ui';
 import { AdBanner } from '../components/AdBanner';
+import { Mail } from 'lucide-react';
 
 export function ContactPage() {
-  const [name, setName] = useState('');
-  const [email, setEmail] = useState('');
-  const [message, setMessage] = useState('');
-  const [sent, setSent] = useState(false);
-
-  const handleSubmit = useCallback((e: React.FormEvent) => {
-    e.preventDefault();
-    // No backend — just show confirmation
-    setSent(true);
-    setName('');
-    setEmail('');
-    setMessage('');
-  }, []);
-
   return (
     <div className="max-w-md mx-auto px-4 py-8">
-      <h1 className="font-display text-4xl text-gold mb-6">Contact</h1>
+      <h1 className="font-display text-4xl text-gold mb-6 text-center">Contact Us</h1>
       <AdBanner dataAdSlot="contact-top" />
 
-      {sent ? (
-        <Panel className="p-6 text-center">
-          <p className="font-display text-2xl text-match-green mb-2">Message Sent</p>
-          <p className="font-body text-slate-400">Thanks for reaching out!</p>
-        </Panel>
-      ) : (
-        <Panel className="p-6">
-          <form onSubmit={handleSubmit} className="flex flex-col gap-4">
-            <div>
-              <label className="font-label text-xs uppercase tracking-wider text-slate-500 mb-1 block">Name</label>
-              <input
-                type="text"
-                value={name}
-                onChange={(e) => setName(e.target.value)}
-                required
-                className="w-full bg-ink-deep border border-ink-border rounded-lg px-4 py-2.5 font-body text-slate-200 focus:outline-none focus:border-gold transition-colors"
-              />
-            </div>
-            <div>
-              <label className="font-label text-xs uppercase tracking-wider text-slate-500 mb-1 block">Email</label>
-              <input
-                type="email"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                required
-                className="w-full bg-ink-deep border border-ink-border rounded-lg px-4 py-2.5 font-body text-slate-200 focus:outline-none focus:border-gold transition-colors"
-              />
-            </div>
-            <div>
-              <label className="font-label text-xs uppercase tracking-wider text-slate-500 mb-1 block">Message</label>
-              <textarea
-                value={message}
-                onChange={(e) => setMessage(e.target.value)}
-                required
-                rows={4}
-                className="w-full bg-ink-deep border border-ink-border rounded-lg px-4 py-2.5 font-body text-slate-200 focus:outline-none focus:border-gold transition-colors resize-none"
-              />
-            </div>
-            <SkewButton variant="gold" type="submit" className="w-full">
-              Send Message
-            </SkewButton>
-          </form>
-        </Panel>
-      )}
+      <Panel className="p-8 text-center flex flex-col items-center">
+        <div className="w-16 h-16 rounded-full bg-gold/10 flex items-center justify-center mb-6">
+          <Mail className="w-8 h-8 text-gold" />
+        </div>
+        
+        <h2 className="font-display text-2xl text-slate-200 mb-4">Get in Touch</h2>
+        
+        <p className="font-body text-slate-400 mb-8">
+          Have a question, feedback, or need support? We'd love to hear from you. Send us an email directly!
+        </p>
+
+        <a 
+          href="mailto:contact@golazio.me"
+          className="inline-flex items-center gap-2 bg-gold hover:bg-gold-light text-ink-deep font-display text-lg px-8 py-4 rounded-xl transition-all transform hover:scale-105 active:scale-95 shadow-[0_0_20px_rgba(212,175,55,0.3)] hover:shadow-[0_0_30px_rgba(212,175,55,0.5)]"
+        >
+          <Mail className="w-5 h-5" />
+          contact@golazio.me
+        </a>
+      </Panel>
     </div>
   );
 }
