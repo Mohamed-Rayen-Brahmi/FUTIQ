@@ -12,10 +12,10 @@ BEGIN
   SELECT image_url INTO v_image_url
   FROM players
   WHERE id = (
-    SELECT id
-    FROM players
-    ORDER BY (id::text || date_seed::text) COLLATE "C"
-    LIMIT 1
+    SELECT id FROM (
+      SELECT id, ROW_NUMBER() OVER (ORDER BY id) as rn, COUNT(*) OVER () as total
+      FROM players WHERE active = true
+    ) ranked WHERE total > 0 AND rn = ((date_seed % total) + 1)
   );
   
   RETURN v_image_url;
@@ -34,10 +34,10 @@ BEGIN
   SELECT image_url INTO v_image_url
   FROM coaches
   WHERE id = (
-    SELECT id
-    FROM coaches
-    ORDER BY (id::text || date_seed::text) COLLATE "C"
-    LIMIT 1
+    SELECT id FROM (
+      SELECT id, ROW_NUMBER() OVER (ORDER BY id) as rn, COUNT(*) OVER () as total
+      FROM coaches WHERE active = true
+    ) ranked WHERE total > 0 AND rn = ((date_seed % total) + 1)
   );
   
   RETURN v_image_url;
@@ -56,10 +56,10 @@ BEGIN
   SELECT image_url INTO v_image_url
   FROM teams
   WHERE id = (
-    SELECT id
-    FROM teams
-    ORDER BY (id::text || date_seed::text) COLLATE "C"
-    LIMIT 1
+    SELECT id FROM (
+      SELECT id, ROW_NUMBER() OVER (ORDER BY id) as rn, COUNT(*) OVER () as total
+      FROM teams WHERE active = true
+    ) ranked WHERE total > 0 AND rn = ((date_seed % total) + 1)
   );
   
   RETURN v_image_url;
