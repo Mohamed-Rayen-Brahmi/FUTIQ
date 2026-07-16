@@ -1,18 +1,24 @@
 export function Background({ children }: { children: React.ReactNode }) {
   return (
     <div className="relative min-h-screen overflow-hidden">
-      {/* Base */}
-      <div className="fixed inset-0 bg-ink-base -z-50" />
+      {/* Base Image */}
+      <div 
+        className="fixed inset-0 -z-50 bg-ink-base bg-no-repeat bg-cover bg-center"
+        style={{ backgroundImage: "url('/bg.png')" }}
+      />
 
-      {/* Floodlight glows */}
+      {/* Dark overlay to ensure text readability */}
+      <div className="fixed inset-0 bg-ink-base/40 -z-40 pointer-events-none" />
+
+      {/* Floodlight glows (Subtle) */}
       <div
-        className="fixed -top-1/4 -left-1/4 w-[600px] h-[600px] rounded-full -z-40"
+        className="fixed -top-1/4 -left-1/4 w-[600px] h-[600px] rounded-full -z-40 pointer-events-none"
         style={{
           background: 'radial-gradient(circle, rgba(216,180,88,0.06) 0%, transparent 70%)',
         }}
       />
       <div
-        className="fixed -top-1/4 -right-1/4 w-[600px] h-[600px] rounded-full -z-40"
+        className="fixed -top-1/4 -right-1/4 w-[600px] h-[600px] rounded-full -z-40 pointer-events-none"
         style={{
           background: 'radial-gradient(circle, rgba(255,91,61,0.04) 0%, transparent 70%)',
         }}
