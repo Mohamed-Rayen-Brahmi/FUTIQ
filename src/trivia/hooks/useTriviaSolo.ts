@@ -69,15 +69,14 @@ export function useTriviaSolo() {
 
       const pool = data as unknown as TriviaPlayer[];
       const questions: SoloQuestion[] = [];
-      const usedPairs = new Map<string, Set<string>>();
+      const usedQuestionIds = new Set<string>();
 
       for (let i = 0; i < TOTAL_QUESTIONS; i++) {
-        const result = pickRoundQuestion(pool, usedPairs as Map<string, Set<import('../types').QuestionType>>);
+        const result = pickRoundQuestion(pool, usedQuestionIds);
         if (!result) break;
 
         const { player, question } = result;
-        if (!usedPairs.has(player.id)) usedPairs.set(player.id, new Set());
-        usedPairs.get(player.id)!.add(question.type);
+        usedQuestionIds.add(question.id!);
 
         const options = buildSoloOptions(question.real_answer, question.type, player, pool);
         questions.push({

@@ -19,7 +19,12 @@ export type QuestionType =
   | 'first_club'
   | 'first_club_year'
   | 'shirt_id'        // Type C: "Which [Club] player wears the #X shirt?"
-  | 'same_nation';    // Type D: "Which player is from [Nation] like [Player]?"
+  | 'same_nation'     // Type D: "Which player is from [Nation] like [Player]?"
+  | 'career_path'
+  | 'ucl'
+  | 'records'
+  | 'international'
+  | 'mixed';
 
 // ─────────────────────────────────────────────────────────────────────────────
 // DB-backed entities (mirrors the SQL schema)
@@ -93,11 +98,12 @@ export interface TriviaVote {
 // ─────────────────────────────────────────────────────────────────────────────
 
 export interface GeneratedQuestion {
+  id?: string;
   type: QuestionType;
   text: string;
   real_answer: string;
   /** The subject player's id — stored in trivia_used_questions */
-  subject_player_id: string;
+  subject_player_id: string | null;
 }
 
 // ─────────────────────────────────────────────────────────────────────────────

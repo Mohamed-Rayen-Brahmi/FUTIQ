@@ -95,6 +95,27 @@ const CONTINENTS: string[] = [
   'Europe', 'South America', 'Africa', 'North America', 'Asia', 'Oceania',
 ];
 
+const FAMOUS_PLAYERS: string[] = [
+  'Lionel Messi', 'Cristiano Ronaldo', 'Kylian Mbappe', 'Erling Haaland', 'Neymar',
+  'Kevin De Bruyne', 'Robert Lewandowski', 'Luka Modric', 'Karim Benzema', 'Mohamed Salah',
+  'Harry Kane', 'Zinedine Zidane', 'Ronaldinho', 'Ronaldo', 'Diego Maradona',
+  'Pele', 'Thierry Henry', 'Wayne Rooney', 'Andres Iniesta', 'Xavi',
+  'Sergio Ramos', 'Gianluigi Buffon', 'Iker Casillas', 'Manuel Neuer', 'Paolo Maldini',
+  'Cafu', 'Roberto Carlos', 'Dani Alves', 'Marcelo', 'Toni Kroos',
+  'Steven Gerrard', 'Frank Lampard', 'Paul Scholes', 'Ryan Giggs', 'Didier Drogba',
+  'Zlatan Ibrahimovic', 'Luis Suarez', 'Sergio Aguero', 'Eden Hazard', 'Gareth Bale',
+  'Angel Di Maria', 'Mesut Ozil', 'Cesc Fabregas', 'David Silva', 'Yaya Toure',
+  'Vincent Kompany', 'John Terry', 'Rio Ferdinand', 'Nemanja Vidic', 'Gerard Pique',
+  'Carles Puyol', 'Sergio Busquets', 'Casemiro', 'N\'Golo Kante', 'Andrea Pirlo',
+  'Francesco Totti', 'Alessandro Del Piero', 'Roberto Baggio', 'Kaka', 'Rivaldo',
+  'Romario', 'Gabriel Batistuta', 'Javier Zanetti', 'Fabio Cannavaro', 'Alessandro Nesta',
+  'Ruud Gullit', 'Marco van Basten', 'Frank Rijkaard', 'Johan Cruyff', 'Michel Platini',
+  'Luis Figo', 'Rui Costa', 'Deco', 'Clarence Seedorf', 'Edgar Davids',
+  'Patrick Vieira', 'Claude Makelele', 'Roy Keane', 'David Beckham', 'Alan Shearer',
+  'Eric Cantona', 'Dennis Bergkamp', 'Ian Wright', 'Michael Owen', 'Robbie Fowler',
+  'Fernando Torres', 'David Villa', 'Raul', 'Samuel Eto\'o', 'Didier Deschamps',
+];
+
 // ─────────────────────────────────────────────────────────────────────────────
 // Utilities
 // ─────────────────────────────────────────────────────────────────────────────
@@ -241,13 +262,27 @@ export function generateDecoys({
 
     // Types C & D — answer is a player name; decoys are real player names from DB
     case 'shirt_id':
-    case 'same_nation': {
-      const pool = playerNamePool.filter(n => n !== realAnswer);
+    case 'same_nation':
+    case 'career_path':
+    case 'international':
+    case 'records':
+    case 'ucl':
+    case 'mixed': {
+      // Some answers might be clubs or nations or numbers.
+      const real = parseInt(realAnswer, 10);
+      if (!Number.isNaN(real)) return numericDecoys(real, count);
+
+      const allClubs = [...new Set([...Object.values(CLUB_POOLS).flat()])];
+      if (allClubs.includes(realAnswer)) return pickUnique(allClubs, exclude, count);
+      if (NATIONS.includes(realAnswer)) return pickUnique(NATIONS, exclude, count);
+
+      // Default to picking player names
+      const pool = [...new Set([...playerNamePool, ...FAMOUS_PLAYERS])].filter(n => !exclude.has(n));
       shuffle(pool);
       return pool.slice(0, count);
     }
 
     default:
-      return [];
+      return pickUnique(playerNamePool.filter(n => !exclude.has(n)), exclude, count);
   }
 }

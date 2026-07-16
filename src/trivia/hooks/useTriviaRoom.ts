@@ -162,7 +162,7 @@ export function useTriviaRoom() {
   const sessionId = getOrCreateSessionId();
   const channelRef = useRef<RealtimeChannel | null>(null);
   const playerPoolRef = useRef<TriviaPlayer[]>([]);
-  const usedPairsRef  = useRef<Map<string, Set<import('../types').QuestionType>>>(new Map());
+  const usedQuestionIdsRef = useRef<Set<string>>(new Set());
   const phaseTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   const [state, setState] = useState<TriviaRoomState>({
@@ -446,10 +446,10 @@ export function useTriviaRoom() {
     const { room } = state;
     if (!room || !state.isHost) return;
 
-    const result = pickRoundQuestion(playerPoolRef.current, usedPairsRef.current);
+    const result = pickRoundQuestion(playerPoolRef.current, usedQuestionIdsRef.current);
     if (!result) return;
     const { player, question } = result;
-    markUsed(player.id, question.type);
+    markUsed(question.id!);
 
     await supabase.from('trivia_rooms').update({
       status: 'playing',
@@ -592,13 +592,13 @@ export function useTriviaRoom() {
       return;
     }
 
-    const result = pickRoundQuestion(playerPoolRef.current, usedPairsRef.current);
+    const result = pickRoundQuestion(playerPoolRef.current, usedQuestionIdsRef.current);
     if (!result) {
       await supabase.from('trivia_rooms').update({ status: 'finished' }).eq('id', room.id);
       return;
     }
     const { player, question } = result;
-    markUsed(player.id, question.type);
+    markUsed(question.id!);
 
     await supabase.from('trivia_rooms').update({
       current_round_number: nextRoundNumber,
@@ -641,11 +641,8 @@ export function useTriviaRoom() {
     }, ms + 500); // +500ms buffer for network jitter
   }
 
-  function markUsed(playerId: string, type: import('../types').QuestionType) {
-    if (!usedPairsRef.current.has(playerId)) {
-      usedPairsRef.current.set(playerId, new Set());
-    }
-    usedPairsRef.current.get(playerId)!.add(type);
+  function markUsed(questionId: string) {
+    usedQuestionIdsRef.current.add(questionId);
   }
 
   // ── Cleanup ────────────────────────────────────────────────────────────────

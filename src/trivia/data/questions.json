@@ -1,0 +1,1997 @@
+[
+  {
+    "id": "q1",
+    "text": "Which player's career path is: Sporting CP -> Man United -> Real Madrid -> Juventus -> Man United -> Al Nassr?",
+    "real_answer": "Cristiano Ronaldo",
+    "type": "career_path",
+    "subject_player_id": null
+  },
+  {
+    "id": "q2",
+    "text": "Which player's career path is: Barcelona -> PSG -> Inter Miami?",
+    "real_answer": "Lionel Messi",
+    "type": "career_path",
+    "subject_player_id": null
+  },
+  {
+    "id": "q3",
+    "text": "Which player's career path is: Malmo -> Ajax -> Juventus -> Inter -> Barcelona -> AC Milan -> PSG -> Man United -> LA Galaxy -> AC Milan?",
+    "real_answer": "Zlatan Ibrahimovic",
+    "type": "career_path",
+    "subject_player_id": null
+  },
+  {
+    "id": "q4",
+    "text": "Which player's career path is: Santos -> Barcelona -> PSG -> Al Hilal?",
+    "real_answer": "Neymar",
+    "type": "career_path",
+    "subject_player_id": null
+  },
+  {
+    "id": "q5",
+    "text": "Which player's career path is: Monaco -> PSG -> Real Madrid?",
+    "real_answer": "Kylian Mbappe",
+    "type": "career_path",
+    "subject_player_id": null
+  },
+  {
+    "id": "q6",
+    "text": "Which player's career path is: Birmingham City -> Borussia Dortmund -> Real Madrid?",
+    "real_answer": "Jude Bellingham",
+    "type": "career_path",
+    "subject_player_id": null
+  },
+  {
+    "id": "q7",
+    "text": "Which player's career path is: Bryne -> Molde -> RB Salzburg -> Borussia Dortmund -> Man City?",
+    "real_answer": "Erling Haaland",
+    "type": "career_path",
+    "subject_player_id": null
+  },
+  {
+    "id": "q8",
+    "text": "Which player's career path is: Schalke 04 -> Werder Bremen -> Real Madrid -> Arsenal -> Fenerbahce -> Istanbul Basaksehir?",
+    "real_answer": "Mesut Ozil",
+    "type": "career_path",
+    "subject_player_id": null
+  },
+  {
+    "id": "q9",
+    "text": "Which player's career path is: Benfica -> Real Madrid -> Man United -> Juventus -> Roma?",
+    "real_answer": "Angel Di Maria",
+    "type": "career_path",
+    "subject_player_id": null
+  },
+  {
+    "id": "q10",
+    "text": "Which player's career path is: Genk -> Chelsea -> Wolfsburg -> Man City?",
+    "real_answer": "Kevin De Bruyne",
+    "type": "career_path",
+    "subject_player_id": null
+  },
+  {
+    "id": "q11",
+    "text": "Which player's career path is: Lille -> Chelsea -> Real Madrid?",
+    "real_answer": "Eden Hazard",
+    "type": "career_path",
+    "subject_player_id": null
+  },
+  {
+    "id": "q12",
+    "text": "Which player's career path is: Southampton -> Tottenham -> Real Madrid -> Los Angeles FC?",
+    "real_answer": "Gareth Bale",
+    "type": "career_path",
+    "subject_player_id": null
+  },
+  {
+    "id": "q13",
+    "text": "Which player's career path is: Palermo -> Napoli -> Juventus -> Inter -> Roma?",
+    "real_answer": "Edinson Cavani",
+    "type": "career_path",
+    "subject_player_id": null
+  },
+  {
+    "id": "q14",
+    "text": "Which player's career path is: Atletico Madrid -> Man City -> Barcelona?",
+    "real_answer": "Sergio Aguero",
+    "type": "career_path",
+    "subject_player_id": null
+  },
+  {
+    "id": "q15",
+    "text": "Which player's career path is: River Plate -> Corinthians -> West Ham -> Man United -> Man City -> Juventus -> Boca Juniors?",
+    "real_answer": "Carlos Tevez",
+    "type": "career_path",
+    "subject_player_id": null
+  },
+  {
+    "id": "q16",
+    "text": "Which player's career path is: Sevilla -> Real Madrid -> PSG -> Sevilla?",
+    "real_answer": "Sergio Ramos",
+    "type": "career_path",
+    "subject_player_id": null
+  },
+  {
+    "id": "q17",
+    "text": "Which player's career path is: Bayern Munich -> Real Madrid?",
+    "real_answer": "Toni Kroos",
+    "type": "career_path",
+    "subject_player_id": null
+  },
+  {
+    "id": "q18",
+    "text": "Which player's career path is: Dinamo Zagreb -> Tottenham -> Real Madrid?",
+    "real_answer": "Luka Modric",
+    "type": "career_path",
+    "subject_player_id": null
+  },
+  {
+    "id": "q19",
+    "text": "Which player's career path is: Borussia Dortmund -> Bayern Munich -> Barcelona?",
+    "real_answer": "Robert Lewandowski",
+    "type": "career_path",
+    "subject_player_id": null
+  },
+  {
+    "id": "q20",
+    "text": "Which player's career path is: Nacional -> Groningen -> Ajax -> Liverpool -> Barcelona -> Atletico Madrid -> Nacional?",
+    "real_answer": "Luis Suarez",
+    "type": "career_path",
+    "subject_player_id": null
+  },
+  {
+    "id": "q21",
+    "text": "Which player's career path is: Velez Sarsfield -> Valencia -> Man City -> Aston Villa -> Benfica?",
+    "real_answer": "Nicolas Otamendi",
+    "type": "career_path",
+    "subject_player_id": null
+  },
+  {
+    "id": "q22",
+    "text": "Which player's career path is: Stuttgart -> Roma -> Real Madrid -> Juventus -> Union Berlin -> Roma?",
+    "real_answer": "Sami Khedira",
+    "type": "career_path",
+    "subject_player_id": null
+  },
+  {
+    "id": "q23",
+    "text": "Which player's career path is: Sporting CP -> Man United -> Fenerbahce -> Sporting CP -> Valencia?",
+    "real_answer": "Nani",
+    "type": "career_path",
+    "subject_player_id": null
+  },
+  {
+    "id": "q24",
+    "text": "Which player's career path is: Metz -> Salzburg -> Southampton -> Liverpool -> Bayern Munich -> Al Nassr?",
+    "real_answer": "Sadio Mane",
+    "type": "career_path",
+    "subject_player_id": null
+  },
+  {
+    "id": "q25",
+    "text": "Which player's career path is: Basel -> Chelsea -> Roma -> Liverpool?",
+    "real_answer": "Mohamed Salah",
+    "type": "career_path",
+    "subject_player_id": null
+  },
+  {
+    "id": "q26",
+    "text": "Which player's career path is: Lyon -> Real Madrid -> Al Ittihad?",
+    "real_answer": "Karim Benzema",
+    "type": "career_path",
+    "subject_player_id": null
+  },
+  {
+    "id": "q27",
+    "text": "Which player's career path is: Independiente -> Atletico Madrid -> Man City -> Barcelona?",
+    "real_answer": "Sergio Aguero",
+    "type": "career_path",
+    "subject_player_id": null
+  },
+  {
+    "id": "q28",
+    "text": "Which player's career path is: Sporting CP -> Inter Milan -> Barcelona -> Real Madrid -> Inter Milan -> Besiktas?",
+    "real_answer": "Ricardo Quaresma",
+    "type": "career_path",
+    "subject_player_id": null
+  },
+  {
+    "id": "q29",
+    "text": "Which player's career path is: Le Havre -> Chelsea -> Leicester -> Chelsea -> Al Ittihad?",
+    "real_answer": "N'Golo Kante",
+    "type": "career_path",
+    "subject_player_id": null
+  },
+  {
+    "id": "q30",
+    "text": "Which player's career path is: Stuttgart -> RB Leipzig -> Bayern Munich -> Aston Villa?",
+    "real_answer": "Timo Werner",
+    "type": "career_path",
+    "subject_player_id": null
+  },
+  {
+    "id": "q31",
+    "text": "Which player's career path is: Stuttgart -> RB Leipzig -> Chelsea -> RB Leipzig -> Tottenham?",
+    "real_answer": "Timo Werner",
+    "type": "career_path",
+    "subject_player_id": null
+  },
+  {
+    "id": "q32",
+    "text": "Which player's career path is: Ajax -> Juventus -> Bayern Munich -> Man United?",
+    "real_answer": "Matthijs de Ligt",
+    "type": "career_path",
+    "subject_player_id": null
+  },
+  {
+    "id": "q33",
+    "text": "Which player's career path is: Benfica -> Chelsea -> Arsenal -> PSG -> Roma?",
+    "real_answer": "David Luiz",
+    "type": "career_path",
+    "subject_player_id": null
+  },
+  {
+    "id": "q34",
+    "text": "Which player's career path is: Fiorentina -> Roma -> Liverpool -> Fiorentina -> Roma?",
+    "real_answer": "Mohamed Salah",
+    "type": "career_path",
+    "subject_player_id": null
+  },
+  {
+    "id": "q35",
+    "text": "Which player's career path is: Basel -> Chelsea -> Fiorentina -> Roma -> Liverpool?",
+    "real_answer": "Mohamed Salah",
+    "type": "career_path",
+    "subject_player_id": null
+  },
+  {
+    "id": "q36",
+    "text": "Which player's career path is: Fluminense -> Real Madrid -> Olympiacos -> Fluminense?",
+    "real_answer": "Marcelo",
+    "type": "career_path",
+    "subject_player_id": null
+  },
+  {
+    "id": "q37",
+    "text": "Which player's career path is: Vitoria de Guimaraes -> Porto -> Atletico Madrid -> Real Madrid -> Juventus -> Barcelona -> Chelsea?",
+    "real_answer": "Joao Felix",
+    "type": "career_path",
+    "subject_player_id": null
+  },
+  {
+    "id": "q38",
+    "text": "Which player's career path is: Benfica -> Atletico Madrid -> Chelsea -> Barcelona?",
+    "real_answer": "Joao Felix",
+    "type": "career_path",
+    "subject_player_id": null
+  },
+  {
+    "id": "q39",
+    "text": "Which player's career path is: Penarol -> Real Madrid -> Deportivo La Coruna -> Newcastle?",
+    "real_answer": "Federico Valverde",
+    "type": "career_path",
+    "subject_player_id": null
+  },
+  {
+    "id": "q40",
+    "text": "Which player's career path is: Ajax -> Tottenham -> Inter Milan -> Brentford -> Man United?",
+    "real_answer": "Christian Eriksen",
+    "type": "career_path",
+    "subject_player_id": null
+  },
+  {
+    "id": "q41",
+    "text": "Which player's career path is: Aston Villa -> Man City?",
+    "real_answer": "Jack Grealish",
+    "type": "career_path",
+    "subject_player_id": null
+  },
+  {
+    "id": "q42",
+    "text": "Which player's career path is: Groningen -> PSV -> Chelsea -> Real Madrid -> Bayern Munich?",
+    "real_answer": "Arjen Robben",
+    "type": "career_path",
+    "subject_player_id": null
+  },
+  {
+    "id": "q43",
+    "text": "Which player's career path is: Feyenoord -> Arsenal -> Man United -> Fenerbahce -> Feyenoord?",
+    "real_answer": "Robin van Persie",
+    "type": "career_path",
+    "subject_player_id": null
+  },
+  {
+    "id": "q44",
+    "text": "Which player's career path is: Ajax -> Liverpool -> Barcelona -> Atletico Madrid?",
+    "real_answer": "Luis Suarez",
+    "type": "career_path",
+    "subject_player_id": null
+  },
+  {
+    "id": "q45",
+    "text": "Which player's career path is: Boca Juniors -> Corinthians -> West Ham -> Man United -> Man City -> Juventus?",
+    "real_answer": "Carlos Tevez",
+    "type": "career_path",
+    "subject_player_id": null
+  },
+  {
+    "id": "q46",
+    "text": "Which player's career path is: River Plate -> Real Madrid -> Napoli -> Juventus -> AC Milan -> Chelsea?",
+    "real_answer": "Gonzalo Higuain",
+    "type": "career_path",
+    "subject_player_id": null
+  },
+  {
+    "id": "q47",
+    "text": "Which player's career path is: Porto -> Chelsea -> Inter -> Real Madrid -> Besiktas?",
+    "real_answer": "Ricardo Quaresma",
+    "type": "career_path",
+    "subject_player_id": null
+  },
+  {
+    "id": "q48",
+    "text": "Which player's career path is: Benfica -> Real Madrid -> Bayern Munich -> Swansea -> Lille?",
+    "real_answer": "Renato Sanches",
+    "type": "career_path",
+    "subject_player_id": null
+  },
+  {
+    "id": "q49",
+    "text": "Which player's career path is: Bayer Leverkusen -> Chelsea -> Arsenal?",
+    "real_answer": "Kai Havertz",
+    "type": "career_path",
+    "subject_player_id": null
+  },
+  {
+    "id": "q50",
+    "text": "Which player's career path is: Borussia Monchengladbach -> Borussia Dortmund -> Barcelona -> PSG -> PSV?",
+    "real_answer": "Ousmane Dembele",
+    "type": "career_path",
+    "subject_player_id": null
+  },
+  {
+    "id": "q51",
+    "text": "Which player's career path is: Rennes -> Borussia Dortmund -> Barcelona -> PSG?",
+    "real_answer": "Ousmane Dembele",
+    "type": "career_path",
+    "subject_player_id": null
+  },
+  {
+    "id": "q52",
+    "text": "Which player's career path is: Schalke 04 -> Bayern Munich -> Liverpool?",
+    "real_answer": "Joel Matip",
+    "type": "career_path",
+    "subject_player_id": null
+  },
+  {
+    "id": "q53",
+    "text": "Which player's career path is: Schalke 04 -> Bayern Munich?",
+    "real_answer": "Manuel Neuer",
+    "type": "career_path",
+    "subject_player_id": null
+  },
+  {
+    "id": "q54",
+    "text": "Which player's career path is: Borussia Monchengladbach -> Barcelona?",
+    "real_answer": "Marc-Andre ter Stegen",
+    "type": "career_path",
+    "subject_player_id": null
+  },
+  {
+    "id": "q55",
+    "text": "Which player's career path is: VfB Stuttgart -> Roma -> Real Madrid -> Chelsea -> Arsenal?",
+    "real_answer": "Antonio Rudiger",
+    "type": "career_path",
+    "subject_player_id": null
+  },
+  {
+    "id": "q56",
+    "text": "Which player's career path is: Stuttgart -> Roma -> Chelsea -> Real Madrid?",
+    "real_answer": "Antonio Rudiger",
+    "type": "career_path",
+    "subject_player_id": null
+  },
+  {
+    "id": "q57",
+    "text": "Which player's career path is: Lille -> Napoli -> Galatasaray?",
+    "real_answer": "Victor Osimhen",
+    "type": "career_path",
+    "subject_player_id": null
+  },
+  {
+    "id": "q58",
+    "text": "Which player's career path is: Sao Paulo -> Real Madrid -> AC Milan -> Sao Paulo -> Orlando City?",
+    "real_answer": "Kaka",
+    "type": "career_path",
+    "subject_player_id": null
+  },
+  {
+    "id": "q59",
+    "text": "Which player's career path is: Gremio -> PSG -> Barcelona -> AC Milan -> Flamengo -> Atletico Mineiro?",
+    "real_answer": "Ronaldinho",
+    "type": "career_path",
+    "subject_player_id": null
+  },
+  {
+    "id": "q60",
+    "text": "Which player's career path is: Brescia -> Inter -> AC Milan -> Juventus -> New York City FC?",
+    "real_answer": "Andrea Pirlo",
+    "type": "career_path",
+    "subject_player_id": null
+  },
+  {
+    "id": "q61",
+    "text": "Which player's career path is: Parma -> Juventus -> PSG -> Parma?",
+    "real_answer": "Gianluigi Buffon",
+    "type": "career_path",
+    "subject_player_id": null
+  },
+  {
+    "id": "q62",
+    "text": "Which player's career path is: Boca Juniors -> Villarreal -> Boca Juniors -> Argentinos Juniors?",
+    "real_answer": "Juan Roman Riquelme",
+    "type": "career_path",
+    "subject_player_id": null
+  },
+  {
+    "id": "q63",
+    "text": "Which player's career path is: Arsenal -> Barcelona -> Chelsea -> Monaco?",
+    "real_answer": "Cesc Fabregas",
+    "type": "career_path",
+    "subject_player_id": null
+  },
+  {
+    "id": "q64",
+    "text": "Which player's career path is: Everton -> Man United -> Everton -> DC United -> Derby County?",
+    "real_answer": "Wayne Rooney",
+    "type": "career_path",
+    "subject_player_id": null
+  },
+  {
+    "id": "q65",
+    "text": "Which player's career path is: West Ham -> Chelsea -> Man City -> New York City FC?",
+    "real_answer": "Frank Lampard",
+    "type": "career_path",
+    "subject_player_id": null
+  },
+  {
+    "id": "q66",
+    "text": "Which player's career path is: Liverpool -> LA Galaxy?",
+    "real_answer": "Steven Gerrard",
+    "type": "career_path",
+    "subject_player_id": null
+  },
+  {
+    "id": "q67",
+    "text": "Which player's career path is: Sporting CP -> Man United -> Real Madrid -> Juventus?",
+    "real_answer": "Cristiano Ronaldo",
+    "type": "career_path",
+    "subject_player_id": null
+  },
+  {
+    "id": "q68",
+    "text": "Which player's career path is: Pescara -> PSG -> Roma -> Al Arabi?",
+    "real_answer": "Marco Verratti",
+    "type": "career_path",
+    "subject_player_id": null
+  },
+  {
+    "id": "q69",
+    "text": "Which player's career path is: Genoa -> Inter Milan -> Genoa -> Inter -> Roma?",
+    "real_answer": "Diego Milito",
+    "type": "career_path",
+    "subject_player_id": null
+  },
+  {
+    "id": "q70",
+    "text": "Which player's career path is: Racing Club -> Genoa -> Real Zaragoza -> Genoa -> Inter Milan -> Racing Club?",
+    "real_answer": "Diego Milito",
+    "type": "career_path",
+    "subject_player_id": null
+  },
+  {
+    "id": "q71",
+    "text": "Which player's career path is: Dinamo Zagreb -> Inter Milan -> Real Madrid -> Chelsea?",
+    "real_answer": "Mateo Kovacic",
+    "type": "career_path",
+    "subject_player_id": null
+  },
+  {
+    "id": "q72",
+    "text": "Which player's career path is: Dinamo Zagreb -> Inter Milan -> Real Madrid -> Chelsea -> Man City?",
+    "real_answer": "Mateo Kovacic",
+    "type": "career_path",
+    "subject_player_id": null
+  },
+  {
+    "id": "q73",
+    "text": "Which player's career path is: RB Salzburg -> RB Leipzig -> Bayern Munich -> Borussia Dortmund?",
+    "real_answer": "Marcel Sabitzer",
+    "type": "career_path",
+    "subject_player_id": null
+  },
+  {
+    "id": "q74",
+    "text": "Which player's career path is: Anderlecht -> Chelsea -> Everton -> Man United -> Inter Milan -> Chelsea -> Inter Milan -> Roma?",
+    "real_answer": "Romelu Lukaku",
+    "type": "career_path",
+    "subject_player_id": null
+  },
+  {
+    "id": "q75",
+    "text": "Which player's career path is: Anderlecht -> Chelsea -> Everton -> Man United -> Inter -> Chelsea -> Roma -> Napoli?",
+    "real_answer": "Romelu Lukaku",
+    "type": "career_path",
+    "subject_player_id": null
+  },
+  {
+    "id": "q76",
+    "text": "Which player's career path is: Wolfsburg -> Man City -> Roma -> Inter Milan?",
+    "real_answer": "Edin Dzeko",
+    "type": "career_path",
+    "subject_player_id": null
+  },
+  {
+    "id": "q77",
+    "text": "Which player's career path is: Bari -> Roma -> Real Madrid -> Sampdoria -> Inter Milan -> Parma?",
+    "real_answer": "Antonio Cassano",
+    "type": "career_path",
+    "subject_player_id": null
+  },
+  {
+    "id": "q78",
+    "text": "Which player has won the most Champions League titles as of 2024?",
+    "real_answer": "Paco Gento",
+    "type": "ucl",
+    "subject_player_id": null
+  },
+  {
+    "id": "q79",
+    "text": "Which active player has won 6 UCL titles with Real Madrid?",
+    "real_answer": "Luka Modric",
+    "type": "ucl",
+    "subject_player_id": null
+  },
+  {
+    "id": "q80",
+    "text": "Which player won the UCL with Ajax (1995), Real Madrid (1998) and AC Milan (2003, 2007)?",
+    "real_answer": "Clarence Seedorf",
+    "type": "ucl",
+    "subject_player_id": null
+  },
+  {
+    "id": "q81",
+    "text": "Who scored the winning goal for Real Madrid in the 2014 UCL Final against Atletico Madrid in extra time?",
+    "real_answer": "Gareth Bale",
+    "type": "ucl",
+    "subject_player_id": null
+  },
+  {
+    "id": "q82",
+    "text": "Which player scored a bicycle kick for Real Madrid in the 2018 UCL Final?",
+    "real_answer": "Gareth Bale",
+    "type": "ucl",
+    "subject_player_id": null
+  },
+  {
+    "id": "q83",
+    "text": "Who scored a legendary volley for Real Madrid in the 2002 UCL Final?",
+    "real_answer": "Zinedine Zidane",
+    "type": "ucl",
+    "subject_player_id": null
+  },
+  {
+    "id": "q84",
+    "text": "Who was the captain of Liverpool when they won the UCL in 2005?",
+    "real_answer": "Steven Gerrard",
+    "type": "ucl",
+    "subject_player_id": null
+  },
+  {
+    "id": "q85",
+    "text": "Which Chelsea player missed the crucial penalty in the 2008 UCL Final?",
+    "real_answer": "John Terry",
+    "type": "ucl",
+    "subject_player_id": null
+  },
+  {
+    "id": "q86",
+    "text": "Who scored the winning penalty for Chelsea in the 2012 UCL Final?",
+    "real_answer": "Didier Drogba",
+    "type": "ucl",
+    "subject_player_id": null
+  },
+  {
+    "id": "q87",
+    "text": "Who scored Bayern Munich's winning goal in the 2013 UCL Final?",
+    "real_answer": "Arjen Robben",
+    "type": "ucl",
+    "subject_player_id": null
+  },
+  {
+    "id": "q88",
+    "text": "Who scored the winning goal for Barcelona in the 2006 UCL Final?",
+    "real_answer": "Juliano Belletti",
+    "type": "ucl",
+    "subject_player_id": null
+  },
+  {
+    "id": "q89",
+    "text": "Which player scored in both the 2009 and 2011 UCL Finals for Barcelona?",
+    "real_answer": "Lionel Messi",
+    "type": "ucl",
+    "subject_player_id": null
+  },
+  {
+    "id": "q90",
+    "text": "Who scored a hat-trick for Tottenham against Ajax in the 2019 UCL semi-final?",
+    "real_answer": "Lucas Moura",
+    "type": "ucl",
+    "subject_player_id": null
+  },
+  {
+    "id": "q91",
+    "text": "Which player scored 4 goals for Bayern Munich against Tottenham in a 7-2 UCL win in 2019?",
+    "real_answer": "Serge Gnabry",
+    "type": "ucl",
+    "subject_player_id": null
+  },
+  {
+    "id": "q92",
+    "text": "Who is the all-time top scorer in UEFA Champions League history?",
+    "real_answer": "Cristiano Ronaldo",
+    "type": "ucl",
+    "subject_player_id": null
+  },
+  {
+    "id": "q93",
+    "text": "Who holds the record for the most goals in a single UCL season (17 goals in 2013-14)?",
+    "real_answer": "Cristiano Ronaldo",
+    "type": "ucl",
+    "subject_player_id": null
+  },
+  {
+    "id": "q94",
+    "text": "Which manager has won the most Champions League titles?",
+    "real_answer": "Carlo Ancelotti",
+    "type": "ucl",
+    "subject_player_id": null
+  },
+  {
+    "id": "q95",
+    "text": "Which club won 3 consecutive UCL titles from 2016 to 2018?",
+    "real_answer": "Real Madrid",
+    "type": "ucl",
+    "subject_player_id": null
+  },
+  {
+    "id": "q96",
+    "text": "Which team defeated AC Milan in the legendary 'Miracle of Istanbul' in 2005?",
+    "real_answer": "Liverpool",
+    "type": "ucl",
+    "subject_player_id": null
+  },
+  {
+    "id": "q97",
+    "text": "Who scored the fastest goal in UCL Final history (50 seconds) in 2005?",
+    "real_answer": "Paolo Maldini",
+    "type": "ucl",
+    "subject_player_id": null
+  },
+  {
+    "id": "q98",
+    "text": "Which player scored 5 goals in a single UCL match for Barcelona against Bayer Leverkusen in 2012?",
+    "real_answer": "Lionel Messi",
+    "type": "ucl",
+    "subject_player_id": null
+  },
+  {
+    "id": "q99",
+    "text": "Which player scored 5 goals in a single UCL match for Bayern Munich against Red Star in 2019?",
+    "real_answer": "Robert Lewandowski",
+    "type": "ucl",
+    "subject_player_id": null
+  },
+  {
+    "id": "q100",
+    "text": "Which player scored 5 goals in a single UCL match for Man City against RB Leipzig in 2023?",
+    "real_answer": "Erling Haaland",
+    "type": "ucl",
+    "subject_player_id": null
+  },
+  {
+    "id": "q101",
+    "text": "Which goalkeeper has the most clean sheets in Champions League history?",
+    "real_answer": "Iker Casillas",
+    "type": "ucl",
+    "subject_player_id": null
+  },
+  {
+    "id": "q102",
+    "text": "Which goalkeeper broke Casillas's record for most clean sheets in UCL history?",
+    "real_answer": "Manuel Neuer",
+    "type": "ucl",
+    "subject_player_id": null
+  },
+  {
+    "id": "q103",
+    "text": "Who scored a famous overhead kick for Juventus against Real Madrid in the 2017 UCL Final?",
+    "real_answer": "Mario Mandzukic",
+    "type": "ucl",
+    "subject_player_id": null
+  },
+  {
+    "id": "q104",
+    "text": "Who scored Man City's winning goal in the 2023 UCL Final?",
+    "real_answer": "Rodri",
+    "type": "ucl",
+    "subject_player_id": null
+  },
+  {
+    "id": "q105",
+    "text": "Who was the top scorer of the 2022-23 Champions League season?",
+    "real_answer": "Erling Haaland",
+    "type": "ucl",
+    "subject_player_id": null
+  },
+  {
+    "id": "q106",
+    "text": "Which player won the UCL with Porto in 2004 and Inter Milan in 2010 under Jose Mourinho?",
+    "real_answer": "Ricardo Carvalho",
+    "type": "ucl",
+    "subject_player_id": null
+  },
+  {
+    "id": "q107",
+    "text": "Which manager won the UCL with Porto in 2004 and Inter Milan in 2010?",
+    "real_answer": "Jose Mourinho",
+    "type": "ucl",
+    "subject_player_id": null
+  },
+  {
+    "id": "q108",
+    "text": "Which player won the UCL with Man United in 2008 and Barcelona in 2009?",
+    "real_answer": "Gerard Pique",
+    "type": "ucl",
+    "subject_player_id": null
+  },
+  {
+    "id": "q109",
+    "text": "Which player won the UCL with Bayern Munich in 2013 and Real Madrid in 2014?",
+    "real_answer": "Toni Kroos",
+    "type": "ucl",
+    "subject_player_id": null
+  },
+  {
+    "id": "q110",
+    "text": "Which club did Jose Mourinho guide to a UCL victory in 2004?",
+    "real_answer": "Porto",
+    "type": "ucl",
+    "subject_player_id": null
+  },
+  {
+    "id": "q111",
+    "text": "Which French club is the only one to have won the Champions League (in 1993)?",
+    "real_answer": "Marseille",
+    "type": "ucl",
+    "subject_player_id": null
+  },
+  {
+    "id": "q112",
+    "text": "Which Dutch club won the Champions League in 1995?",
+    "real_answer": "Ajax",
+    "type": "ucl",
+    "subject_player_id": null
+  },
+  {
+    "id": "q113",
+    "text": "Who scored the winning goal for Ajax in the 1995 UCL Final?",
+    "real_answer": "Patrick Kluivert",
+    "type": "ucl",
+    "subject_player_id": null
+  },
+  {
+    "id": "q114",
+    "text": "Who scored Chelsea's winning goal against Man City in the 2021 UCL Final?",
+    "real_answer": "Kai Havertz",
+    "type": "ucl",
+    "subject_player_id": null
+  },
+  {
+    "id": "q115",
+    "text": "Who scored Bayern Munich's winning goal against PSG in the 2020 UCL Final?",
+    "real_answer": "Kingsley Coman",
+    "type": "ucl",
+    "subject_player_id": null
+  },
+  {
+    "id": "q116",
+    "text": "Which player was sent off for Arsenal in the 2006 UCL Final?",
+    "real_answer": "Jens Lehmann",
+    "type": "ucl",
+    "subject_player_id": null
+  },
+  {
+    "id": "q117",
+    "text": "Who scored Arsenal's only goal in the 2006 UCL Final?",
+    "real_answer": "Sol Campbell",
+    "type": "ucl",
+    "subject_player_id": null
+  },
+  {
+    "id": "q118",
+    "text": "Who scored a brace (2 goals) for Inter Milan in the 2010 UCL Final?",
+    "real_answer": "Diego Milito",
+    "type": "ucl",
+    "subject_player_id": null
+  },
+  {
+    "id": "q119",
+    "text": "Which team won the 2010 Champions League?",
+    "real_answer": "Inter Milan",
+    "type": "ucl",
+    "subject_player_id": null
+  },
+  {
+    "id": "q120",
+    "text": "Which team won the 2012 Champions League?",
+    "real_answer": "Chelsea",
+    "type": "ucl",
+    "subject_player_id": null
+  },
+  {
+    "id": "q121",
+    "text": "Which team won the 2013 Champions League?",
+    "real_answer": "Bayern Munich",
+    "type": "ucl",
+    "subject_player_id": null
+  },
+  {
+    "id": "q122",
+    "text": "Which team won the 2014 Champions League?",
+    "real_answer": "Real Madrid",
+    "type": "ucl",
+    "subject_player_id": null
+  },
+  {
+    "id": "q123",
+    "text": "Which team won the 2015 Champions League?",
+    "real_answer": "Barcelona",
+    "type": "ucl",
+    "subject_player_id": null
+  },
+  {
+    "id": "q124",
+    "text": "Which team won the 2019 Champions League?",
+    "real_answer": "Liverpool",
+    "type": "ucl",
+    "subject_player_id": null
+  },
+  {
+    "id": "q125",
+    "text": "Which team won the 2020 Champions League?",
+    "real_answer": "Bayern Munich",
+    "type": "ucl",
+    "subject_player_id": null
+  },
+  {
+    "id": "q126",
+    "text": "Which team won the 2021 Champions League?",
+    "real_answer": "Chelsea",
+    "type": "ucl",
+    "subject_player_id": null
+  },
+  {
+    "id": "q127",
+    "text": "Which team won the 2023 Champions League?",
+    "real_answer": "Man City",
+    "type": "ucl",
+    "subject_player_id": null
+  },
+  {
+    "id": "q128",
+    "text": "How many Ballon d'Or awards has Lionel Messi won?",
+    "real_answer": "8",
+    "type": "records",
+    "subject_player_id": null
+  },
+  {
+    "id": "q129",
+    "text": "How many Ballon d'Or awards has Cristiano Ronaldo won?",
+    "real_answer": "5",
+    "type": "records",
+    "subject_player_id": null
+  },
+  {
+    "id": "q130",
+    "text": "Who won the Ballon d'Or in 2018, breaking the Messi-Ronaldo dominance?",
+    "real_answer": "Luka Modric",
+    "type": "records",
+    "subject_player_id": null
+  },
+  {
+    "id": "q131",
+    "text": "Who won the Ballon d'Or in 2022?",
+    "real_answer": "Karim Benzema",
+    "type": "records",
+    "subject_player_id": null
+  },
+  {
+    "id": "q132",
+    "text": "Who won the Ballon d'Or in 2007?",
+    "real_answer": "Kaka",
+    "type": "records",
+    "subject_player_id": null
+  },
+  {
+    "id": "q133",
+    "text": "Who won the Ballon d'Or in 2005?",
+    "real_answer": "Ronaldinho",
+    "type": "records",
+    "subject_player_id": null
+  },
+  {
+    "id": "q134",
+    "text": "Who won the Ballon d'Or in 2001?",
+    "real_answer": "Michael Owen",
+    "type": "records",
+    "subject_player_id": null
+  },
+  {
+    "id": "q135",
+    "text": "Who won the Ballon d'Or in 1998?",
+    "real_answer": "Zinedine Zidane",
+    "type": "records",
+    "subject_player_id": null
+  },
+  {
+    "id": "q136",
+    "text": "How many goals did Lionel Messi score in the 2012 calendar year, setting a world record?",
+    "real_answer": "91",
+    "type": "records",
+    "subject_player_id": null
+  },
+  {
+    "id": "q137",
+    "text": "Who is the all-time top scorer for the Argentina national team?",
+    "real_answer": "Lionel Messi",
+    "type": "records",
+    "subject_player_id": null
+  },
+  {
+    "id": "q138",
+    "text": "Who is the all-time top scorer for the Portugal national team?",
+    "real_answer": "Cristiano Ronaldo",
+    "type": "records",
+    "subject_player_id": null
+  },
+  {
+    "id": "q139",
+    "text": "Who is the all-time top scorer for the Brazil national team?",
+    "real_answer": "Neymar",
+    "type": "records",
+    "subject_player_id": null
+  },
+  {
+    "id": "q140",
+    "text": "Who is the all-time top scorer for the France national team?",
+    "real_answer": "Olivier Giroud",
+    "type": "records",
+    "subject_player_id": null
+  },
+  {
+    "id": "q141",
+    "text": "Who is the all-time top scorer for the England national team?",
+    "real_answer": "Harry Kane",
+    "type": "records",
+    "subject_player_id": null
+  },
+  {
+    "id": "q142",
+    "text": "Who is the all-time top scorer for the Spain national team?",
+    "real_answer": "David Villa",
+    "type": "records",
+    "subject_player_id": null
+  },
+  {
+    "id": "q143",
+    "text": "Who is the all-time top scorer in World Cup history with 16 goals?",
+    "real_answer": "Miroslav Klose",
+    "type": "records",
+    "subject_player_id": null
+  },
+  {
+    "id": "q144",
+    "text": "Who scored the most goals in a single World Cup tournament (13 goals in 1958)?",
+    "real_answer": "Just Fontaine",
+    "type": "records",
+    "subject_player_id": null
+  },
+  {
+    "id": "q145",
+    "text": "Which player holds the record for the most goals in Premier League history (260 goals)?",
+    "real_answer": "Alan Shearer",
+    "type": "records",
+    "subject_player_id": null
+  },
+  {
+    "id": "q146",
+    "text": "Which player holds the record for the most assists in Premier League history?",
+    "real_answer": "Ryan Giggs",
+    "type": "records",
+    "subject_player_id": null
+  },
+  {
+    "id": "q147",
+    "text": "Who holds the record for the most clean sheets in Premier League history?",
+    "real_answer": "Petr Cech",
+    "type": "records",
+    "subject_player_id": null
+  },
+  {
+    "id": "q148",
+    "text": "Who is the fastest player to reach 50 goals in the Premier League?",
+    "real_answer": "Erling Haaland",
+    "type": "records",
+    "subject_player_id": null
+  },
+  {
+    "id": "q149",
+    "text": "Which player scored a record 36 goals in a single Premier League season (38 games)?",
+    "real_answer": "Erling Haaland",
+    "type": "records",
+    "subject_player_id": null
+  },
+  {
+    "id": "q150",
+    "text": "Which player scored a record 32 goals in a 38-game Premier League season before Haaland broke it?",
+    "real_answer": "Mohamed Salah",
+    "type": "records",
+    "subject_player_id": null
+  },
+  {
+    "id": "q151",
+    "text": "Who is the all-time top scorer in La Liga history?",
+    "real_answer": "Lionel Messi",
+    "type": "records",
+    "subject_player_id": null
+  },
+  {
+    "id": "q152",
+    "text": "Who is the second all-time top scorer in La Liga history?",
+    "real_answer": "Cristiano Ronaldo",
+    "type": "records",
+    "subject_player_id": null
+  },
+  {
+    "id": "q153",
+    "text": "Who holds the record for the most assists in La Liga history?",
+    "real_answer": "Lionel Messi",
+    "type": "records",
+    "subject_player_id": null
+  },
+  {
+    "id": "q154",
+    "text": "Who is the all-time top scorer for Real Madrid?",
+    "real_answer": "Cristiano Ronaldo",
+    "type": "records",
+    "subject_player_id": null
+  },
+  {
+    "id": "q155",
+    "text": "Who is the all-time top scorer for Barcelona?",
+    "real_answer": "Lionel Messi",
+    "type": "records",
+    "subject_player_id": null
+  },
+  {
+    "id": "q156",
+    "text": "Who is the all-time top scorer for Manchester United?",
+    "real_answer": "Wayne Rooney",
+    "type": "records",
+    "subject_player_id": null
+  },
+  {
+    "id": "q157",
+    "text": "Who is the all-time top scorer for Manchester City?",
+    "real_answer": "Sergio Aguero",
+    "type": "records",
+    "subject_player_id": null
+  },
+  {
+    "id": "q158",
+    "text": "Who is the all-time top scorer for Chelsea?",
+    "real_answer": "Frank Lampard",
+    "type": "records",
+    "subject_player_id": null
+  },
+  {
+    "id": "q159",
+    "text": "Who is the all-time top scorer for Arsenal?",
+    "real_answer": "Thierry Henry",
+    "type": "records",
+    "subject_player_id": null
+  },
+  {
+    "id": "q160",
+    "text": "Who is the all-time top scorer for Juventus?",
+    "real_answer": "Alessandro Del Piero",
+    "type": "records",
+    "subject_player_id": null
+  },
+  {
+    "id": "q161",
+    "text": "Who is the all-time top scorer for AC Milan?",
+    "real_answer": "Gunnar Nordahl",
+    "type": "records",
+    "subject_player_id": null
+  },
+  {
+    "id": "q162",
+    "text": "Who holds the record for the most goals in a single La Liga season (50 goals in 2011-12)?",
+    "real_answer": "Lionel Messi",
+    "type": "records",
+    "subject_player_id": null
+  },
+  {
+    "id": "q163",
+    "text": "Which player transferred for a world-record €222 million fee in 2017?",
+    "real_answer": "Neymar",
+    "type": "records",
+    "subject_player_id": null
+  },
+  {
+    "id": "q164",
+    "text": "Which player transferred for the second-highest fee ever (approx €180m) in 2017?",
+    "real_answer": "Kylian Mbappe",
+    "type": "records",
+    "subject_player_id": null
+  },
+  {
+    "id": "q165",
+    "text": "Which club did Philippe Coutinho join from Liverpool in 2018 for €142 million?",
+    "real_answer": "Barcelona",
+    "type": "records",
+    "subject_player_id": null
+  },
+  {
+    "id": "q166",
+    "text": "Which club did Ousmane Dembele join from Borussia Dortmund in 2017 for €105 million?",
+    "real_answer": "Barcelona",
+    "type": "records",
+    "subject_player_id": null
+  },
+  {
+    "id": "q167",
+    "text": "Which club did Jack Grealish join for £100 million in 2021?",
+    "real_answer": "Man City",
+    "type": "records",
+    "subject_player_id": null
+  },
+  {
+    "id": "q168",
+    "text": "Which club did Declan Rice join for £105 million in 2023?",
+    "real_answer": "Arsenal",
+    "type": "records",
+    "subject_player_id": null
+  },
+  {
+    "id": "q169",
+    "text": "Which club did Enzo Fernandez join for £106 million in 2023?",
+    "real_answer": "Chelsea",
+    "type": "records",
+    "subject_player_id": null
+  },
+  {
+    "id": "q170",
+    "text": "Who won the FIFA Puskas Award in its inaugural year (2009)?",
+    "real_answer": "Cristiano Ronaldo",
+    "type": "records",
+    "subject_player_id": null
+  },
+  {
+    "id": "q171",
+    "text": "Who won the FIFA Puskas Award in 2011 for an incredible solo goal?",
+    "real_answer": "Neymar",
+    "type": "records",
+    "subject_player_id": null
+  },
+  {
+    "id": "q172",
+    "text": "Who won the FIFA Puskas Award in 2012 for a stunning volley against Chelsea?",
+    "real_answer": "Miroslav Stoch",
+    "type": "records",
+    "subject_player_id": null
+  },
+  {
+    "id": "q173",
+    "text": "Who won the FIFA Puskas Award in 2014 for a brilliant volley in the World Cup?",
+    "real_answer": "James Rodriguez",
+    "type": "records",
+    "subject_player_id": null
+  },
+  {
+    "id": "q174",
+    "text": "Who won the FIFA Puskas Award in 2018 for a bicycle kick against Liverpool?",
+    "real_answer": "Gareth Bale",
+    "type": "records",
+    "subject_player_id": null
+  },
+  {
+    "id": "q175",
+    "text": "Who won the FIFA Puskas Award in 2018?",
+    "real_answer": "Mohamed Salah",
+    "type": "records",
+    "subject_player_id": null
+  },
+  {
+    "id": "q176",
+    "text": "Who won the FIFA Puskas Award in 2020 for a solo run for Tottenham against Burnley?",
+    "real_answer": "Son Heung-min",
+    "type": "records",
+    "subject_player_id": null
+  },
+  {
+    "id": "q177",
+    "text": "Who is known as 'O Fenomeno'?",
+    "real_answer": "Ronaldo",
+    "type": "records",
+    "subject_player_id": null
+  },
+  {
+    "id": "q178",
+    "text": "Who is known as 'El Pipita'?",
+    "real_answer": "Gonzalo Higuain",
+    "type": "records",
+    "subject_player_id": null
+  },
+  {
+    "id": "q179",
+    "text": "Who is known as 'El Fideo'?",
+    "real_answer": "Angel Di Maria",
+    "type": "records",
+    "subject_player_id": null
+  },
+  {
+    "id": "q180",
+    "text": "Who is known as 'El Nino'?",
+    "real_answer": "Fernando Torres",
+    "type": "records",
+    "subject_player_id": null
+  },
+  {
+    "id": "q181",
+    "text": "Who is known as 'The Egyptian King'?",
+    "real_answer": "Mohamed Salah",
+    "type": "records",
+    "subject_player_id": null
+  },
+  {
+    "id": "q182",
+    "text": "Who is known as 'The Pharaoh'?",
+    "real_answer": "Stephan El Shaarawy",
+    "type": "records",
+    "subject_player_id": null
+  },
+  {
+    "id": "q183",
+    "text": "Which country has won the most FIFA World Cups?",
+    "real_answer": "Brazil",
+    "type": "international",
+    "subject_player_id": null
+  },
+  {
+    "id": "q184",
+    "text": "Which country won the FIFA World Cup in 2022?",
+    "real_answer": "Argentina",
+    "type": "international",
+    "subject_player_id": null
+  },
+  {
+    "id": "q185",
+    "text": "Which country won the FIFA World Cup in 2018?",
+    "real_answer": "France",
+    "type": "international",
+    "subject_player_id": null
+  },
+  {
+    "id": "q186",
+    "text": "Which country won the FIFA World Cup in 2014?",
+    "real_answer": "Germany",
+    "type": "international",
+    "subject_player_id": null
+  },
+  {
+    "id": "q187",
+    "text": "Which country won the FIFA World Cup in 2010?",
+    "real_answer": "Spain",
+    "type": "international",
+    "subject_player_id": null
+  },
+  {
+    "id": "q188",
+    "text": "Which country won the FIFA World Cup in 2006?",
+    "real_answer": "Italy",
+    "type": "international",
+    "subject_player_id": null
+  },
+  {
+    "id": "q189",
+    "text": "Which country won the FIFA World Cup in 2002?",
+    "real_answer": "Brazil",
+    "type": "international",
+    "subject_player_id": null
+  },
+  {
+    "id": "q190",
+    "text": "Which country won the FIFA World Cup in 1998?",
+    "real_answer": "France",
+    "type": "international",
+    "subject_player_id": null
+  },
+  {
+    "id": "q191",
+    "text": "Who scored the winning goal for Argentina in the 2022 World Cup Final penalty shootout?",
+    "real_answer": "Gonzalo Montiel",
+    "type": "international",
+    "subject_player_id": null
+  },
+  {
+    "id": "q192",
+    "text": "Who scored a hat-trick in the 2022 World Cup Final but still lost?",
+    "real_answer": "Kylian Mbappe",
+    "type": "international",
+    "subject_player_id": null
+  },
+  {
+    "id": "q193",
+    "text": "Who scored the winning goal for Germany in the 2014 World Cup Final?",
+    "real_answer": "Mario Gotze",
+    "type": "international",
+    "subject_player_id": null
+  },
+  {
+    "id": "q194",
+    "text": "Who scored the winning goal for Spain in the 2010 World Cup Final?",
+    "real_answer": "Andres Iniesta",
+    "type": "international",
+    "subject_player_id": null
+  },
+  {
+    "id": "q195",
+    "text": "Who was sent off in the 2006 World Cup Final for headbutting Marco Materazzi?",
+    "real_answer": "Zinedine Zidane",
+    "type": "international",
+    "subject_player_id": null
+  },
+  {
+    "id": "q196",
+    "text": "Who scored both goals for Brazil in the 2002 World Cup Final?",
+    "real_answer": "Ronaldo",
+    "type": "international",
+    "subject_player_id": null
+  },
+  {
+    "id": "q197",
+    "text": "Who won the Golden Ball (Best Player) in the 2014 World Cup?",
+    "real_answer": "Lionel Messi",
+    "type": "international",
+    "subject_player_id": null
+  },
+  {
+    "id": "q198",
+    "text": "Who won the Golden Ball (Best Player) in the 2018 World Cup?",
+    "real_answer": "Luka Modric",
+    "type": "international",
+    "subject_player_id": null
+  },
+  {
+    "id": "q199",
+    "text": "Who won the Golden Ball (Best Player) in the 2022 World Cup?",
+    "real_answer": "Lionel Messi",
+    "type": "international",
+    "subject_player_id": null
+  },
+  {
+    "id": "q200",
+    "text": "Who won the Golden Boot (Top Scorer) in the 2018 World Cup with 6 goals?",
+    "real_answer": "Harry Kane",
+    "type": "international",
+    "subject_player_id": null
+  },
+  {
+    "id": "q201",
+    "text": "Who won the Golden Boot (Top Scorer) in the 2022 World Cup with 8 goals?",
+    "real_answer": "Kylian Mbappe",
+    "type": "international",
+    "subject_player_id": null
+  },
+  {
+    "id": "q202",
+    "text": "Which country won the UEFA Euro 2020 (played in 2021)?",
+    "real_answer": "Italy",
+    "type": "international",
+    "subject_player_id": null
+  },
+  {
+    "id": "q203",
+    "text": "Which country won the UEFA Euro 2016?",
+    "real_answer": "Portugal",
+    "type": "international",
+    "subject_player_id": null
+  },
+  {
+    "id": "q204",
+    "text": "Which country won the UEFA Euro 2012?",
+    "real_answer": "Spain",
+    "type": "international",
+    "subject_player_id": null
+  },
+  {
+    "id": "q205",
+    "text": "Which country won the UEFA Euro 2008?",
+    "real_answer": "Spain",
+    "type": "international",
+    "subject_player_id": null
+  },
+  {
+    "id": "q206",
+    "text": "Which country won the UEFA Euro 2004?",
+    "real_answer": "Greece",
+    "type": "international",
+    "subject_player_id": null
+  },
+  {
+    "id": "q207",
+    "text": "Who scored the winning goal for Portugal in the Euro 2016 Final?",
+    "real_answer": "Eder",
+    "type": "international",
+    "subject_player_id": null
+  },
+  {
+    "id": "q208",
+    "text": "Who scored the winning goal for Greece in the Euro 2004 Final?",
+    "real_answer": "Angelos Charisteas",
+    "type": "international",
+    "subject_player_id": null
+  },
+  {
+    "id": "q209",
+    "text": "Which player missed the crucial penalty for England in the Euro 2020 Final shootout?",
+    "real_answer": "Bukayo Saka",
+    "type": "international",
+    "subject_player_id": null
+  },
+  {
+    "id": "q210",
+    "text": "Which country has won the most Copa America titles (as of 2024)?",
+    "real_answer": "Argentina",
+    "type": "international",
+    "subject_player_id": null
+  },
+  {
+    "id": "q211",
+    "text": "Who won the Golden Boot in the 2021 Copa America?",
+    "real_answer": "Lionel Messi",
+    "type": "international",
+    "subject_player_id": null
+  },
+  {
+    "id": "q212",
+    "text": "Which country won the 2015 and 2016 Copa America tournaments by beating Argentina on penalties?",
+    "real_answer": "Chile",
+    "type": "international",
+    "subject_player_id": null
+  },
+  {
+    "id": "q213",
+    "text": "Who missed a penalty for Argentina in the 2016 Copa America Final?",
+    "real_answer": "Lionel Messi",
+    "type": "international",
+    "subject_player_id": null
+  },
+  {
+    "id": "q214",
+    "text": "Which country won the 2019 Copa America?",
+    "real_answer": "Brazil",
+    "type": "international",
+    "subject_player_id": null
+  },
+  {
+    "id": "q215",
+    "text": "Which African country became the first to reach a World Cup semi-final in 2022?",
+    "real_answer": "Morocco",
+    "type": "international",
+    "subject_player_id": null
+  },
+  {
+    "id": "q216",
+    "text": "Which country hosted the 2010 FIFA World Cup?",
+    "real_answer": "South Africa",
+    "type": "international",
+    "subject_player_id": null
+  },
+  {
+    "id": "q217",
+    "text": "Which country hosted the 2014 FIFA World Cup?",
+    "real_answer": "Brazil",
+    "type": "international",
+    "subject_player_id": null
+  },
+  {
+    "id": "q218",
+    "text": "Which country hosted the 2006 FIFA World Cup?",
+    "real_answer": "Germany",
+    "type": "international",
+    "subject_player_id": null
+  },
+  {
+    "id": "q219",
+    "text": "Which country hosted the 2002 FIFA World Cup alongside Japan?",
+    "real_answer": "South Korea",
+    "type": "international",
+    "subject_player_id": null
+  },
+  {
+    "id": "q220",
+    "text": "Which country hosted the 1998 FIFA World Cup?",
+    "real_answer": "France",
+    "type": "international",
+    "subject_player_id": null
+  },
+  {
+    "id": "q221",
+    "text": "Who scored the famous 'Hand of God' goal in the 1986 World Cup?",
+    "real_answer": "Diego Maradona",
+    "type": "international",
+    "subject_player_id": null
+  },
+  {
+    "id": "q222",
+    "text": "Who scored the 'Goal of the Century' in the 1986 World Cup against England?",
+    "real_answer": "Diego Maradona",
+    "type": "international",
+    "subject_player_id": null
+  },
+  {
+    "id": "q223",
+    "text": "Which country won the 1966 FIFA World Cup?",
+    "real_answer": "England",
+    "type": "international",
+    "subject_player_id": null
+  },
+  {
+    "id": "q224",
+    "text": "Which player scored a hat-trick in the 1966 World Cup Final?",
+    "real_answer": "Geoff Hurst",
+    "type": "international",
+    "subject_player_id": null
+  },
+  {
+    "id": "q225",
+    "text": "Who holds the record for the most appearances in World Cup tournaments (26 matches)?",
+    "real_answer": "Lionel Messi",
+    "type": "international",
+    "subject_player_id": null
+  },
+  {
+    "id": "q226",
+    "text": "Who holds the record for the most clean sheets in World Cup history (10)?",
+    "real_answer": "Peter Shilton",
+    "type": "international",
+    "subject_player_id": null
+  },
+  {
+    "id": "q227",
+    "text": "Who scored the most goals in a single European Championship tournament (9 goals in 1984)?",
+    "real_answer": "Michel Platini",
+    "type": "international",
+    "subject_player_id": null
+  },
+  {
+    "id": "q228",
+    "text": "Who is the all-time top scorer in UEFA European Championship history?",
+    "real_answer": "Cristiano Ronaldo",
+    "type": "international",
+    "subject_player_id": null
+  },
+  {
+    "id": "q229",
+    "text": "Which player has made the most appearances in UEFA European Championship history?",
+    "real_answer": "Cristiano Ronaldo",
+    "type": "international",
+    "subject_player_id": null
+  },
+  {
+    "id": "q230",
+    "text": "Which manager led Argentina to World Cup victory in 2022?",
+    "real_answer": "Lionel Scaloni",
+    "type": "international",
+    "subject_player_id": null
+  },
+  {
+    "id": "q231",
+    "text": "Which manager led France to World Cup victory in 2018?",
+    "real_answer": "Didier Deschamps",
+    "type": "international",
+    "subject_player_id": null
+  },
+  {
+    "id": "q232",
+    "text": "Which manager led Germany to World Cup victory in 2014?",
+    "real_answer": "Joachim Low",
+    "type": "international",
+    "subject_player_id": null
+  },
+  {
+    "id": "q233",
+    "text": "Which manager led Spain to World Cup victory in 2010?",
+    "real_answer": "Vicente del Bosque",
+    "type": "international",
+    "subject_player_id": null
+  },
+  {
+    "id": "q234",
+    "text": "What was the score in the famous 2014 World Cup semi-final between Germany and Brazil?",
+    "real_answer": "7-1",
+    "type": "mixed",
+    "subject_player_id": null
+  },
+  {
+    "id": "q235",
+    "text": "Which club is famous for its 'Galacticos' policy?",
+    "real_answer": "Real Madrid",
+    "type": "mixed",
+    "subject_player_id": null
+  },
+  {
+    "id": "q236",
+    "text": "Which club is famous for its 'La Masia' academy?",
+    "real_answer": "Barcelona",
+    "type": "mixed",
+    "subject_player_id": null
+  },
+  {
+    "id": "q237",
+    "text": "Which club plays its home games at Anfield?",
+    "real_answer": "Liverpool",
+    "type": "mixed",
+    "subject_player_id": null
+  },
+  {
+    "id": "q238",
+    "text": "Which club plays its home games at Old Trafford?",
+    "real_answer": "Man United",
+    "type": "mixed",
+    "subject_player_id": null
+  },
+  {
+    "id": "q239",
+    "text": "Which club plays its home games at Santiago Bernabeu?",
+    "real_answer": "Real Madrid",
+    "type": "mixed",
+    "subject_player_id": null
+  },
+  {
+    "id": "q240",
+    "text": "Which club plays its home games at Camp Nou?",
+    "real_answer": "Barcelona",
+    "type": "mixed",
+    "subject_player_id": null
+  },
+  {
+    "id": "q241",
+    "text": "Which club plays its home games at San Siro?",
+    "real_answer": "AC Milan",
+    "type": "mixed",
+    "subject_player_id": null
+  },
+  {
+    "id": "q242",
+    "text": "Which club plays its home games at Signal Iduna Park?",
+    "real_answer": "Borussia Dortmund",
+    "type": "mixed",
+    "subject_player_id": null
+  },
+  {
+    "id": "q243",
+    "text": "Which club plays its home games at the Allianz Arena?",
+    "real_answer": "Bayern Munich",
+    "type": "mixed",
+    "subject_player_id": null
+  },
+  {
+    "id": "q244",
+    "text": "Which club plays its home games at the Emirates Stadium?",
+    "real_answer": "Arsenal",
+    "type": "mixed",
+    "subject_player_id": null
+  },
+  {
+    "id": "q245",
+    "text": "Which club plays its home games at Stamford Bridge?",
+    "real_answer": "Chelsea",
+    "type": "mixed",
+    "subject_player_id": null
+  },
+  {
+    "id": "q246",
+    "text": "Which Italian club is known as 'The Old Lady'?",
+    "real_answer": "Juventus",
+    "type": "mixed",
+    "subject_player_id": null
+  },
+  {
+    "id": "q247",
+    "text": "Which English club is known as 'The Toffees'?",
+    "real_answer": "Everton",
+    "type": "mixed",
+    "subject_player_id": null
+  },
+  {
+    "id": "q248",
+    "text": "Which English club is known as 'The Magpies'?",
+    "real_answer": "Newcastle United",
+    "type": "mixed",
+    "subject_player_id": null
+  },
+  {
+    "id": "q249",
+    "text": "Which English club is known as 'The Hammers'?",
+    "real_answer": "West Ham United",
+    "type": "mixed",
+    "subject_player_id": null
+  },
+  {
+    "id": "q250",
+    "text": "Which Spanish club is known as 'Los Colchoneros'?",
+    "real_answer": "Atletico Madrid",
+    "type": "mixed",
+    "subject_player_id": null
+  },
+  {
+    "id": "q251",
+    "text": "Which Italian club is known as 'I Nerazzurri'?",
+    "real_answer": "Inter Milan",
+    "type": "mixed",
+    "subject_player_id": null
+  },
+  {
+    "id": "q252",
+    "text": "Which Italian club is known as 'I Rossoneri'?",
+    "real_answer": "AC Milan",
+    "type": "mixed",
+    "subject_player_id": null
+  },
+  {
+    "id": "q253",
+    "text": "Who won the Premier League Golden Boot in the 2022-23 season?",
+    "real_answer": "Erling Haaland",
+    "type": "mixed",
+    "subject_player_id": null
+  },
+  {
+    "id": "q254",
+    "text": "Who won the Premier League Golden Boot in the 2021-22 season (sharing with Son Heung-min)?",
+    "real_answer": "Mohamed Salah",
+    "type": "mixed",
+    "subject_player_id": null
+  },
+  {
+    "id": "q255",
+    "text": "Which team won the 2003-04 Premier League season without losing a single game?",
+    "real_answer": "Arsenal",
+    "type": "mixed",
+    "subject_player_id": null
+  },
+  {
+    "id": "q256",
+    "text": "Which team won the 2017-18 Premier League season with a record 100 points?",
+    "real_answer": "Man City",
+    "type": "mixed",
+    "subject_player_id": null
+  },
+  {
+    "id": "q257",
+    "text": "Which team won the Premier League in the legendary 2015-16 season?",
+    "real_answer": "Leicester City",
+    "type": "mixed",
+    "subject_player_id": null
+  },
+  {
+    "id": "q258",
+    "text": "Who was the manager of Leicester City when they won the Premier League in 2016?",
+    "real_answer": "Claudio Ranieri",
+    "type": "mixed",
+    "subject_player_id": null
+  },
+  {
+    "id": "q259",
+    "text": "Who was the manager of Arsenal during their 'Invincibles' season?",
+    "real_answer": "Arsene Wenger",
+    "type": "mixed",
+    "subject_player_id": null
+  },
+  {
+    "id": "q260",
+    "text": "Who was the manager of Manchester United when they won the Treble in 1999?",
+    "real_answer": "Alex Ferguson",
+    "type": "mixed",
+    "subject_player_id": null
+  },
+  {
+    "id": "q261",
+    "text": "Who was the manager of Barcelona when they won the Sextuple in 2009?",
+    "real_answer": "Pep Guardiola",
+    "type": "mixed",
+    "subject_player_id": null
+  },
+  {
+    "id": "q262",
+    "text": "Who was the manager of Inter Milan when they won the Treble in 2010?",
+    "real_answer": "Jose Mourinho",
+    "type": "mixed",
+    "subject_player_id": null
+  },
+  {
+    "id": "q263",
+    "text": "Who was the manager of Bayern Munich when they won the Treble in 2013?",
+    "real_answer": "Jupp Heynckes",
+    "type": "mixed",
+    "subject_player_id": null
+  },
+  {
+    "id": "q264",
+    "text": "Who was the manager of Bayern Munich when they won the Sextuple in 2020?",
+    "real_answer": "Hansi Flick",
+    "type": "mixed",
+    "subject_player_id": null
+  },
+  {
+    "id": "q265",
+    "text": "Which player holds the record for the most red cards in La Liga history?",
+    "real_answer": "Sergio Ramos",
+    "type": "mixed",
+    "subject_player_id": null
+  },
+  {
+    "id": "q266",
+    "text": "Which player holds the record for the most yellow cards in Premier League history?",
+    "real_answer": "Gareth Barry",
+    "type": "mixed",
+    "subject_player_id": null
+  },
+  {
+    "id": "q267",
+    "text": "Which goalkeeper scored over 130 goals in his career?",
+    "real_answer": "Rogerio Ceni",
+    "type": "mixed",
+    "subject_player_id": null
+  },
+  {
+    "id": "q268",
+    "text": "Which goalkeeper famously scored a bicycle kick for Baroka FC in South Africa?",
+    "real_answer": "Oscarine Masuluke",
+    "type": "mixed",
+    "subject_player_id": null
+  },
+  {
+    "id": "q269",
+    "text": "Which goalkeeper famously performed the 'Scorpion Kick' save in 1995?",
+    "real_answer": "Rene Higuita",
+    "type": "mixed",
+    "subject_player_id": null
+  },
+  {
+    "id": "q270",
+    "text": "Rosario Central -> Benfica -> Real Madrid -> PSG -> Juventus -> Benfica",
+    "real_answer": "Angel Di Maria",
+    "type": "career_path",
+    "subject_player_id": null
+  },
+  {
+    "id": "q271",
+    "text": "Estudiantes -> Man United -> Chelsea -> PSG -> Sporting CP -> Boca Juniors -> Estudiantes",
+    "real_answer": "Marcos Rojo",
+    "type": "career_path",
+    "subject_player_id": null
+  },
+  {
+    "id": "q272",
+    "text": "Audax Italiano -> Colo-Colo -> Bayer Leverkusen -> Juventus -> Bayern Munich -> Barcelona -> Inter Milan -> Flamengo -> Athletico Paranaense -> Colo-Colo",
+    "real_answer": "Arturo Vidal",
+    "type": "career_path",
+    "subject_player_id": null
+  },
+  {
+    "id": "q273",
+    "text": "Cobreloa -> Udinese -> Barcelona -> Arsenal -> Man United -> Inter Milan -> Marseille -> Galatasaray -> Inter Milan",
+    "real_answer": "Alexis Sanchez",
+    "type": "career_path",
+    "subject_player_id": null
+  },
+  {
+    "id": "q274",
+    "text": "Nacional -> Ajax -> Liverpool -> Barcelona -> Atletico Madrid -> Nacional -> Gremio -> Inter Miami",
+    "real_answer": "Luis Suarez",
+    "type": "career_path",
+    "subject_player_id": null
+  },
+  {
+    "id": "q275",
+    "text": "Independiente -> Atletico Madrid -> Liverpool -> Espanyol -> Newell's Old Boys",
+    "real_answer": "Maxi Rodriguez",
+    "type": "career_path",
+    "subject_player_id": null
+  },
+  {
+    "id": "q276",
+    "text": "Lille -> Chelsea -> Real Madrid",
+    "real_answer": "Eden Hazard",
+    "type": "career_path",
+    "subject_player_id": null
+  },
+  {
+    "id": "q277",
+    "text": "Aston Villa -> Man City",
+    "real_answer": "Jack Grealish",
+    "type": "career_path",
+    "subject_player_id": null
+  },
+  {
+    "id": "q278",
+    "text": "Palermo -> Juventus -> Roma",
+    "real_answer": "Paulo Dybala",
+    "type": "career_path",
+    "subject_player_id": null
+  },
+  {
+    "id": "q279",
+    "text": "Genoa -> Juventus -> Tottenham -> Boca Juniors",
+    "real_answer": "Rodrigo Bentancur",
+    "type": "career_path",
+    "subject_player_id": null
+  },
+  {
+    "id": "q280",
+    "text": "Velez Sarsfield -> Valencia -> Man City -> Aston Villa -> Benfica",
+    "real_answer": "Nicolas Otamendi",
+    "type": "career_path",
+    "subject_player_id": null
+  },
+  {
+    "id": "q281",
+    "text": "Ajax -> Juventus -> Inter Milan -> Barcelona -> AC Milan -> PSG -> Man United -> LA Galaxy -> AC Milan",
+    "real_answer": "Zlatan Ibrahimovic",
+    "type": "career_path",
+    "subject_player_id": null
+  },
+  {
+    "id": "q282",
+    "text": "Barcelona -> Bayern Munich -> Liverpool",
+    "real_answer": "Thiago Alcantara",
+    "type": "career_path",
+    "subject_player_id": null
+  },
+  {
+    "id": "q283",
+    "text": "Santos -> Real Madrid -> AC Milan -> Santos -> Atletico Mineiro -> Santos",
+    "real_answer": "Robinho",
+    "type": "career_path",
+    "subject_player_id": null
+  },
+  {
+    "id": "q284",
+    "text": "Athletico Paranaense -> Shakhtar Donetsk -> Man City -> Arsenal",
+    "real_answer": "Fernandinho",
+    "type": "career_path",
+    "subject_player_id": null
+  },
+  {
+    "id": "q285",
+    "text": "Internacional -> Roma -> Liverpool -> Roma -> Internacional",
+    "real_answer": "Alisson Becker",
+    "type": "career_path",
+    "subject_player_id": null
+  }
+]
