@@ -10,16 +10,15 @@ export function PrivacyPage() {
       <Panel className="p-6 mb-4">
         <h2 className="font-display text-2xl text-slate-200 mb-3">Local Storage & Cookies</h2>
         <p className="font-body text-slate-400 mb-3">
-          FutIQ stores game state in a first-party cookie and in your browser's localStorage
-          (written to both, for reliability):
+          FutIQ stores game state in your browser's localStorage so you don't lose your progress if you refresh the page:
         </p>
         <ul className="font-body text-slate-400 list-disc list-inside space-y-1 mb-3">
-          <li><code className="text-gold">footdle:guest</code> — guest streak, games played/won, and banner state, kept for one year</li>
-          <li><code className="text-gold">footdle:round:daily</code> / <code className="text-gold">footdle:round:training</code> / <code className="text-gold">footdle:round:unlimited</code> — in-progress round state per mode for refresh- and close-safety</li>
+          <li><code className="text-gold">footdle:guest</code> — guest streak, games played/won, kept locally on your device.</li>
+          <li><code className="text-gold">footdle:round:*</code> — in-progress round states for Daily, Unlimited, Coaches, and Teams modes.</li>
         </ul>
         <p className="font-body text-slate-400">
-          When you create an account, guest data is migrated to your profile and the guest cache is cleared.
-          Supabase Auth uses secure, HttpOnly cookies for session management. No third-party tracking cookies are used.
+          When you create an account, your guest data is migrated to your profile and securely saved to our database.
+          Supabase Auth uses secure, HttpOnly cookies for session management.
         </p>
       </Panel>
 
@@ -32,16 +31,20 @@ export function PrivacyPage() {
         </p>
       </Panel>
 
-      <Panel className="p-6">
-        <h2 className="font-display text-2xl text-slate-200 mb-3">Image Attribution & Licensing</h2>
+      <Panel className="p-6 mb-4">
+        <h2 className="font-display text-2xl text-slate-200 mb-3">Third-Party Services</h2>
         <p className="font-body text-slate-400 mb-3">
-          Player photos are sourced exclusively from Wikidata/Wikimedia Commons, which hosts Creative Commons
-          licensed or public-domain images. Each photo's license/attribution is stored with the player record
-          and displayed as a small credit line on the card.
+          We use Google AdSense to display advertisements. Google AdSense may use cookies and web beacons to serve ads based on your prior visits to our website or other websites. You can learn more about how Google uses information from sites that use their services in their Privacy & Terms.
         </p>
         <p className="font-body text-slate-400">
-          Players without a Wikidata photo use a simple static placeholder graphic — no external images
-          are scraped or hotlinked from copyright-restricted sources.
+          We also use Supabase for authentication and database services, and Vercel for hosting our frontend.
+        </p>
+      </Panel>
+
+      <Panel className="p-6">
+        <h2 className="font-display text-2xl text-slate-200 mb-3">Image Attribution</h2>
+        <p className="font-body text-slate-400">
+          Player, coach, and team images are loaded from external CDNs and databases. FutIQ does not claim ownership of any player likeness, club crest, or EA Sports FC 24 statistics. All trademarks and copyrights are the property of their respective owners.
         </p>
       </Panel>
     </div>
