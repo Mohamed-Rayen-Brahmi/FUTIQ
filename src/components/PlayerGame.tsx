@@ -58,7 +58,7 @@ export function PlayerGame({ mode }: { mode: 'daily' | 'unlimited' }) {
         <EmptyState message="Failed to load game" sub={game.error} />
       )}
 
-      {!game.loading && !game.error && game.mysteryPlayer && (
+      {!game.loading && !game.error && (
         <>
           <div className="flex flex-col-reverse lg:grid lg:grid-cols-[1fr_340px] gap-6 items-start">
             <div className="w-full">

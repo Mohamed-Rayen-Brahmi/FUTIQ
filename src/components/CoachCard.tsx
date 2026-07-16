@@ -3,7 +3,7 @@ import type { Coach } from '../types/database';
 import { CARD_TIERS } from '../types/database';
 
 interface CoachCardProps {
-  coach: Coach;
+  coach: Coach | null;
   status: 'playing' | 'won' | 'lost';
   unlockedStats: Set<string>;
 }
@@ -42,9 +42,9 @@ export function CoachCard({ coach, status, unlockedStats }: CoachCardProps) {
     setTilt({ rx: 0, ry: 0 });
   }, []);
 
-  const showPhoto = coach.image_url && !imgError;
+  const showPhoto = coach?.image_url && !imgError;
   const gameOver = status !== 'playing';
-  const showName = gameOver;
+  const showName = gameOver && coach;
   const isRevealed = (stat: string) => gameOver || unlockedStats.has(stat);
 
   return (
@@ -76,8 +76,8 @@ export function CoachCard({ coach, status, unlockedStats }: CoachCardProps) {
             <>
               {blurAmount > 0 && <div className="absolute inset-0" style={{ background: `linear-gradient(135deg, #222, #0a0e14)` }} />}
               <img
-                src={coach.image_url!}
-                alt={coach.name}
+                src={coach!.image_url!}
+                alt={coach!.name}
                 loading="lazy"
                 onError={() => setImgError(true)}
                 className="absolute inset-0 w-full h-full object-cover"
@@ -98,7 +98,7 @@ export function CoachCard({ coach, status, unlockedStats }: CoachCardProps) {
           
           <div className="flex flex-col gap-1.5 mt-2">
             <div className="w-10 h-7 rounded-sm overflow-hidden border border-ink-border bg-ink-deep flex items-center justify-center">
-              {isRevealed('nationality') ? (
+              {isRevealed('nationality') && coach ? (
                 <span className="font-label text-xs text-slate-300">{coach.nationality?.slice(0, 3).toUpperCase() || '???'}</span>
               ) : (
                 <span className="font-label text-xs text-slate-600">???</span>
@@ -106,7 +106,7 @@ export function CoachCard({ coach, status, unlockedStats }: CoachCardProps) {
             </div>
             <div className="w-10 h-7 rounded-sm border border-ink-border bg-ink-deep flex items-center justify-center">
               <span className="font-label text-[10px] font-bold uppercase text-slate-300">
-                {isRevealed('club') ? (coach.club?.slice(0, 3) || '???') : '???'}
+                {isRevealed('club') && coach ? (coach.club?.slice(0, 3) || '???') : '???'}
               </span>
             </div>
           </div>
@@ -114,7 +114,7 @@ export function CoachCard({ coach, status, unlockedStats }: CoachCardProps) {
           <div className="mt-auto pt-8 flex flex-col gap-1">
             <div className="flex items-center gap-1.5">
               <span className="font-label text-[10px] uppercase text-slate-400">AGE</span>
-              <span className="font-display text-lg leading-none text-slate-100">{isRevealed('age') ? (coach.age ?? '??') : '?'}</span>
+              <span className="font-display text-lg leading-none text-slate-100">{isRevealed('age') && coach ? (coach.age ?? '??') : '?'}</span>
             </div>
           </div>
         </div>
@@ -123,9 +123,9 @@ export function CoachCard({ coach, status, unlockedStats }: CoachCardProps) {
           {showName ? (
             <>
               <div className="font-display text-2xl leading-none uppercase text-center text-white mb-2" style={{ textShadow: '0 2px 8px rgba(0,0,0,0.8)' }}>
-                {coach.name}
+                {coach!.name}
               </div>
-              <div className="font-label text-[10px] uppercase text-center text-gold">{coach.league}</div>
+              <div className="font-label text-[10px] uppercase text-center text-gold">{coach!.league}</div>
             </>
           ) : (
             <div className="font-display text-3xl leading-none text-center text-slate-600">???</div>

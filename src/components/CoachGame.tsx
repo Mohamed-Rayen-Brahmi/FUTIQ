@@ -43,7 +43,7 @@ export function CoachGame() {
         <EmptyState message="Failed to load game" sub={game.error} />
       )}
 
-      {!game.loading && !game.error && game.mysteryCoach && (
+      {!game.loading && !game.error && (
         <>
           <div className="flex flex-col-reverse lg:grid lg:grid-cols-[1fr_340px] gap-6 items-start">
             <div className="w-full">

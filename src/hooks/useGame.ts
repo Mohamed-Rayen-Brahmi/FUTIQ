@@ -22,7 +22,9 @@ export function useGame(mode: GameMode) {
   const [roundId, setRoundId] = useState(0);
   const maxGuesses = maxGuessesForMode(mode);
 
-  // Select mystery player
+  const isDaily = mode === 'daily';
+
+  // ── Initialize game ──────────────────────────────────────────────────────
   useEffect(() => {
     let cancelled = false;
 
@@ -30,18 +32,25 @@ export function useGame(mode: GameMode) {
       setLoading(true);
       setError(null);
       try {
-        let player: Player | null = null;
-
-        if (mode === 'daily') {
-          // Deterministic daily selection via date-seeded RPC
+        if (isDaily) {
+          // DAILY MODE: Server-side checking — do NOT fetch the answer.
+          // Just restore saved round state if available.
           const seed = getDailySeed();
-          const { data, error: rpcError } = await supabase
-            .rpc('get_daily_player', { date_seed: seed })
-            .single();
-          if (rpcError) throw rpcError;
-          if (data) player = data as Player;
+          const roundKey = `footdle:round:${mode}`;
+          const saved = loadRoundState(roundKey);
+          if (saved && saved.dateSeed === seed) {
+            setGuesses(saved.guesses as GuessRow[]);
+            setStatus(saved.status);
+            if (saved.unlockedStats) setUnlockedStats(new Set(saved.unlockedStats));
+            if (saved.answer) setMysteryPlayer(saved.answer as Player);
+          } else {
+            setGuesses([]);
+            setStatus('playing');
+            setUnlockedStats(new Set());
+            setMysteryPlayer(null);
+          }
         } else {
-          // Training / Unlimited: random player excluding today's daily answer
+          // UNLIMITED MODE: Client-side comparison (practice, no rankings)
           const seed = getDailySeed();
           const { data: dailyData } = await supabase
             .rpc('get_daily_player', { date_seed: seed })
@@ -52,29 +61,29 @@ export function useGame(mode: GameMode) {
             .rpc('get_random_player', { exclude_player_id: excludeId })
             .single();
           if (rpcError) throw rpcError;
-          if (data) player = data as Player;
-        }
 
-        if (cancelled) return;
+          if (cancelled) return;
 
-        if (!player) {
-          setError('No players available. Run the player-sync function to populate the roster.');
-          return;
-        }
+          if (!data) {
+            setError('No players available.');
+            return;
+          }
 
-        setMysteryPlayer(player);
+          const player = data as Player;
+          setMysteryPlayer(player);
 
-        // Try to restore in-progress round from localStorage
-        const roundKey = `footdle:round:${mode}`;
-        const saved = loadRoundState(roundKey);
-        if (saved && saved.playerId === player.id) {
-          setGuesses(saved.guesses);
-          setStatus(saved.status);
-          if (saved.unlockedStats) setUnlockedStats(new Set(saved.unlockedStats));
-        } else {
-          setGuesses([]);
-          setStatus('playing');
-          setUnlockedStats(new Set());
+          // Try to restore in-progress round from localStorage
+          const roundKey = `footdle:round:${mode}`;
+          const saved = loadRoundState(roundKey);
+          if (saved && saved.playerId === player.id) {
+            setGuesses(saved.guesses as GuessRow[]);
+            setStatus(saved.status);
+            if (saved.unlockedStats) setUnlockedStats(new Set(saved.unlockedStats));
+          } else {
+            setGuesses([]);
+            setStatus('playing');
+            setUnlockedStats(new Set());
+          }
         }
       } catch (err) {
         if (!cancelled) setError(err instanceof Error ? err.message : 'Failed to load game');
@@ -86,73 +95,162 @@ export function useGame(mode: GameMode) {
     return () => { cancelled = true; };
   }, [mode, roundId]);
 
+  // ── Make a guess ─────────────────────────────────────────────────────────
   const makeGuess = useCallback(async (guessPlayer: Player): Promise<boolean> => {
-    if (!mysteryPlayer || status !== 'playing') return false;
+    if (status !== 'playing') return false;
     if (maxGuesses !== null && guesses.length >= maxGuesses) return false;
 
-    const row = compareGuess(guessPlayer, mysteryPlayer);
-    const newGuesses = [...guesses, row];
-    setGuesses(newGuesses);
+    if (isDaily) {
+      // SERVER-SIDE CHECK: Call the secure RPC
+      const seed = getDailySeed();
+      const guessNumber = guesses.length + 1;
 
-    // Update unlocked stats
-    const newUnlocked = new Set(unlockedStats);
-    if (row.cells.nation.status === 'exact') newUnlocked.add('nation');
-    if (row.cells.league.status === 'exact') newUnlocked.add('league');
-    if (row.cells.club.status === 'exact') newUnlocked.add('club');
-    if (row.cells.position.status === 'exact') newUnlocked.add('position');
-    if (row.cells.age.status === 'exact') newUnlocked.add('age');
-    if (row.cells.shirt.status === 'exact') newUnlocked.add('shirt');
-    setUnlockedStats(newUnlocked);
+      const { data, error: rpcError } = await supabase
+        .rpc('check_player_guess', {
+          p_guess_id: guessPlayer.id,
+          p_date_seed: seed,
+          p_guess_number: guessNumber,
+        });
 
-    // Check win/loss (Unlimited mode has no guess cap, so it can only end by winning or giving up)
-    const won = row.cells.name.status === 'exact';
-    const lost = !won && maxGuesses !== null && newGuesses.length >= maxGuesses;
-    const newStatus: GameStatus = won ? 'won' : lost ? 'lost' : 'playing';
-    setStatus(newStatus);
+      if (rpcError) {
+        console.error('Server check failed:', rpcError);
+        return false;
+      }
 
-    // Save round state
-    const roundKey = `footdle:round:${mode}`;
-    saveRoundState(roundKey, {
-      playerId: mysteryPlayer.id,
-      guesses: newGuesses,
-      status: newStatus,
-      unlockedStats: Array.from(newUnlocked),
-    });
+      if (data?.error) {
+        console.error('Server check error:', data.error);
+        return false;
+      }
 
-    // If game ended, record stats. Deliberately NOT clearing the saved round
-    // state here — the finished board (revealed card, full guess grid) needs
-    // to stay in storage so reopening the page restores it instead of
-    // showing a blank round. It only gets cleared when the player explicitly
-    // starts a new round via reset() ("Play Again"), or naturally stops
-    // matching once a new mystery player is fetched (e.g. the next day's
-    // Daily player).
-    if (won || lost) {
-      await recordGameResult(mode, mysteryPlayer.id, newGuesses.length, won, user, refreshProfile, setShowBanner);
+      // Build GuessRow from server response
+      const cells = data.cells;
+      const row: GuessRow = {
+        player: guessPlayer,
+        cells: {
+          name: { value: guessPlayer.name, status: cells.name as CellStatus },
+          nation: { value: guessPlayer.nation || '??', status: cells.nation as CellStatus },
+          league: { value: guessPlayer.league || '??', status: cells.league as CellStatus },
+          club: { value: guessPlayer.club || '??', status: cells.club as CellStatus },
+          position: { value: guessPlayer.position_code || '??', status: cells.position as CellStatus },
+          age: { value: String(guessPlayer.age ?? '??'), status: cells.age.status as CellStatus, arrow: cells.age.arrow as 'up' | 'down' | null },
+          shirt: { value: String(guessPlayer.shirt_number ?? '??'), status: cells.shirt.status as CellStatus, arrow: cells.shirt.arrow as 'up' | 'down' | null },
+        },
+      };
+
+      const newGuesses = [...guesses, row];
+      setGuesses(newGuesses);
+
+      // Update unlocked stats
+      const newUnlocked = new Set(unlockedStats);
+      if (row.cells.nation.status === 'exact') newUnlocked.add('nation');
+      if (row.cells.league.status === 'exact') newUnlocked.add('league');
+      if (row.cells.club.status === 'exact') newUnlocked.add('club');
+      if (row.cells.position.status === 'exact') newUnlocked.add('position');
+      if (row.cells.age.status === 'exact') newUnlocked.add('age');
+      if (row.cells.shirt.status === 'exact') newUnlocked.add('shirt');
+      setUnlockedStats(newUnlocked);
+
+      const won = data.is_correct;
+      const lost = !won && newGuesses.length >= (maxGuesses ?? Infinity);
+      const newStatus: GameStatus = won ? 'won' : lost ? 'lost' : 'playing';
+      setStatus(newStatus);
+
+      // If game over, set the revealed answer
+      let revealedAnswer: Player | null = null;
+      if (data.answer) {
+        revealedAnswer = data.answer as Player;
+        setMysteryPlayer(revealedAnswer);
+      }
+
+      // Save round state
+      const roundKey = `footdle:round:${mode}`;
+      saveRoundState(roundKey, {
+        dateSeed: getDailySeed(),
+        guesses: newGuesses,
+        status: newStatus,
+        unlockedStats: Array.from(newUnlocked),
+        answer: revealedAnswer || undefined,
+      });
+
+      if (won || lost) {
+        const answerId = revealedAnswer?.id || guessPlayer.id;
+        await recordGameResult(mode, answerId, newGuesses.length, won, user, refreshProfile, setShowBanner);
+      }
+
+      return true;
+    } else {
+      // UNLIMITED MODE: Client-side comparison (unchanged)
+      if (!mysteryPlayer) return false;
+
+      const row = compareGuess(guessPlayer, mysteryPlayer);
+      const newGuesses = [...guesses, row];
+      setGuesses(newGuesses);
+
+      const newUnlocked = new Set(unlockedStats);
+      if (row.cells.nation.status === 'exact') newUnlocked.add('nation');
+      if (row.cells.league.status === 'exact') newUnlocked.add('league');
+      if (row.cells.club.status === 'exact') newUnlocked.add('club');
+      if (row.cells.position.status === 'exact') newUnlocked.add('position');
+      if (row.cells.age.status === 'exact') newUnlocked.add('age');
+      if (row.cells.shirt.status === 'exact') newUnlocked.add('shirt');
+      setUnlockedStats(newUnlocked);
+
+      const won = row.cells.name.status === 'exact';
+      const lost = !won && maxGuesses !== null && newGuesses.length >= maxGuesses;
+      const newStatus: GameStatus = won ? 'won' : lost ? 'lost' : 'playing';
+      setStatus(newStatus);
+
+      const roundKey = `footdle:round:${mode}`;
+      saveRoundState(roundKey, {
+        playerId: mysteryPlayer.id,
+        guesses: newGuesses,
+        status: newStatus,
+        unlockedStats: Array.from(newUnlocked),
+      });
+
+      if (won || lost) {
+        await recordGameResult(mode, mysteryPlayer.id, newGuesses.length, won, user, refreshProfile, setShowBanner);
+      }
+
+      return true;
     }
+  }, [mysteryPlayer, status, guesses, unlockedStats, mode, maxGuesses, isDaily, user, profile, refreshProfile]);
 
-    return true;
-  }, [mysteryPlayer, status, guesses, unlockedStats, mode, maxGuesses, user, profile, refreshProfile]);
-
-  // Unlimited mode has no guess cap, so it needs an explicit way to end the round.
   const giveUp = useCallback(async () => {
-    if (!mysteryPlayer || status !== 'playing') return;
+    if (status !== 'playing') return;
+
+    if (isDaily) {
+      // For daily, we need to get the answer from the server
+      const seed = getDailySeed();
+      const { data } = await supabase
+        .rpc('check_player_guess', {
+          p_guess_id: guesses[0]?.player?.id || '00000000-0000-0000-0000-000000000000',
+          p_date_seed: seed,
+          p_guess_number: 8, // Force reveal
+        });
+      if (data?.answer) {
+        setMysteryPlayer(data.answer as Player);
+      }
+    }
 
     const newStatus: GameStatus = 'lost';
     setStatus(newStatus);
 
-    // Save the finished round (same as a natural win/loss) instead of
-    // clearing it, so reopening the page still shows the revealed answer
-    // rather than a blank round.
     const roundKey = `footdle:round:${mode}`;
     saveRoundState(roundKey, {
-      playerId: mysteryPlayer.id,
+      dateSeed: isDaily ? getDailySeed() : undefined,
+      playerId: !isDaily ? mysteryPlayer?.id : undefined,
       guesses,
       status: newStatus,
       unlockedStats: Array.from(unlockedStats),
+      answer: mysteryPlayer || undefined,
     });
 
-    await recordGameResult(mode, mysteryPlayer.id, guesses.length, false, user, refreshProfile, setShowBanner);
-  }, [mysteryPlayer, status, guesses, unlockedStats, mode, user, profile, refreshProfile]);
+    const entityId = mysteryPlayer?.id || '';
+    if (entityId) {
+      await recordGameResult(mode, entityId, guesses.length, false, user, refreshProfile, setShowBanner);
+    }
+  }, [mysteryPlayer, status, guesses, unlockedStats, mode, isDaily, user, profile, refreshProfile]);
 
   const reset = useCallback(() => {
     const roundKey = `footdle:round:${mode}`;
@@ -160,6 +258,7 @@ export function useGame(mode: GameMode) {
     setGuesses([]);
     setStatus('playing');
     setUnlockedStats(new Set());
+    setMysteryPlayer(null);
     setError(null);
     setRoundId(id => id + 1);
   }, [mode]);
@@ -179,6 +278,8 @@ export function useGame(mode: GameMode) {
     maxGuesses,
   };
 }
+
+// ── Client-side comparison (used only by Unlimited mode) ─────────────────
 
 function compareGuess(guess: Player, answer: Player): GuessRow {
   const nameStatus: CellStatus = guess.name.toLowerCase().trim() === answer.name.toLowerCase().trim() ? 'exact' : 'none';
@@ -259,10 +360,6 @@ async function recordGameResult(
   setShowBanner: (v: boolean) => void,
 ) {
   if (user) {
-    // Logged in: the server computes the resulting streak/stats from the
-    // currently stored values — the client only reports the round outcome,
-    // it can no longer set the resulting numbers directly (see the
-    // "secure_stat_writes" migration for why this changed).
     try {
       const { error } = await supabase.rpc('record_game_result', {
         p_player_id: playerId,
@@ -276,7 +373,6 @@ async function recordGameResult(
       console.error('Failed to record game result:', err);
     }
   } else {
-    // Guest: update localStorage
     updateGuestAfterGame(won, mode);
     const guest = loadGuestState();
     if (!guest.hasSeenBanner) setShowBanner(true);

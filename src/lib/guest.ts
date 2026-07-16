@@ -49,10 +49,12 @@ export function updateGuestAfterGame(won: boolean, mode: GameMode = 'daily'): Gu
 }
 
 interface RoundState {
-  playerId: string;
-  guesses: GuessRow[];
+  playerId?: string;
+  dateSeed?: number;
+  guesses: any[];
   status: GameStatus;
   unlockedStats: string[];
+  answer?: any;
 }
 
 export function loadRoundState(key: string): RoundState | null {

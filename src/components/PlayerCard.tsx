@@ -4,7 +4,7 @@ import { CARD_TIERS } from '../types/database';
 import { PlayerAvatar } from './PlayerAvatar';
 
 interface PlayerCardProps {
-  player: Player;
+  player: Player | null;
   status: 'playing' | 'won' | 'lost';
   unlockedStats: Set<string>;
   tier?: CardTier;
@@ -40,11 +40,8 @@ export function PlayerCard({
   const [imgError, setImgError] = useState(false);
 
   const tierConfig = CARD_TIERS[tier];
-  const rating = computeRating(player);
+  const rating = player ? computeRating(player) : '??';
 
-  // The photo stays fully blurred for the entire round — no gradual reveal —
-  // and only becomes sharp the instant the round ends (win or loss), same as
-  // the rest of the card's stats.
   const BLUR_WHILE_PLAYING = 14;
   const blurAmount = status === 'playing' ? BLUR_WHILE_PLAYING : 0;
 
@@ -68,14 +65,11 @@ export function PlayerCard({
     setTilt({ rx: 0, ry: 0 });
   }, []);
 
-  const showPhoto = player.image_url && !imgError;
+  const showPhoto = player?.image_url && !imgError;
   const gameOver = status !== 'playing';
-  const showName = gameOver;
-  const showAttribution = player.image_attribution && showPhoto && gameOver;
+  const showName = gameOver && player;
+  const showAttribution = player?.image_attribution && showPhoto && gameOver;
 
-  // Every stat only shows via its exact-match unlock during play. At game
-  // over (win or loss), everything reveals — same "show the answer" behavior
-  // the name already had.
   const isRevealed = (stat: string) => gameOver || unlockedStats.has(stat);
 
   return (
@@ -96,7 +90,6 @@ export function PlayerCard({
         onMouseEnter={handleMouseEnter}
         onMouseLeave={handleMouseLeave}
       >
-        {/* Foil shine sweep */}
         {foilActive && (
           <div
             className="absolute inset-0 pointer-events-none z-30"
@@ -111,32 +104,29 @@ export function PlayerCard({
           </div>
         )}
 
-        {/* Photo / Avatar area — right two-thirds */}
         <div className="absolute inset-0 z-0" style={{ clipPath: CLIP_PATH, overflow: 'hidden' }}>
           {showPhoto ? (
             <>
-              {/* Blurred placeholder skeleton */}
               {blurAmount > 0 && (
                 <div
                   className="absolute inset-0"
                   style={{
-                    background: `linear-gradient(135deg, ${player.club_primary_color || '#333'}22, #0a0e14)`,
+                    background: `linear-gradient(135deg, ${player!.club_primary_color || '#333'}22, #0a0e14)`,
                   }}
                 />
               )}
               <img
-                src={player.image_url!}
-                alt={player.name}
+                src={player!.image_url!}
+                alt={player!.name}
                 loading="lazy"
                 onError={() => setImgError(true)}
                 className="absolute inset-0 w-full h-full object-cover"
                 style={{
                   filter: blurAmount > 0 ? `blur(${blurAmount}px)` : 'none',
-                  transform: 'scale(1.1)', // prevent blur edges
+                  transform: 'scale(1.1)',
                   transition: 'filter 0.4s ease-out',
                 }}
               />
-              {/* Dark gradient overlay for text readability */}
               <div
                 className="absolute inset-0"
                 style={{
@@ -145,8 +135,6 @@ export function PlayerCard({
               />
             </>
           ) : (
-            // Static placeholder — no per-player variation, so blur/progressive
-            // reveal doesn't apply here; it just stays as-is throughout the round.
             <div className="absolute inset-0">
               <PlayerAvatar className="w-full h-full" />
               <div
@@ -159,19 +147,17 @@ export function PlayerCard({
           )}
         </div>
 
-        {/* Left column — rating, position, icons, mini-stats */}
         <div className="absolute top-0 left-0 z-20 p-5 pl-6 flex flex-col items-start gap-2" style={{ width: '38%' }}>
           <div className="font-display text-5xl leading-none text-white text-glow-gold">
             {rating}
           </div>
           <div className="font-display text-2xl leading-none text-gold -mt-1">
-            {isRevealed('position') ? (player.position_code || '??') : '?'}
+            {isRevealed('position') && player ? (player.position_code || '??') : '?'}
           </div>
 
-          {/* Nation flag placeholder + club crest */}
           <div className="flex flex-col gap-1.5 mt-1">
             <div className="w-10 h-7 rounded-sm overflow-hidden border border-ink-border bg-ink-deep flex items-center justify-center">
-              {isRevealed('nation') ? (
+              {isRevealed('nation') && player ? (
                 <span className="font-label text-xs text-slate-300">{player.nation?.slice(0, 3).toUpperCase() || '???'}</span>
               ) : (
                 <span className="font-label text-xs text-slate-600">???</span>
@@ -179,35 +165,33 @@ export function PlayerCard({
             </div>
             <div
               className="w-10 h-7 rounded-sm border border-ink-border flex items-center justify-center"
-              style={{ background: player.club_primary_color || '#333' }}
+              style={{ background: player?.club_primary_color || '#333' }}
             >
               <span
                 className="font-label text-[10px] font-bold uppercase"
-                style={{ color: player.club_secondary_color || '#fff' }}
+                style={{ color: player?.club_secondary_color || '#fff' }}
               >
-                {isRevealed('club') ? (player.club?.slice(0, 3) || '???') : '???'}
+                {isRevealed('club') && player ? (player.club?.slice(0, 3) || '???') : '???'}
               </span>
             </div>
           </div>
 
-          {/* Mini-stats near bottom */}
           <div className="mt-auto pt-4 flex flex-col gap-1">
             <div className="flex items-center gap-1.5">
               <span className="font-label text-[10px] uppercase text-slate-400">AGE</span>
               <span className="font-display text-lg leading-none text-slate-100">
-                {isRevealed('age') ? (player.age ?? '??') : '?'}
+                {isRevealed('age') && player ? (player.age ?? '??') : '?'}
               </span>
             </div>
             <div className="flex items-center gap-1.5">
               <span className="font-label text-[10px] uppercase text-slate-400">SHIRT</span>
               <span className="font-display text-lg leading-none text-slate-100">
-                {isRevealed('shirt') ? (player.shirt_number ?? '??') : '?'}
+                {isRevealed('shirt') && player ? (player.shirt_number ?? '??') : '?'}
               </span>
             </div>
           </div>
         </div>
 
-        {/* Player name — lower third with gradient fade */}
         <div className="absolute bottom-0 left-0 right-0 z-20 px-4 pb-5 pt-12">
           {showName ? (
             <div
@@ -220,7 +204,7 @@ export function PlayerCard({
                 backgroundClip: 'text',
               }}
             >
-              {player.name}
+              {player!.name}
             </div>
           ) : (
             <div className="font-display text-3xl leading-none text-center text-slate-600">
@@ -229,11 +213,10 @@ export function PlayerCard({
           )}
         </div>
 
-        {/* Attribution credit */}
         {showAttribution && (
           <div className="absolute bottom-1 right-2 z-20" style={{ clipPath: CLIP_PATH }}>
             <p className="font-body text-[8px] text-slate-500 opacity-50">
-              {player.image_attribution}
+              {player!.image_attribution}
             </p>
           </div>
         )}

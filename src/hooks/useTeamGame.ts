@@ -5,40 +5,6 @@ import { MAX_GUESSES, getDailySeed } from '../lib/constants';
 import { useAuth } from '../auth/AuthContext';
 import { loadGuestState, updateGuestAfterGame, loadRoundState, saveRoundState } from '../lib/guest';
 
-// Simple continent map for country -> continent close matching
-const COUNTRY_CONTINENTS: Record<string, string> = {
-  // Europe
-  'England': 'Europe', 'Spain': 'Europe', 'Germany': 'Europe', 'France': 'Europe',
-  'Italy': 'Europe', 'Portugal': 'Europe', 'Netherlands': 'Europe', 'Belgium': 'Europe',
-  'Scotland': 'Europe', 'Turkey': 'Europe', 'Austria': 'Europe', 'Switzerland': 'Europe',
-  'Denmark': 'Europe', 'Norway': 'Europe', 'Sweden': 'Europe', 'Poland': 'Europe',
-  'Czech Republic': 'Europe', 'Greece': 'Europe', 'Croatia': 'Europe', 'Serbia': 'Europe',
-  'Romania': 'Europe', 'Ukraine': 'Europe', 'Russia': 'Europe', 'Ireland': 'Europe',
-  'Wales': 'Europe', 'Hungary': 'Europe', 'Finland': 'Europe', 'Slovakia': 'Europe',
-  'Slovenia': 'Europe', 'Bulgaria': 'Europe', 'Cyprus': 'Europe',
-  // South America
-  'Brazil': 'South America', 'Argentina': 'South America', 'Colombia': 'South America',
-  'Chile': 'South America', 'Uruguay': 'South America', 'Paraguay': 'South America',
-  'Peru': 'South America', 'Ecuador': 'South America', 'Venezuela': 'South America',
-  'Bolivia': 'South America',
-  // North America
-  'United States': 'North America', 'Mexico': 'North America', 'Canada': 'North America',
-  'Costa Rica': 'North America', 'Honduras': 'North America', 'Jamaica': 'North America',
-  // Asia
-  'Japan': 'Asia', 'South Korea': 'Asia', 'China': 'Asia', 'Saudi Arabia': 'Asia',
-  'UAE': 'Asia', 'India': 'Asia', 'Thailand': 'Asia', 'Australia': 'Oceania',
-  'Qatar': 'Asia', 'Iran': 'Asia',
-  // Africa
-  'South Africa': 'Africa', 'Egypt': 'Africa', 'Nigeria': 'Africa', 'Morocco': 'Africa',
-  'Tunisia': 'Africa', 'Algeria': 'Africa', 'Ghana': 'Africa', 'Cameroon': 'Africa',
-  'Senegal': 'Africa', 'Ivory Coast': 'Africa',
-};
-
-function getContinent(country: string | null): string | null {
-  if (!country) return null;
-  return COUNTRY_CONTINENTS[country] || null;
-}
-
 export function useTeamGame() {
   const { user, profile, refreshProfile } = useAuth();
   const [mysteryTeam, setMysteryTeam] = useState<Team | null>(null);
@@ -50,7 +16,7 @@ export function useTeamGame() {
   const [showBanner, setShowBanner] = useState(false);
   const maxGuesses = MAX_GUESSES;
 
-  // Fetch mystery team
+  // Initialize game
   useEffect(() => {
     let cancelled = false;
 
@@ -59,32 +25,19 @@ export function useTeamGame() {
       setError(null);
       try {
         const seed = getDailySeed();
-        const { data, error: rpcError } = await supabase
-          .rpc('get_daily_team', { date_seed: seed })
-          .single();
-        if (rpcError) throw rpcError;
-
-        if (cancelled) return;
-
-        if (!data) {
-          setError('No teams available.');
-          return;
-        }
-
-        const team = data as Team;
-        setMysteryTeam(team);
-
-        // Restore in-progress round
         const roundKey = 'footdle:round:teams_daily';
         const saved = loadRoundState(roundKey);
-        if (saved && saved.playerId === team.id) {
+        
+        if (saved && saved.dateSeed === seed) {
           setGuesses(saved.guesses as unknown as TeamGuessRow[]);
           setStatus(saved.status);
           if (saved.unlockedStats) setUnlockedStats(new Set(saved.unlockedStats));
+          if (saved.answer) setMysteryTeam(saved.answer as Team);
         } else {
           setGuesses([]);
           setStatus('playing');
           setUnlockedStats(new Set());
+          setMysteryTeam(null);
         }
       } catch (err) {
         if (!cancelled) setError(err instanceof Error ? err.message : 'Failed to load game');
@@ -97,10 +50,43 @@ export function useTeamGame() {
   }, []);
 
   const makeGuess = useCallback(async (guessTeam: Team): Promise<boolean> => {
-    if (!mysteryTeam || status !== 'playing') return false;
+    if (status !== 'playing') return false;
     if (guesses.length >= maxGuesses) return false;
 
-    const row = compareTeamGuess(guessTeam, mysteryTeam);
+    const seed = getDailySeed();
+    const guessNumber = guesses.length + 1;
+
+    const { data, error: rpcError } = await supabase
+      .rpc('check_team_guess', {
+        p_guess_id: guessTeam.id,
+        p_date_seed: seed,
+        p_guess_number: guessNumber,
+      });
+
+    if (rpcError) {
+      console.error('Server check failed:', rpcError);
+      return false;
+    }
+
+    if (data?.error) {
+      console.error('Server check error:', data.error);
+      return false;
+    }
+
+    const cells = data.cells;
+    const row: TeamGuessRow = {
+      team: guessTeam,
+      cells: {
+        name: { value: guessTeam.name, status: cells.name as CellStatus },
+        league: { value: guessTeam.league || '??', status: cells.league as CellStatus },
+        country: { value: guessTeam.country || '??', status: cells.country as CellStatus },
+        overall: { value: String(guessTeam.overall ?? '??'), status: cells.overall.status as CellStatus, arrow: cells.overall.arrow as 'up' | 'down' | null },
+        stadium: { value: guessTeam.stadium || '??', status: cells.stadium as CellStatus },
+        defStyle: { value: guessTeam.def_style || '??', status: cells.defStyle as CellStatus },
+        offStyle: { value: guessTeam.off_style || '??', status: cells.offStyle as CellStatus },
+      },
+    };
+
     const newGuesses = [...guesses, row];
     setGuesses(newGuesses);
 
@@ -114,27 +100,34 @@ export function useTeamGame() {
     if (row.cells.offStyle.status === 'exact') newUnlocked.add('offStyle');
     setUnlockedStats(newUnlocked);
 
-    // Check win/loss
-    const won = row.cells.name.status === 'exact';
+    const won = data.is_correct;
     const lost = !won && newGuesses.length >= maxGuesses;
     const newStatus: GameStatus = won ? 'won' : lost ? 'lost' : 'playing';
     setStatus(newStatus);
 
+    let revealedAnswer: Team | null = null;
+    if (data.answer) {
+      revealedAnswer = data.answer as Team;
+      setMysteryTeam(revealedAnswer);
+    }
+
     // Save round state
     const roundKey = 'footdle:round:teams_daily';
     saveRoundState(roundKey, {
-      playerId: mysteryTeam.id,
+      dateSeed: seed,
       guesses: newGuesses as any,
       status: newStatus,
       unlockedStats: Array.from(newUnlocked),
+      answer: revealedAnswer || undefined,
     });
 
     if (won || lost) {
-      await recordGameResult('teams_daily', mysteryTeam.id, newGuesses.length, won, user, refreshProfile, setShowBanner);
+      const answerId = revealedAnswer?.id || guessTeam.id;
+      await recordGameResult('teams_daily', answerId, newGuesses.length, won, user, refreshProfile, setShowBanner);
     }
 
     return true;
-  }, [mysteryTeam, status, guesses, unlockedStats, maxGuesses, user, refreshProfile]);
+  }, [status, guesses, unlockedStats, maxGuesses, user, refreshProfile]);
 
   return {
     mysteryTeam,
@@ -147,67 +140,6 @@ export function useTeamGame() {
     showBanner,
     unlockedStats,
   };
-}
-
-function compareTeamGuess(guess: Team, answer: Team): TeamGuessRow {
-  const nameStatus: CellStatus = guess.name.toLowerCase().trim() === answer.name.toLowerCase().trim() ? 'exact' : 'none';
-
-  const leagueStatus: CellStatus = compareWithClose(
-    guess.league, answer.league,
-    () => guess.country === answer.country && guess.country !== null,
-  );
-
-  const countryStatus: CellStatus = compareWithClose(
-    guess.country, answer.country,
-    () => {
-      const gc = getContinent(guess.country);
-      const ac = getContinent(answer.country);
-      return gc !== null && gc === ac;
-    },
-  );
-
-  const overallResult = compareNumber(guess.overall, answer.overall, 3);
-
-  const stadiumStatus: CellStatus = compareExact(guess.stadium, answer.stadium);
-  const defStyleStatus: CellStatus = compareExact(guess.def_style, answer.def_style);
-  const offStyleStatus: CellStatus = compareExact(guess.off_style, answer.off_style);
-
-  return {
-    team: guess,
-    cells: {
-      name: { value: guess.name, status: nameStatus },
-      league: { value: guess.league || '??', status: leagueStatus },
-      country: { value: guess.country || '??', status: countryStatus },
-      overall: { value: String(guess.overall ?? '??'), status: overallResult.status, arrow: overallResult.arrow },
-      stadium: { value: guess.stadium || '??', status: stadiumStatus },
-      defStyle: { value: guess.def_style || '??', status: defStyleStatus },
-      offStyle: { value: guess.off_style || '??', status: offStyleStatus },
-    },
-  };
-}
-
-function compareWithClose(
-  guess: string | null,
-  answer: string | null,
-  closeCheck: () => boolean,
-): CellStatus {
-  if (!guess || !answer) return 'none';
-  if (guess.toLowerCase().trim() === answer.toLowerCase().trim()) return 'exact';
-  return closeCheck() ? 'close' : 'none';
-}
-
-function compareExact(guess: string | null, answer: string | null): CellStatus {
-  if (!guess || !answer) return 'none';
-  return guess.toLowerCase().trim() === answer.toLowerCase().trim() ? 'exact' : 'none';
-}
-
-function compareNumber(guess: number | null, answer: number | null, closeThreshold: number): { status: CellStatus; arrow: 'up' | 'down' | null } {
-  if (guess == null || answer == null) return { status: 'none', arrow: null };
-  if (guess === answer) return { status: 'exact', arrow: null };
-  const diff = Math.abs(guess - answer);
-  const status: CellStatus = diff <= closeThreshold ? 'close' : 'none';
-  const arrow: 'up' | 'down' = answer > guess ? 'up' : 'down';
-  return { status, arrow };
 }
 
 async function recordGameResult(

@@ -16,7 +16,7 @@ export function useCoachGame() {
   const [showBanner, setShowBanner] = useState(false);
   const maxGuesses = MAX_GUESSES;
 
-  // Fetch mystery coach
+  // Initialize game
   useEffect(() => {
     let cancelled = false;
 
@@ -25,32 +25,19 @@ export function useCoachGame() {
       setError(null);
       try {
         const seed = getDailySeed();
-        const { data, error: rpcError } = await supabase
-          .rpc('get_daily_coach', { date_seed: seed })
-          .single();
-        if (rpcError) throw rpcError;
-
-        if (cancelled) return;
-
-        if (!data) {
-          setError('No coaches available.');
-          return;
-        }
-
-        const coach = data as Coach;
-        setMysteryCoach(coach);
-
-        // Restore in-progress round
         const roundKey = 'footdle:round:coaches_daily';
         const saved = loadRoundState(roundKey);
-        if (saved && saved.playerId === coach.id) {
+        
+        if (saved && saved.dateSeed === seed) {
           setGuesses(saved.guesses as unknown as CoachGuessRow[]);
           setStatus(saved.status);
           if (saved.unlockedStats) setUnlockedStats(new Set(saved.unlockedStats));
+          if (saved.answer) setMysteryCoach(saved.answer as Coach);
         } else {
           setGuesses([]);
           setStatus('playing');
           setUnlockedStats(new Set());
+          setMysteryCoach(null);
         }
       } catch (err) {
         if (!cancelled) setError(err instanceof Error ? err.message : 'Failed to load game');
@@ -63,10 +50,41 @@ export function useCoachGame() {
   }, []);
 
   const makeGuess = useCallback(async (guessCoach: Coach): Promise<boolean> => {
-    if (!mysteryCoach || status !== 'playing') return false;
+    if (status !== 'playing') return false;
     if (guesses.length >= maxGuesses) return false;
 
-    const row = compareCoachGuess(guessCoach, mysteryCoach);
+    const seed = getDailySeed();
+    const guessNumber = guesses.length + 1;
+
+    const { data, error: rpcError } = await supabase
+      .rpc('check_coach_guess', {
+        p_guess_id: guessCoach.id,
+        p_date_seed: seed,
+        p_guess_number: guessNumber,
+      });
+
+    if (rpcError) {
+      console.error('Server check failed:', rpcError);
+      return false;
+    }
+
+    if (data?.error) {
+      console.error('Server check error:', data.error);
+      return false;
+    }
+
+    const cells = data.cells;
+    const row: CoachGuessRow = {
+      coach: guessCoach,
+      cells: {
+        name: { value: guessCoach.name, status: cells.name as CellStatus },
+        nationality: { value: guessCoach.nationality || '??', status: cells.nationality as CellStatus },
+        club: { value: guessCoach.club || '??', status: cells.club as CellStatus },
+        league: { value: guessCoach.league || '??', status: cells.league as CellStatus },
+        age: { value: String(guessCoach.age ?? '??'), status: cells.age.status as CellStatus, arrow: cells.age.arrow as 'up' | 'down' | null },
+      },
+    };
+
     const newGuesses = [...guesses, row];
     setGuesses(newGuesses);
 
@@ -78,27 +96,34 @@ export function useCoachGame() {
     if (row.cells.age.status === 'exact') newUnlocked.add('age');
     setUnlockedStats(newUnlocked);
 
-    // Check win/loss
-    const won = row.cells.name.status === 'exact';
+    const won = data.is_correct;
     const lost = !won && newGuesses.length >= maxGuesses;
     const newStatus: GameStatus = won ? 'won' : lost ? 'lost' : 'playing';
     setStatus(newStatus);
 
+    let revealedAnswer: Coach | null = null;
+    if (data.answer) {
+      revealedAnswer = data.answer as Coach;
+      setMysteryCoach(revealedAnswer);
+    }
+
     // Save round state
     const roundKey = 'footdle:round:coaches_daily';
     saveRoundState(roundKey, {
-      playerId: mysteryCoach.id,
+      dateSeed: seed,
       guesses: newGuesses as any,
       status: newStatus,
       unlockedStats: Array.from(newUnlocked),
+      answer: revealedAnswer || undefined,
     });
 
     if (won || lost) {
-      await recordGameResult('coaches_daily', mysteryCoach.id, newGuesses.length, won, user, refreshProfile, setShowBanner);
+      const answerId = revealedAnswer?.id || guessCoach.id;
+      await recordGameResult('coaches_daily', answerId, newGuesses.length, won, user, refreshProfile, setShowBanner);
     }
 
     return true;
-  }, [mysteryCoach, status, guesses, unlockedStats, maxGuesses, user, refreshProfile]);
+  }, [status, guesses, unlockedStats, maxGuesses, user, refreshProfile]);
 
   return {
     mysteryCoach,
@@ -111,57 +136,6 @@ export function useCoachGame() {
     showBanner,
     unlockedStats,
   };
-}
-
-function compareCoachGuess(guess: Coach, answer: Coach): CoachGuessRow {
-  const nameStatus: CellStatus = guess.name.toLowerCase().trim() === answer.name.toLowerCase().trim() ? 'exact' : 'none';
-
-  const nationalityStatus: CellStatus = compareWithClose(
-    guess.nationality, answer.nationality,
-    () => guess.continent === answer.continent && guess.continent !== null,
-  );
-
-  const clubStatus: CellStatus = compareWithClose(
-    guess.club, answer.club,
-    () => guess.league === answer.league && guess.league !== null,
-  );
-
-  const leagueStatus: CellStatus = compareWithClose(
-    guess.league, answer.league,
-    () => guess.nationality === answer.nationality && guess.nationality !== null,
-  );
-
-  const ageResult = compareNumber(guess.age, answer.age, 2);
-
-  return {
-    coach: guess,
-    cells: {
-      name: { value: guess.name, status: nameStatus },
-      nationality: { value: guess.nationality || '??', status: nationalityStatus },
-      club: { value: guess.club || '??', status: clubStatus },
-      league: { value: guess.league || '??', status: leagueStatus },
-      age: { value: String(guess.age ?? '??'), status: ageResult.status, arrow: ageResult.arrow },
-    },
-  };
-}
-
-function compareWithClose(
-  guess: string | null,
-  answer: string | null,
-  closeCheck: () => boolean,
-): CellStatus {
-  if (!guess || !answer) return 'none';
-  if (guess.toLowerCase().trim() === answer.toLowerCase().trim()) return 'exact';
-  return closeCheck() ? 'close' : 'none';
-}
-
-function compareNumber(guess: number | null, answer: number | null, closeThreshold: number): { status: CellStatus; arrow: 'up' | 'down' | null } {
-  if (guess == null || answer == null) return { status: 'none', arrow: null };
-  if (guess === answer) return { status: 'exact', arrow: null };
-  const diff = Math.abs(guess - answer);
-  const status: CellStatus = diff <= closeThreshold ? 'close' : 'none';
-  const arrow: 'up' | 'down' = answer > guess ? 'up' : 'down';
-  return { status, arrow };
 }
 
 async function recordGameResult(

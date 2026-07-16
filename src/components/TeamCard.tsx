@@ -3,7 +3,7 @@ import type { Team } from '../types/database';
 import { CARD_TIERS } from '../types/database';
 
 interface TeamCardProps {
-  team: Team;
+  team: Team | null;
   status: 'playing' | 'won' | 'lost';
   unlockedStats: Set<string>;
 }
@@ -39,7 +39,7 @@ export function TeamCard({ team, status, unlockedStats }: TeamCardProps) {
   }, []);
 
   const gameOver = status !== 'playing';
-  const showName = gameOver;
+  const showName = gameOver && team;
   const isRevealed = (stat: string) => gameOver || unlockedStats.has(stat);
 
   return (
@@ -67,7 +67,7 @@ export function TeamCard({ team, status, unlockedStats }: TeamCardProps) {
         )}
 
         <div className="absolute inset-0 z-0 bg-ink-deep flex items-center justify-center" style={{ clipPath: CLIP_PATH, overflow: 'hidden' }}>
-          {team.image_url ? (
+          {team?.image_url ? (
             <>
               {!showName && <div className="absolute inset-0" style={{ background: `linear-gradient(135deg, #222, #0a0e14)` }} />}
               <img
@@ -89,15 +89,15 @@ export function TeamCard({ team, status, unlockedStats }: TeamCardProps) {
 
         <div className="absolute top-0 left-0 z-20 p-5 pl-6 flex flex-col items-start gap-2" style={{ width: '45%' }}>
           <div className="font-display text-5xl leading-none text-white text-glow-gold">
-            {isRevealed('overall') ? team.overall : '??'}
+            {isRevealed('overall') && team ? team.overall : '??'}
           </div>
           <div className="font-display text-xl leading-none text-gold mt-1">
-            {isRevealed('league') ? (team.league?.slice(0,3) || '???') : '???'}
+            {isRevealed('league') && team ? (team.league?.slice(0,3) || '???') : '???'}
           </div>
           
           <div className="flex flex-col gap-1.5 mt-2">
             <div className="w-10 h-7 rounded-sm overflow-hidden border border-ink-border bg-ink-deep flex items-center justify-center">
-              {isRevealed('country') ? (
+              {isRevealed('country') && team ? (
                 <span className="font-label text-xs text-slate-300">{team.country?.slice(0, 3).toUpperCase() || '???'}</span>
               ) : (
                 <span className="font-label text-xs text-slate-600">???</span>
@@ -110,9 +110,9 @@ export function TeamCard({ team, status, unlockedStats }: TeamCardProps) {
           {showName ? (
             <>
               <div className="font-display text-3xl leading-none uppercase text-center text-white mb-2" style={{ textShadow: '0 2px 8px rgba(0,0,0,0.8)' }}>
-                {team.name}
+                {team!.name}
               </div>
-              <div className="font-label text-[10px] uppercase text-center text-gold">{team.stadium || 'Unknown Stadium'}</div>
+              <div className="font-label text-[10px] uppercase text-center text-gold">{team!.stadium || 'Unknown Stadium'}</div>
             </>
           ) : (
             <div className="font-display text-3xl leading-none text-center text-slate-600">???</div>
