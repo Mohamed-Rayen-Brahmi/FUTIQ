@@ -4,6 +4,7 @@ import type { Player, GuessRow, GameMode, GameStatus, CellStatus } from '../type
 import { MAX_GUESSES, getDailySeed } from '../lib/constants';
 import { useAuth } from '../auth/AuthContext';
 import { loadGuestState, updateGuestAfterGame, loadRoundState, saveRoundState, clearRoundState } from '../lib/guest';
+import { calculateScore } from '../lib/scoring';
 
 // Daily, Training, and Unlimited all cap at MAX_GUESSES (8).
 function maxGuessesForMode(mode: GameMode): number | null {
@@ -182,7 +183,8 @@ export function useGame(mode: GameMode) {
 
       if (won || lost) {
         const answerId = revealedAnswer?.id || guessPlayer.id;
-        await recordGameResult(mode, answerId, newGuesses.length, won, user, refreshProfile, setShowBanner);
+        const score = calculateScore(mode, won, newGuesses.length, newUnlocked);
+        await recordGameResult(mode, answerId, newGuesses.length, won, score, user, refreshProfile, setShowBanner);
       }
 
       return true;
@@ -217,7 +219,8 @@ export function useGame(mode: GameMode) {
       });
 
       if (won || lost) {
-        await recordGameResult(mode, mysteryPlayer.id, newGuesses.length, won, user, refreshProfile, setShowBanner);
+        const score = calculateScore(mode, won, newGuesses.length, newUnlocked);
+        await recordGameResult(mode, mysteryPlayer.id, newGuesses.length, won, score, user, refreshProfile, setShowBanner);
       }
 
       return true;
@@ -256,7 +259,8 @@ export function useGame(mode: GameMode) {
 
     const entityId = mysteryPlayer?.id || '';
     if (entityId) {
-      await recordGameResult(mode, entityId, guesses.length, false, user, refreshProfile, setShowBanner);
+      const score = calculateScore(mode, false, guesses.length, unlockedStats);
+      await recordGameResult(mode, entityId, guesses.length, false, score, user, refreshProfile, setShowBanner);
     }
   }, [mysteryPlayer, status, guesses, unlockedStats, mode, isDaily, user, profile, refreshProfile]);
 
@@ -363,6 +367,7 @@ async function recordGameResult(
   playerId: string,
   guessesUsed: number,
   won: boolean,
+  score: number,
   user: { id: string } | null,
   refreshProfile: () => void,
   setShowBanner: (v: boolean) => void,
@@ -374,6 +379,7 @@ async function recordGameResult(
         p_guesses_used: guessesUsed,
         p_won: won,
         p_mode: mode,
+        p_score: score,
       });
       if (error) throw error;
       refreshProfile();

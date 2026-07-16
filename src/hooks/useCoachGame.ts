@@ -4,6 +4,7 @@ import type { Coach, CoachGuessRow, GameStatus, CellStatus } from '../types/data
 import { MAX_GUESSES, getDailySeed } from '../lib/constants';
 import { useAuth } from '../auth/AuthContext';
 import { loadGuestState, updateGuestAfterGame, loadRoundState, saveRoundState } from '../lib/guest';
+import { calculateScore } from '../lib/scoring';
 
 export function useCoachGame() {
   const { user, profile, refreshProfile } = useAuth();
@@ -127,7 +128,8 @@ export function useCoachGame() {
 
     if (won || lost) {
       const answerId = revealedAnswer?.id || guessCoach.id;
-      await recordGameResult('coaches_daily', answerId, newGuesses.length, won, user, refreshProfile, setShowBanner);
+      const score = calculateScore('coaches_daily', won, newGuesses.length, newUnlocked);
+      await recordGameResult('coaches_daily', answerId, newGuesses.length, won, score, user, refreshProfile, setShowBanner);
     }
 
     return true;
@@ -151,6 +153,7 @@ async function recordGameResult(
   entityId: string,
   guessesUsed: number,
   won: boolean,
+  score: number,
   user: { id: string } | null,
   refreshProfile: () => void,
   setShowBanner: (v: boolean) => void,
@@ -162,6 +165,7 @@ async function recordGameResult(
         p_guesses_used: guessesUsed,
         p_won: won,
         p_mode: mode,
+        p_score: score,
       });
       if (error) throw error;
       refreshProfile();

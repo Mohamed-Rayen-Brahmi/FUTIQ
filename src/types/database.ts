@@ -154,6 +154,7 @@ export interface RankingRow {
   username: string;
   wins: number;
   best_streak: number;
+  total_score: number;
 }
 
 export type GameMode = 'daily' | 'unlimited' | 'coaches_daily' | 'teams_daily';

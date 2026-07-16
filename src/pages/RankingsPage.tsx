@@ -85,6 +85,9 @@ export function RankingsPage() {
                 <th className="px-4 py-3 font-label text-xs uppercase tracking-wider text-slate-500 text-left">
                   Username
                 </th>
+                <th className="px-4 py-3 font-label text-xs uppercase tracking-wider text-slate-500 text-center w-28">
+                  Total Score
+                </th>
                 <th className="px-4 py-3 font-label text-xs uppercase tracking-wider text-slate-500 text-center w-24">
                   Wins
                 </th>
@@ -111,7 +114,10 @@ export function RankingsPage() {
                   <td className="px-4 py-3 font-body text-sm text-slate-200">
                     {row.username || 'Anonymous'}
                   </td>
-                  <td className="px-4 py-3 font-display text-lg text-gold text-center">
+                  <td className="px-4 py-3 font-display text-lg text-gold text-center font-bold">
+                    {row.total_score}
+                  </td>
+                  <td className="px-4 py-3 font-display text-lg text-slate-300 text-center">
                     {row.wins}
                   </td>
                   <td className="px-4 py-3 font-display text-lg text-match-green text-center">
