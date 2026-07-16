@@ -32,12 +32,20 @@ export function useTeamGame() {
           setGuesses(saved.guesses as unknown as TeamGuessRow[]);
           setStatus(saved.status);
           if (saved.unlockedStats) setUnlockedStats(new Set(saved.unlockedStats));
-          if (saved.answer) setMysteryTeam(saved.answer as Team);
+          if (saved.answer) {
+            setMysteryTeam(saved.answer as Team);
+          } else {
+            // Fetch just the image for ongoing games
+            const { data: imgUrl } = await supabase.rpc('get_daily_team_image', { date_seed: seed });
+            setMysteryTeam({ image_url: imgUrl } as Team);
+          }
         } else {
           setGuesses([]);
           setStatus('playing');
           setUnlockedStats(new Set());
-          setMysteryTeam(null);
+          // Fetch just the image for new games
+          const { data: imgUrl } = await supabase.rpc('get_daily_team_image', { date_seed: seed });
+          setMysteryTeam({ image_url: imgUrl } as Team);
         }
       } catch (err) {
         if (!cancelled) setError(err instanceof Error ? err.message : 'Failed to load game');

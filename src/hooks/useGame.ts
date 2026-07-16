@@ -42,12 +42,20 @@ export function useGame(mode: GameMode) {
             setGuesses(saved.guesses as GuessRow[]);
             setStatus(saved.status);
             if (saved.unlockedStats) setUnlockedStats(new Set(saved.unlockedStats));
-            if (saved.answer) setMysteryPlayer(saved.answer as Player);
+            if (saved.answer) {
+              setMysteryPlayer(saved.answer as Player);
+            } else {
+              // Fetch just the image for ongoing games
+              const { data: imgUrl } = await supabase.rpc('get_daily_player_image', { date_seed: seed });
+              setMysteryPlayer({ image_url: imgUrl } as Player);
+            }
           } else {
             setGuesses([]);
             setStatus('playing');
             setUnlockedStats(new Set());
-            setMysteryPlayer(null);
+            // Fetch just the image for new games
+            const { data: imgUrl } = await supabase.rpc('get_daily_player_image', { date_seed: seed });
+            setMysteryPlayer({ image_url: imgUrl } as Player);
           }
         } else {
           // UNLIMITED MODE: Client-side comparison (practice, no rankings)

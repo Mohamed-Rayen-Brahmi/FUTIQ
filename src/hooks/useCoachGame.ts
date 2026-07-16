@@ -32,12 +32,20 @@ export function useCoachGame() {
           setGuesses(saved.guesses as unknown as CoachGuessRow[]);
           setStatus(saved.status);
           if (saved.unlockedStats) setUnlockedStats(new Set(saved.unlockedStats));
-          if (saved.answer) setMysteryCoach(saved.answer as Coach);
+          if (saved.answer) {
+            setMysteryCoach(saved.answer as Coach);
+          } else {
+            // Fetch just the image for ongoing games
+            const { data: imgUrl } = await supabase.rpc('get_daily_coach_image', { date_seed: seed });
+            setMysteryCoach({ image_url: imgUrl } as Coach);
+          }
         } else {
           setGuesses([]);
           setStatus('playing');
           setUnlockedStats(new Set());
-          setMysteryCoach(null);
+          // Fetch just the image for new games
+          const { data: imgUrl } = await supabase.rpc('get_daily_coach_image', { date_seed: seed });
+          setMysteryCoach({ image_url: imgUrl } as Coach);
         }
       } catch (err) {
         if (!cancelled) setError(err instanceof Error ? err.message : 'Failed to load game');
