@@ -1,7 +1,7 @@
 -- 20260716_server_side_images.sql
 
 -- Player Image
-CREATE OR REPLACE FUNCTION get_daily_player_image(date_seed integer)
+CREATE OR REPLACE FUNCTION get_daily_player_image(date_seed bigint)
 RETURNS text
 LANGUAGE plpgsql
 SECURITY DEFINER
@@ -23,7 +23,7 @@ END;
 $$;
 
 -- Coach Image
-CREATE OR REPLACE FUNCTION get_daily_coach_image(date_seed integer)
+CREATE OR REPLACE FUNCTION get_daily_coach_image(date_seed bigint)
 RETURNS text
 LANGUAGE plpgsql
 SECURITY DEFINER
@@ -45,7 +45,7 @@ END;
 $$;
 
 -- Team Image
-CREATE OR REPLACE FUNCTION get_daily_team_image(date_seed integer)
+CREATE OR REPLACE FUNCTION get_daily_team_image(date_seed bigint)
 RETURNS text
 LANGUAGE plpgsql
 SECURITY DEFINER
@@ -67,6 +67,9 @@ END;
 $$;
 
 -- Grant permissions to both anonymous and authenticated users
-GRANT EXECUTE ON FUNCTION get_daily_player_image(integer) TO anon, authenticated;
-GRANT EXECUTE ON FUNCTION get_daily_coach_image(integer) TO anon, authenticated;
-GRANT EXECUTE ON FUNCTION get_daily_team_image(integer) TO anon, authenticated;
+GRANT EXECUTE ON FUNCTION get_daily_player_image(bigint) TO anon, authenticated;
+GRANT EXECUTE ON FUNCTION get_daily_coach_image(bigint) TO anon, authenticated;
+GRANT EXECUTE ON FUNCTION get_daily_team_image(bigint) TO anon, authenticated;
+
+-- Force Supabase API to reload its schema cache
+NOTIFY pgrst, 'reload schema';
