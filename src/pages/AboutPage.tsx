@@ -34,8 +34,7 @@ export function AboutPage() {
           <span className="text-gold font-semibold">Daily:</span> The classic mode. Everyone gets the same mystery player each day. 8 guesses.
         </p>
         <p className="font-body text-slate-400 mb-2">
-          <span className="text-cta font-semibold">Unlimited:</span> Random players with no guess cap — keep guessing
-          until you get it. Great for practice!
+          <span className="text-cta font-semibold">Unlimited:</span> Random players. You still have 8 guesses per game, but there is no limit to how many games you can play in a day! Great for practice.
         </p>
         <p className="font-body text-slate-400 mb-2">
           <span className="text-match-green font-semibold">Coaches:</span> Guess the mystery manager based on their nationality, club, league, and age.

@@ -7,6 +7,7 @@ import { AdBanner } from '../components/AdBanner';
 import { PlayerGame } from '../components/PlayerGame';
 import { CoachGame } from '../components/CoachGame';
 import { TeamGame } from '../components/TeamGame';
+import { CountdownTimer } from '../components/ui/CountdownTimer';
 
 export function GamePage() {
   const [mode, setMode] = useState<GameMode>('daily');
@@ -62,6 +63,11 @@ export function GamePage() {
         <SkewBadge color="gold">
           {modeLabel} Mode
         </SkewBadge>
+        {mode.includes('daily') && (
+          <SkewBadge color="ink">
+            Next in <CountdownTimer />
+          </SkewBadge>
+        )}
         {user ? (
           <>
             <SkewBadge color="green">Streak: {profile?.streak ?? 0}</SkewBadge>
