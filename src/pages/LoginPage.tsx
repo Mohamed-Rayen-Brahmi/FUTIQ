@@ -33,7 +33,7 @@ export function LoginPage() {
 
   return (
     <div className="max-w-md mx-auto px-4 py-16">
-      <h1 className="font-display text-5xl text-gold text-center mb-2 text-glow-gold">FUTIQ</h1>
+      <h1 className="font-display text-5xl text-gold text-center mb-2 text-glow-gold">GOLAZIO</h1>
       <p className="font-label text-sm uppercase tracking-widest text-slate-500 text-center mb-8">Sign In</p>
 
       <Panel className="p-6">

@@ -5,7 +5,7 @@ export function Footer() {
     <footer className="mt-auto py-8 border-t border-ink-border bg-ink-base/50">
       <div className="max-w-5xl mx-auto px-4 flex flex-col md:flex-row items-center justify-between gap-4">
         <div className="flex flex-col md:flex-row items-center gap-4 text-sm text-slate-500 font-label uppercase tracking-wide">
-          <span>&copy; {new Date().getFullYear()} FutIQ</span>
+          <span>&copy; {new Date().getFullYear()} Golazio</span>
         </div>
         
         <nav className="flex items-center gap-6">

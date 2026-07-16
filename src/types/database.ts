@@ -168,5 +168,5 @@ export interface GuestState {
   hasSeenBanner: boolean;
 }
 
-export const GUEST_KEY = 'footdle:guest';
-export const ROUND_KEY_PREFIX = 'footdle:round';
+export const GUEST_KEY = 'golazio:guest';
+export const ROUND_KEY_PREFIX = 'golazio:round';

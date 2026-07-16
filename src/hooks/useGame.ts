@@ -37,7 +37,7 @@ export function useGame(mode: GameMode) {
           // DAILY MODE: Server-side checking — do NOT fetch the answer.
           // Just restore saved round state if available.
           const seed = getDailySeed();
-          const roundKey = `footdle:round:${mode}`;
+          const roundKey = `golazio:round:${mode}`;
           const saved = loadRoundState(roundKey);
           if (saved && saved.dateSeed === seed) {
             setGuesses(saved.guesses as GuessRow[]);
@@ -82,7 +82,7 @@ export function useGame(mode: GameMode) {
           setMysteryPlayer(player);
 
           // Try to restore in-progress round from localStorage
-          const roundKey = `footdle:round:${mode}`;
+          const roundKey = `golazio:round:${mode}`;
           const saved = loadRoundState(roundKey);
           if (saved && saved.playerId === player.id) {
             setGuesses(saved.guesses as GuessRow[]);
@@ -172,7 +172,7 @@ export function useGame(mode: GameMode) {
       }
 
       // Save round state
-      const roundKey = `footdle:round:${mode}`;
+      const roundKey = `golazio:round:${mode}`;
       saveRoundState(roundKey, {
         dateSeed: getDailySeed(),
         guesses: newGuesses,
@@ -210,7 +210,7 @@ export function useGame(mode: GameMode) {
       const newStatus: GameStatus = won ? 'won' : lost ? 'lost' : 'playing';
       setStatus(newStatus);
 
-      const roundKey = `footdle:round:${mode}`;
+      const roundKey = `golazio:round:${mode}`;
       saveRoundState(roundKey, {
         playerId: mysteryPlayer.id,
         guesses: newGuesses,
@@ -247,7 +247,7 @@ export function useGame(mode: GameMode) {
     const newStatus: GameStatus = 'lost';
     setStatus(newStatus);
 
-    const roundKey = `footdle:round:${mode}`;
+    const roundKey = `golazio:round:${mode}`;
     saveRoundState(roundKey, {
       dateSeed: isDaily ? getDailySeed() : undefined,
       playerId: !isDaily ? mysteryPlayer?.id : undefined,
@@ -265,7 +265,7 @@ export function useGame(mode: GameMode) {
   }, [mysteryPlayer, status, guesses, unlockedStats, mode, isDaily, user, profile, refreshProfile]);
 
   const reset = useCallback(() => {
-    const roundKey = `footdle:round:${mode}`;
+    const roundKey = `golazio:round:${mode}`;
     clearRoundState(roundKey);
     setGuesses([]);
     setStatus('playing');

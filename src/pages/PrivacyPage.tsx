@@ -10,11 +10,11 @@ export function PrivacyPage() {
       <Panel className="p-6 mb-4">
         <h2 className="font-display text-2xl text-slate-200 mb-3">Local Storage & Cookies</h2>
         <p className="font-body text-slate-400 mb-3">
-          FutIQ stores game state in your browser's localStorage so you don't lose your progress if you refresh the page:
+          Golazio stores game state in your browser's localStorage so you don't lose your progress if you refresh the page:
         </p>
         <ul className="font-body text-slate-400 list-disc list-inside space-y-1 mb-3">
-          <li><code className="text-gold">footdle:guest</code> — guest streak, games played/won, kept locally on your device.</li>
-          <li><code className="text-gold">footdle:round:*</code> — in-progress round states for Daily, Unlimited, Coaches, and Teams modes.</li>
+          <li><code className="text-gold">golazio:guest</code> — guest streak, games played/won, kept locally on your device.</li>
+          <li><code className="text-gold">golazio:round:*</code> — in-progress round states for Daily, Unlimited, Coaches, and Teams modes.</li>
         </ul>
         <p className="font-body text-slate-400">
           When you create an account, your guest data is migrated to your profile and securely saved to our database.
@@ -44,7 +44,7 @@ export function PrivacyPage() {
       <Panel className="p-6">
         <h2 className="font-display text-2xl text-slate-200 mb-3">Image Attribution</h2>
         <p className="font-body text-slate-400">
-          Player, coach, and team images are loaded from external CDNs and databases. FutIQ does not claim ownership of any player likeness, club crest, or EA Sports FC 24 statistics. All trademarks and copyrights are the property of their respective owners.
+          Player, coach, and team images are loaded from external CDNs and databases. Golazio does not claim ownership of any player likeness, club crest, or EA Sports FC 24 statistics. All trademarks and copyrights are the property of their respective owners.
         </p>
       </Panel>
     </div>

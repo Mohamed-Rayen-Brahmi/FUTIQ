@@ -123,7 +123,7 @@ export async function generateShareImage({ mode, guesses, maxGuesses, won, playe
   ctx.fillStyle = '#d8b458';
   ctx.font = '36px "Space Grotesk", sans-serif';
   ctx.fillStyle = '#d8b458';
-  ctx.fillText('FUTIQ', width / 2, 52);
+  ctx.fillText('GOLAZIO', width / 2, 52);
 
   ctx.fillStyle = '#94a3b8';
   ctx.font = '600 15px Arial, sans-serif';
@@ -266,7 +266,7 @@ export async function generateShareImage({ mode, guesses, maxGuesses, won, playe
   ctx.fillStyle = '#5a6272';
   ctx.font = '20px "Inter", sans-serif';
   ctx.fillStyle = '#64748b';
-  ctx.fillText('Guess the footballer - futiq', width / 2, height - 22);
+  ctx.fillText('Guess the footballer - golazio', width / 2, height - 22);
 
   return new Promise((resolve, reject) => {
     try {
@@ -283,8 +283,8 @@ export async function generateShareImage({ mode, guesses, maxGuesses, won, playe
 /** Wordle-style emoji grid + result summary, safe to paste into any text field. */
 export function buildShareText({ mode, guesses, maxGuesses, won }: Omit<ShareOptions, 'player'>): string {
   const text = won
-    ? `FUTIQ - ${MODE_LABEL[mode]}\nSolved in ${guesses.length}${maxGuesses ? `/${maxGuesses}` : ''} 🎯`
-    : `FUTIQ - ${MODE_LABEL[mode]}\nNot solved${maxGuesses ? ` (${maxGuesses}/${maxGuesses})` : ''} ❌`;
+    ? `GOLAZIO - ${MODE_LABEL[mode]}\nSolved in ${guesses.length}${maxGuesses ? `/${maxGuesses}` : ''} 🎯`
+    : `GOLAZIO - ${MODE_LABEL[mode]}\nNot solved${maxGuesses ? ` (${maxGuesses}/${maxGuesses})` : ''} ❌`;
 
   const columns: (keyof GuessRow['cells'])[] = ['name', 'nation', 'league', 'club', 'position', 'age', 'shirt'];
   const grid = guesses
@@ -309,7 +309,7 @@ function downloadImage(blob: Blob): void {
   const url = URL.createObjectURL(blob);
   const a = document.createElement('a');
   a.href = url;
-  a.download = 'futiq-result.png';
+  a.download = 'golazio-result.png';
   document.body.appendChild(a);
   a.click();
   document.body.removeChild(a);
@@ -338,11 +338,11 @@ export async function shareResult(platform: SharePlatform, options: ShareOptions
   const text = buildShareText(options);
 
   if (platform === 'instagram') {
-    const file = new File([blob], 'futiq-result.png', { type: 'image/png' });
+    const file = new File([blob], 'golazio-result.png', { type: 'image/png' });
     const nav = navigator as Navigator & { canShare?: (data?: ShareData) => boolean; share?: (data: ShareData) => Promise<void> };
     if (nav.share && nav.canShare && nav.canShare({ files: [file] })) {
       try {
-        await nav.share({ files: [file], title: 'FutIQ', text });
+        await nav.share({ files: [file], title: 'Golazio', text });
         return 'shared';
       } catch {
         // fall through to download

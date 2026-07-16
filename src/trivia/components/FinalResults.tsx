@@ -97,7 +97,7 @@ export function FinalResults({ participants, mySessionId, roomCode }: FinalResul
         <Link to="/">
           <button className="skew-parallelogram bg-gold text-ink-base font-label font-semibold uppercase tracking-wide px-6 py-2.5 hover:bg-gold-light transition-colors duration-200">
             <span className="skew-inner flex items-center gap-2">
-              <RotateCcw size={15} /> Play FutIQ
+              <RotateCcw size={15} /> Play Golazio
             </span>
           </button>
         </Link>

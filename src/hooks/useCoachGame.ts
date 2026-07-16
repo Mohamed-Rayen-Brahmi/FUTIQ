@@ -26,7 +26,7 @@ export function useCoachGame() {
       setError(null);
       try {
         const seed = getDailySeed();
-        const roundKey = 'footdle:round:coaches_daily';
+        const roundKey = 'golazio:round:coaches_daily';
         const saved = loadRoundState(roundKey);
         
         if (saved && saved.dateSeed === seed) {
@@ -117,7 +117,7 @@ export function useCoachGame() {
     }
 
     // Save round state
-    const roundKey = 'footdle:round:coaches_daily';
+    const roundKey = 'golazio:round:coaches_daily';
     saveRoundState(roundKey, {
       dateSeed: seed,
       guesses: newGuesses as any,

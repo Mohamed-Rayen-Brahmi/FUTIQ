@@ -3,12 +3,12 @@ import { Panel } from '../components/ui';
 export function AboutPage() {
   return (
     <div className="max-w-2xl mx-auto px-4 py-8">
-      <h1 className="font-display text-4xl text-gold mb-6">About FutIQ</h1>
+      <h1 className="font-display text-4xl text-gold mb-6">About Golazio</h1>
 
       <Panel className="p-6 mb-4">
         <h2 className="font-display text-2xl text-slate-200 mb-3">How to Play</h2>
         <p className="font-body text-slate-400 mb-4">
-          FutIQ is a guessing game where you identify a mystery footballer, coach, or team through 
+          Golazio is a guessing game where you identify a mystery footballer, coach, or team through 
           color-coded attribute feedback. You have 8 guesses per round.
         </p>
         <p className="font-body text-slate-400 mb-3">
@@ -52,7 +52,7 @@ export function AboutPage() {
         <h2 className="font-display text-2xl text-slate-200 mb-3">Data & Assets</h2>
         <p className="font-body text-slate-400">
           Player, coach, and team stats are based on the EA Sports FC 24 database. 
-          Photos and logos are sourced externally. FutIQ is an unofficial, fan-made game and is not affiliated with or endorsed by EA Sports or any football club.
+          Photos and logos are sourced externally. Golazio is an unofficial, fan-made game and is not affiliated with or endorsed by EA Sports or any football club.
         </p>
       </Panel>
     </div>

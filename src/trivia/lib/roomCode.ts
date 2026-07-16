@@ -24,7 +24,7 @@ export function normaliseRoomCode(s: string): string {
 // It persists across browser tabs and reloads.
 // ─────────────────────────────────────────────────────────────────────────────
 
-const SESSION_KEY = 'footdle:trivia-session-id';
+const SESSION_KEY = 'golazio:trivia-session-id';
 
 export function getOrCreateSessionId(): string {
   let id = localStorage.getItem(SESSION_KEY);

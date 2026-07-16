@@ -12,7 +12,7 @@ export function Navbar() {
       <div className="max-w-5xl mx-auto px-4 h-14 flex items-center justify-between">
         <Link to="/" className="flex items-center gap-2">
           <span className="font-display text-3xl leading-none text-gold text-glow-gold tracking-tight">
-            FUTIQ
+            GOLAZIO
           </span>
         </Link>
 
