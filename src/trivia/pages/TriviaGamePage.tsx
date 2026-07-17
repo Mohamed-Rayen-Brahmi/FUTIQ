@@ -160,7 +160,7 @@ export function TriviaGamePage() {
               phaseEndsAt={currentRound.phase_ends_at}
               totalSeconds={VOTING_SECONDS}
               onVote={handleVote}
-              myVoteId={myVoteId || votes.find(v => v.voter_session_id === mySessionId)?.option_id || null}
+              selectedOptionId={myVoteId || votes.find(v => v.voter_session_id === mySessionId)?.option_id || null}
               mySessionId={mySessionId}
               participantCount={participants.length}
               votedCount={votes.length}
