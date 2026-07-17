@@ -3,7 +3,7 @@ import { supabase } from '../lib/supabase';
 import type { Player, GuessRow, GameMode, GameStatus, CellStatus } from '../types/database';
 import { MAX_GUESSES, getDailySeed } from '../lib/constants';
 import { useAuth } from '../auth/AuthContext';
-import { loadGuestState, updateGuestAfterGame, loadRoundState, saveRoundState, clearRoundState } from '../lib/guest';
+import { loadGuestState, updateGuestAfterGame, loadRoundState, saveRoundState, clearRoundState, logGuestGame } from '../lib/guest';
 import { calculateScore } from '../lib/scoring';
 
 // Daily, Training, and Unlimited all cap at MAX_GUESSES (8).
@@ -387,6 +387,7 @@ async function recordGameResult(
     }
   } else {
     updateGuestAfterGame(won, mode);
+    logGuestGame({ playerId, guessesUsed, won, mode, score });
     const guest = loadGuestState();
     if (!guest.hasSeenBanner) setShowBanner(true);
   }

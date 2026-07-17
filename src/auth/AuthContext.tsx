@@ -42,7 +42,22 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
 
         if (newSession?.user) {
           // Migrate guest data on first login
+          const { loadGuestHistory, clearGuestHistory, migrateGuestToAccount } = await import('../lib/guest');
           await migrateGuestToAccount(newSession.user.id);
+          
+          const history = loadGuestHistory();
+          if (history.length > 0) {
+            for (const log of history) {
+              await supabase.rpc('record_game_result', {
+                p_player_id: log.playerId,
+                p_guesses_used: log.guessesUsed,
+                p_won: log.won,
+                p_mode: log.mode,
+                p_score: log.score
+              });
+            }
+            clearGuestHistory();
+          }
 
           // Load profile
           const { data } = await supabase

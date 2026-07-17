@@ -3,7 +3,7 @@ import { supabase } from '../lib/supabase';
 import type { Team, TeamGuessRow, GameStatus, CellStatus } from '../types/database';
 import { MAX_GUESSES, getDailySeed } from '../lib/constants';
 import { useAuth } from '../auth/AuthContext';
-import { loadGuestState, updateGuestAfterGame, loadRoundState, saveRoundState } from '../lib/guest';
+import { loadGuestState, updateGuestAfterGame, loadRoundState, saveRoundState, clearRoundState, logGuestGame } from '../lib/guest';
 import { calculateScore } from '../lib/scoring';
 
 export function useTeamGame() {
@@ -178,6 +178,7 @@ async function recordGameResult(
     }
   } else {
     updateGuestAfterGame(won, mode as any);
+    logGuestGame({ playerId: entityId, guessesUsed, won, mode, score });
     const guest = loadGuestState();
     if (!guest.hasSeenBanner) setShowBanner(true);
   }

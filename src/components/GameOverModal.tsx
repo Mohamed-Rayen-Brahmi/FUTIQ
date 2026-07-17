@@ -1,19 +1,19 @@
 import { useState } from 'react';
 import { X, Facebook, Instagram, Check, Download, Clipboard } from 'lucide-react';
-import type { Player, GuessRow, GameMode, GameStatus } from '../types/database';
-import { PlayerCard } from './PlayerCard';
+import type { GameMode, GameStatus } from '../types/database';
 import { SkewButton } from './ui';
 import { shareResult, type SharePlatform, type ShareOutcome } from '../lib/shareImage';
 
 interface GameOverModalProps {
-  player: Player;
-  guesses: GuessRow[];
+  answerName: string;
+  guessesCount: number;
   maxGuesses: number | null;
   status: GameStatus;
   mode: GameMode;
-  unlockedStats: Set<string>;
   onClose: () => void;
   onPlayAgain?: () => void;
+  children: React.ReactNode; // The card to render (PlayerCard, CoachCard, etc)
+  sharePayload?: any; // Only supported for Players currently
 }
 
 const OUTCOME_LABEL: Record<ShareOutcome, string> = {
@@ -30,11 +30,6 @@ const OUTCOME_ICON: Record<ShareOutcome, typeof Check> = {
   error: X,
 };
 
-// Set expectations *before* the platform opens and the person's focus jumps
-// away — none of these platforms let an outside site auto-attach an image
-// (that's a deliberate cross-site security restriction, not something any
-// amount of code here can work around), so the best honest UX is telling
-// people exactly what manual step is coming next.
 const PRE_SHARE_NOTE: Record<SharePlatform, string> = {
   x: 'Opens X with your result text pre-filled. The image copies to your clipboard — click into the post box and press Ctrl+V (Cmd+V on Mac) to add it.',
   facebook: "Facebook's share window can't accept pre-filled text or images from other sites, so it opens blank. The image copies to your clipboard — paste it with Ctrl+V (Cmd+V), then add your own caption.",
@@ -42,14 +37,15 @@ const PRE_SHARE_NOTE: Record<SharePlatform, string> = {
 };
 
 export function GameOverModal({
-  player,
-  guesses,
+  answerName,
+  guessesCount,
   maxGuesses,
   status,
   mode,
-  unlockedStats,
   onClose,
   onPlayAgain,
+  children,
+  sharePayload,
 }: GameOverModalProps) {
   const [pending, setPending] = useState<SharePlatform | null>(null);
   const [lastOutcome, setLastOutcome] = useState<{ platform: SharePlatform; outcome: ShareOutcome } | null>(null);
@@ -57,19 +53,17 @@ export function GameOverModal({
   const won = status === 'won';
 
   const runShare = async (platform: SharePlatform) => {
+    if (!sharePayload) return;
     setConfirming(null);
     setPending(platform);
     setLastOutcome(null);
     try {
-      const outcome = await shareResult(platform, { mode, guesses, maxGuesses, won, player });
+      const outcome = await shareResult(platform, sharePayload);
       setLastOutcome({ platform, outcome });
     } catch {
       setLastOutcome({ platform, outcome: 'error' });
     } finally {
       setPending(null);
-      // Outcome stays visible until the person shares again or closes the
-      // modal — no auto-dismiss, since "paste it manually" is an instruction
-      // they need time to act on, not a transient status update.
     }
   };
 
@@ -80,11 +74,11 @@ export function GameOverModal({
 
   return (
     <div
-      className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/70 backdrop-blur-sm animate-fade-in"
+      className={`fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/70 backdrop-blur-sm transition-opacity duration-300 ${won ? 'animate-[pulse_1s_ease-in-out]' : 'animate-fade-in'}`}
       onClick={onClose}
     >
       <div
-        className="relative w-full max-w-sm panel-surface p-6 flex flex-col items-center gap-4"
+        className="relative w-full max-w-sm panel-surface p-6 flex flex-col items-center gap-4 animate-slide-up"
         onClick={(e) => e.stopPropagation()}
       >
         <button
@@ -95,109 +89,114 @@ export function GameOverModal({
           <X size={20} />
         </button>
 
-        <p className="font-display text-3xl text-gold text-center">
+        {/* Win Animation Container */}
+        {won && (
+          <div className="absolute -top-10 left-1/2 -translate-x-1/2 w-full h-full pointer-events-none flex justify-center items-start overflow-visible">
+             <div className="text-4xl animate-bounce">🎉🏆🎉</div>
+          </div>
+        )}
+
+        <p className={`font-display text-3xl text-center ${won ? 'text-match-green animate-pulse' : 'text-gold'}`}>
           {won ? 'Correct!' : 'Game Over'}
         </p>
         <p className="font-body text-sm text-slate-400 text-center -mt-2">
-          The answer was <span className="text-slate-200 font-semibold">{player.name}</span>
-          {maxGuesses !== null ? ` — ${guesses.length}/${maxGuesses} guesses` : ` — ${guesses.length} guesses`}
+          The answer was <span className="text-slate-200 font-semibold">{answerName}</span>
+          {maxGuesses !== null ? ` — ${guessesCount}/${maxGuesses} guesses` : ` — ${guessesCount} guesses`}
         </p>
 
-        <PlayerCard
-          player={player}
-          status={status}
-          unlockedStats={unlockedStats}
-        />
+        {children}
 
-        <div className="w-full">
-          <p className="font-label text-xs uppercase tracking-wider text-slate-500 text-center mb-2">
-            Share Result
-          </p>
-          <div className="flex items-center justify-center gap-3">
-            <button
-              onClick={() => handleShare('x')}
-              disabled={pending !== null || confirming !== null}
-              className="w-12 h-12 rounded-full flex items-center justify-center bg-ink-deep border border-ink-border text-slate-200 hover:border-gold hover:text-gold transition-colors disabled:opacity-50"
-              aria-label="Share to X"
-            >
-              <X size={20} />
-            </button>
-            <button
-              onClick={() => handleShare('facebook')}
-              disabled={pending !== null || confirming !== null}
-              className="w-12 h-12 rounded-full flex items-center justify-center bg-ink-deep border border-ink-border text-slate-200 hover:border-gold hover:text-gold transition-colors disabled:opacity-50"
-              aria-label="Share to Facebook"
-            >
-              <Facebook size={20} />
-            </button>
-            <button
-              onClick={() => handleShare('instagram')}
-              disabled={pending !== null || confirming !== null}
-              className="w-12 h-12 rounded-full flex items-center justify-center bg-ink-deep border border-ink-border text-slate-200 hover:border-gold hover:text-gold transition-colors disabled:opacity-50"
-              aria-label="Share to Instagram"
-            >
-              <Instagram size={20} />
-            </button>
-          </div>
+        {sharePayload && (
+          <div className="w-full">
+            <p className="font-label text-xs uppercase tracking-wider text-slate-500 text-center mb-2">
+              Share Result
+            </p>
+            <div className="flex items-center justify-center gap-3">
+              <button
+                onClick={() => handleShare('x')}
+                disabled={pending !== null || confirming !== null}
+                className="w-12 h-12 rounded-full flex items-center justify-center bg-ink-deep border border-ink-border text-slate-200 hover:border-gold hover:text-gold transition-colors disabled:opacity-50"
+                aria-label="Share to X"
+              >
+                <X size={20} />
+              </button>
+              <button
+                onClick={() => handleShare('facebook')}
+                disabled={pending !== null || confirming !== null}
+                className="w-12 h-12 rounded-full flex items-center justify-center bg-ink-deep border border-ink-border text-slate-200 hover:border-gold hover:text-gold transition-colors disabled:opacity-50"
+                aria-label="Share to Facebook"
+              >
+                <Facebook size={20} />
+              </button>
+              <button
+                onClick={() => handleShare('instagram')}
+                disabled={pending !== null || confirming !== null}
+                className="w-12 h-12 rounded-full flex items-center justify-center bg-ink-deep border border-ink-border text-slate-200 hover:border-gold hover:text-gold transition-colors disabled:opacity-50"
+                aria-label="Share to Instagram"
+              >
+                <Instagram size={20} />
+              </button>
+            </div>
 
-          {confirming && (
-            <div className="mt-3 p-3 rounded-md bg-ink-deep border border-ink-border">
-              <p className="font-body text-xs text-slate-300 leading-relaxed">
-                {PRE_SHARE_NOTE[confirming]}
-              </p>
-              <div className="flex gap-2 mt-3">
-                <button
-                  onClick={() => setConfirming(null)}
-                  className="flex-1 font-label text-xs uppercase tracking-wide py-2 rounded text-slate-400 border border-ink-border hover:text-slate-200 transition-colors"
-                >
-                  Cancel
-                </button>
-                <button
-                  onClick={() => runShare(confirming)}
-                  className="flex-1 font-label text-xs uppercase tracking-wide py-2 rounded bg-gold text-ink-deep hover:brightness-110 transition-all"
-                >
-                  Continue
-                </button>
+            {confirming && (
+              <div className="mt-3 p-3 rounded-md bg-ink-deep border border-ink-border">
+                <p className="font-body text-xs text-slate-300 leading-relaxed">
+                  {PRE_SHARE_NOTE[confirming]}
+                </p>
+                <div className="flex gap-2 mt-3">
+                  <button
+                    onClick={() => setConfirming(null)}
+                    className="flex-1 font-label text-xs uppercase tracking-wide py-2 rounded text-slate-400 border border-ink-border hover:text-slate-200 transition-colors"
+                  >
+                    Cancel
+                  </button>
+                  <button
+                    onClick={() => runShare(confirming)}
+                    className="flex-1 font-label text-xs uppercase tracking-wide py-2 rounded bg-gold text-ink-deep hover:brightness-110 transition-all"
+                  >
+                    Continue
+                  </button>
+                </div>
               </div>
-            </div>
-          )}
+            )}
 
-          {(pending || lastOutcome) && (
-            <div className="mt-3 flex items-start justify-center gap-1.5">
-              <p className="font-body text-xs text-slate-300 text-center flex items-center gap-1.5">
-                {pending && 'Preparing image...'}
+            {(pending || lastOutcome) && (
+              <div className="mt-3 flex items-start justify-center gap-1.5">
+                <p className="font-body text-xs text-slate-300 text-center flex items-center gap-1.5">
+                  {pending && 'Preparing image...'}
+                  {!pending && lastOutcome && (
+                    <>
+                      {(() => {
+                        const Icon = OUTCOME_ICON[lastOutcome.outcome];
+                        return <Icon size={13} />;
+                      })()}
+                      {OUTCOME_LABEL[lastOutcome.outcome]}
+                    </>
+                  )}
+                </p>
                 {!pending && lastOutcome && (
-                  <>
-                    {(() => {
-                      const Icon = OUTCOME_ICON[lastOutcome.outcome];
-                      return <Icon size={13} />;
-                    })()}
-                    {OUTCOME_LABEL[lastOutcome.outcome]}
-                  </>
+                  <button
+                    onClick={() => setLastOutcome(null)}
+                    className="text-slate-600 hover:text-slate-400 transition-colors"
+                    aria-label="Dismiss"
+                  >
+                    <X size={12} />
+                  </button>
                 )}
-              </p>
-              {!pending && lastOutcome && (
-                <button
-                  onClick={() => setLastOutcome(null)}
-                  className="text-slate-600 hover:text-slate-400 transition-colors"
-                  aria-label="Dismiss"
-                >
-                  <X size={12} />
-                </button>
-              )}
-            </div>
-          )}
-        </div>
+              </div>
+            )}
+            
+            <p className="font-body text-[11px] text-slate-600 text-center mt-4">
+              The shared image shows your guess photo blurred — the answer stays hidden.
+            </p>
+          </div>
+        )}
 
-        {mode !== 'daily' && onPlayAgain && (
+        {mode !== 'daily' && mode !== 'coaches_daily' && mode !== 'teams_daily' && onPlayAgain && (
           <SkewButton variant="gold" onClick={onPlayAgain} className="w-full">
             Play Again
           </SkewButton>
         )}
-
-        <p className="font-body text-[11px] text-slate-600 text-center">
-          The shared image shows your guess photo blurred — the answer stays hidden.
-        </p>
       </div>
     </div>
   );

@@ -7,10 +7,26 @@ import { SkewButton, Panel, Spinner, EmptyState } from './ui';
 import { Link } from 'react-router-dom';
 import { AdBanner } from './AdBanner';
 import { useAuth } from '../auth/AuthContext';
+import { GameOverModal } from './GameOverModal';
 
 export function CoachGame() {
   const game = useCoachGame();
   const { user } = useAuth();
+  const [showModal, setShowModal] = useState(false);
+  const prevStatusRef = useRef(game.status);
+
+  useEffect(() => {
+    if (prevStatusRef.current === 'playing' && game.status !== 'playing') {
+      setShowModal(true);
+    }
+    prevStatusRef.current = game.status;
+  }, [game.status]);
+
+  useEffect(() => {
+    if (game.status === 'playing') {
+      setShowModal(false);
+    }
+  }, [game.status]);
 
   const guessedNames = useMemo(
     () => new Set(game.guesses.map(g => g.coach.name.toLowerCase())),
@@ -97,6 +113,31 @@ export function CoachGame() {
             </div>
           </div>
         </>
+      )}
+
+      {game.mysteryCoach && game.status !== 'playing' && !showModal && (
+        <div className="fixed bottom-6 right-6 z-40 animate-fade-in">
+          <SkewButton variant="gold" onClick={() => setShowModal(true)}>
+            View Results
+          </SkewButton>
+        </div>
+      )}
+
+      {showModal && game.mysteryCoach && game.status !== 'playing' && (
+        <GameOverModal
+          answerName={game.mysteryCoach.name}
+          guessesCount={game.guesses.length}
+          maxGuesses={game.maxGuesses}
+          status={game.status}
+          mode="coaches_daily"
+          onClose={() => setShowModal(false)}
+        >
+          <CoachCard
+            coach={game.mysteryCoach}
+            status={game.status}
+            unlockedStats={game.unlockedStats}
+          />
+        </GameOverModal>
       )}
     </>
   );

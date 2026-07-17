@@ -24,8 +24,10 @@ export function PlayerGame({ mode }: { mode: 'daily' | 'unlimited' }) {
   }, [game.status]);
 
   useEffect(() => {
-    setShowModal(false);
-  }, [mode, game.mysteryPlayer?.id]);
+    if (game.status === 'playing') {
+      setShowModal(false);
+    }
+  }, [mode, game.status]);
 
   const guessedNames = useMemo(
     () => new Set(game.guesses.map(g => g.player.name.toLowerCase())),
@@ -134,17 +136,37 @@ export function PlayerGame({ mode }: { mode: 'daily' | 'unlimited' }) {
         </>
       )}
 
+      {game.mysteryPlayer && game.status !== 'playing' && !showModal && (
+        <div className="fixed bottom-6 right-6 z-40 animate-fade-in">
+          <SkewButton variant="gold" onClick={() => setShowModal(true)}>
+            View Results
+          </SkewButton>
+        </div>
+      )}
+
       {showModal && game.mysteryPlayer && game.status !== 'playing' && (
         <GameOverModal
-          player={game.mysteryPlayer}
-          guesses={game.guesses}
+          answerName={game.mysteryPlayer.name}
+          guessesCount={game.guesses.length}
           maxGuesses={game.maxGuesses}
           status={game.status}
           mode={mode}
-          unlockedStats={game.unlockedStats}
           onClose={() => setShowModal(false)}
           onPlayAgain={mode !== 'daily' ? game.reset : undefined}
-        />
+          sharePayload={{
+            mode,
+            guesses: game.guesses,
+            maxGuesses: game.maxGuesses,
+            won: game.status === 'won',
+            player: game.mysteryPlayer,
+          }}
+        >
+          <PlayerCard
+            player={game.mysteryPlayer}
+            status={game.status}
+            unlockedStats={game.unlockedStats}
+          />
+        </GameOverModal>
       )}
     </>
   );

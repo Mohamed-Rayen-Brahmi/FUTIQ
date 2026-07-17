@@ -1,0 +1,15 @@
+- `[x]` **Database Migration**
+  - `[x]` Add partial unique index on `game_history` for daily modes
+  - `[x]` Update `record_game_result` to `ON CONFLICT DO NOTHING`
+- `[x]` **Guest Sync Fix**
+  - `[x]` Add `guestHistory` saving logic to `src/lib/guest.ts`
+  - `[x]` Update `useGame`, `useCoachGame`, `useTeamGame` to log finished games to `guest.ts`
+  - `[x]` Update `AuthContext.tsx` to sync the `guestHistory` array upon login/signup
+- `[x]` **GameOver Modal UI**
+  - `[x]` Refactor `GameOverModal.tsx` to handle Coach and Team types
+  - `[x]` Add win animation (CSS/JSX)
+  - `[x]` Integrate `GameOverModal` into `CoachGame.tsx` and `TeamGame.tsx`
+  - `[x]` Add floating "View Results" button to all game components
+- `[x]` **Verification**
+  - `[x]` Build and commit changes
+  - `[x]` Push to Supabase & Git

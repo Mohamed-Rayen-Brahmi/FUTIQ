@@ -26,6 +26,36 @@ export function saveGuestState(state: GuestState): void {
   writePersisted(GUEST_KEY, JSON.stringify(state));
 }
 
+export interface GuestGameLog {
+  playerId: string;
+  guessesUsed: number;
+  won: boolean;
+  mode: string;
+  score: number;
+}
+
+const GUEST_HISTORY_KEY = 'golazio:guest_history';
+
+export function loadGuestHistory(): GuestGameLog[] {
+  try {
+    const raw = readPersisted(GUEST_HISTORY_KEY);
+    if (raw) return JSON.parse(raw) as GuestGameLog[];
+  } catch {
+    // ignore
+  }
+  return [];
+}
+
+export function logGuestGame(log: GuestGameLog): void {
+  const history = loadGuestHistory();
+  history.push(log);
+  writePersisted(GUEST_HISTORY_KEY, JSON.stringify(history));
+}
+
+export function clearGuestHistory(): void {
+  clearPersisted(GUEST_HISTORY_KEY);
+}
+
 export function updateGuestAfterGame(won: boolean, mode: GameMode = 'daily'): GuestState {
   // Re-read right before writing (rather than trusting a value the caller
   // might have loaded earlier) so a win/loss can never clobber progress that
@@ -100,16 +130,9 @@ export async function migrateGuestToAccount(userId: string): Promise<void> {
 
     if (!profileExists) return; // Never found a profile row — leave guest data intact, try again next login.
 
-    // Server decides whether this is actually a fresh account to merge
-    // into (and clamps the values) — the client can no longer just push
-    // arbitrary numbers, see the "secure_stat_writes" migration.
-    const { error } = await supabase.rpc('merge_guest_stats', {
-      p_games_played: guest.gamesPlayed,
-      p_games_won: guest.gamesWon,
-      p_streak: guest.streak,
-      p_max_streak: guest.maxStreak,
-    });
-    if (error) throw error;
+    // We no longer call merge_guest_stats because AuthContext iterates over guestHistory
+    // and calls record_game_result for each game, which naturally increments games_played,
+    // games_won, and correctly tracks streak and max_streak!
 
     // Clear guest cache
     clearPersisted(GUEST_KEY);
