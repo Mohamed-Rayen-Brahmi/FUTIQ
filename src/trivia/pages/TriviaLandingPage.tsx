@@ -115,26 +115,26 @@ export function TriviaLandingPage() {
               <p className="font-body text-sm text-slate-400 text-center">
                 Enter the 6-character room code from your host.
               </p>
-              <div className="flex gap-2">
+              <div className="flex flex-col sm:flex-row gap-3">
                 <input
                   type="text"
                   value={joinCode}
                   onChange={e => setJoinCode(e.target.value.toUpperCase().slice(0, 6))}
                   placeholder="ABC123"
                   maxLength={6}
-                  className="flex-1 bg-ink-panel border-2 border-ink-border focus:border-gold rounded-lg px-4 py-3 font-display text-2xl text-center text-slate-100 placeholder-slate-700 outline-none tracking-[0.3em] transition-colors duration-200 uppercase"
+                  className="w-full sm:flex-1 bg-ink-panel border-2 border-ink-border focus:border-gold rounded-lg px-4 py-3 font-display text-2xl text-center text-slate-100 placeholder-slate-700 outline-none tracking-[0.3em] transition-colors duration-200 uppercase"
                 />
                 <button
                   type="submit"
                   disabled={joinCode.length < 6}
                   className={`
-                    skew-parallelogram font-label font-bold uppercase tracking-wide px-5 py-3 transition-colors duration-200
+                    w-full sm:w-auto skew-parallelogram font-label font-bold uppercase tracking-wide px-6 py-3 transition-colors duration-200
                     ${joinCode.length === 6
                       ? 'bg-cta text-white hover:bg-cta-light'
                       : 'bg-ink-border text-slate-600 cursor-not-allowed'}
                   `}
                 >
-                  <span className="skew-inner flex items-center gap-1.5">
+                  <span className="skew-inner flex items-center justify-center gap-1.5">
                     Join <ArrowRight size={15} />
                   </span>
                 </button>

@@ -9,8 +9,8 @@ interface VotingScreenProps {
   totalRounds: number;
   options: TriviaOption[];
   phaseEndsAt: string | null;
-  totalSeconds: number;
   selectedOptionId: string | null;
+  mySessionId: string;
   onVote: (optionId: string) => void;
   participantCount: number;
   votedCount: number;
@@ -24,6 +24,7 @@ export function VotingScreen({
   phaseEndsAt,
   totalSeconds,
   selectedOptionId,
+  mySessionId,
   onVote,
   participantCount,
   votedCount,
@@ -63,58 +64,81 @@ export function VotingScreen({
         </h2>
       </div>
 
-      {/* Options grid */}
-      <div className="w-full grid grid-cols-1 sm:grid-cols-2 gap-3">
-        {options.map((opt, i) => {
-          const selected = selectedOptionId === opt.id;
-          const hasVoted = selectedOptionId !== null;
-          return (
-            <button
-              key={opt.id}
-              id={`option-${opt.id}`}
-              onClick={() => !hasVoted && onVote(opt.id)}
-              disabled={hasVoted}
-              className={`
-                group relative flex items-center gap-3 p-4 rounded-lg
-                border-2 text-left transition-all duration-200
-                ${selected
-                  ? 'bg-cta/20 border-cta shadow-lg'
-                  : hasVoted
-                    ? 'bg-ink-panel border-ink-border opacity-60'
-                    : 'bg-ink-panel border-ink-border hover:border-gold/60 hover:bg-ink-deep cursor-pointer'}
-              `}
-              style={selected ? { boxShadow: '0 0 20px rgba(255,91,61,0.25)' } : undefined}
-            >
-              {/* Label badge */}
-              <span
-                className={`
-                  skew-parallelogram flex-shrink-0 w-9 h-9 flex items-center justify-center
-                  font-display text-xl font-bold
-                  ${selected ? 'bg-cta text-white' : 'bg-ink-border/60 text-slate-400'}
-                  transition-colors duration-200
-                `}
-              >
-                <span className="skew-inner">{OPTION_LABELS[i]}</span>
-              </span>
+      {selectedOptionId === 'TRUTH_GUESSED' ? (
+        <div className="w-full panel-surface p-8 text-center bg-match-green/10 border-match-green/50">
+          <p className="font-display text-2xl text-match-green mb-2">You found the truth early!</p>
+          <p className="font-body text-slate-400">Waiting for other players to fall for your lie...</p>
+        </div>
+      ) : (
+        <>
+          {/* Options grid */}
+          <div className="w-full grid grid-cols-1 sm:grid-cols-2 gap-3">
+            {options.map((opt, i) => {
+              const selected = selectedOptionId === opt.id;
+              const hasVoted = selectedOptionId !== null;
+              const isMyOwn = opt.session_ids?.includes(mySessionId);
+              
+              return (
+                <button
+                  key={opt.id}
+                  id={`option-${opt.id}`}
+                  onClick={() => !hasVoted && !isMyOwn && onVote(opt.id)}
+                  disabled={hasVoted || isMyOwn}
+                  className={`
+                    group relative flex items-center gap-3 p-4 rounded-lg
+                    border-2 text-left transition-all duration-200
+                    ${selected
+                      ? 'bg-cta/20 border-cta shadow-lg'
+                      : isMyOwn
+                        ? 'bg-ink-deep border-ink-border opacity-50 cursor-not-allowed grayscale'
+                        : hasVoted
+                          ? 'bg-ink-panel border-ink-border opacity-60'
+                          : 'bg-ink-panel border-ink-border hover:border-gold/60 hover:bg-ink-deep cursor-pointer'}
+                  `}
+                  style={selected ? { boxShadow: '0 0 20px rgba(255,91,61,0.25)' } : undefined}
+                >
+                  {/* Label badge */}
+                  <span
+                    className={`
+                      skew-parallelogram flex-shrink-0 w-9 h-9 flex items-center justify-center
+                      font-display text-xl font-bold
+                      ${selected ? 'bg-cta text-white' : 'bg-ink-border/60 text-slate-400'}
+                      transition-colors duration-200
+                    `}
+                  >
+                    <span className="skew-inner">{OPTION_LABELS[i]}</span>
+                  </span>
 
-              {/* Answer text */}
-              <span
-                className={`
-                  font-body text-base leading-snug
-                  ${selected ? 'text-white font-semibold' : 'text-slate-300'}
-                `}
-              >
-                {opt.text}
-              </span>
+                  {/* Answer text */}
+                  <span
+                    className={`
+                      font-body text-base leading-snug
+                      ${selected ? 'text-white font-semibold' : 'text-slate-300'}
+                    `}
+                  >
+                    {opt.text}
+                  </span>
 
-              {/* Selected indicator */}
-              {selected && (
-                <span className="ml-auto text-cta font-bold text-lg">✓</span>
-              )}
-            </button>
-          );
-        })}
-      </div>
+                  {/* Selected indicator */}
+                  {selected && (
+                    <span className="ml-auto text-cta font-bold text-lg">✓</span>
+                  )}
+                  {/* Own answer indicator */}
+                  {isMyOwn && !selected && (
+                    <span className="ml-auto text-slate-500 text-xs uppercase font-label">Your Lie</span>
+                  )}
+                </button>
+              );
+            })}
+          </div>
+
+          {selectedOptionId && (
+            <p className="font-body text-sm text-slate-400 text-center animate-fade-in">
+              Vote locked in! Waiting for others…
+            </p>
+          )}
+        </>
+      )}
 
       {/* Vote progress */}
       <div className="w-full flex items-center gap-3">

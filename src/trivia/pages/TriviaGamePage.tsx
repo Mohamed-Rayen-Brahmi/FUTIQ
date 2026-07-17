@@ -18,13 +18,14 @@ export function TriviaGamePage() {
     room, participants, currentRound,
     submissions, votes, submittedSessions, lastScoreDeltas,
     mySessionId, isHost, error, loading,
-    joinRoom, submitAnswer, submitVote,
+    joinRoom, submitAnswer, submitTruthGuessEarly, submitVote,
     advanceToVoting, advanceToReveal, advanceToNextRound,
     SUBMISSION_SECONDS, VOTING_SECONDS,
   } = useTriviaRoom();
 
   const [myVoteId, setMyVoteId] = useState<string | null>(null);
   const [mySubmitted, setMySubmitted] = useState(false);
+  const [truthGuessedLocal, setTruthGuessedLocal] = useState(false);
 
   // Rejoin by code if we're hitting /trivia/game/:code directly
   useEffect(() => {
@@ -37,6 +38,7 @@ export function TriviaGamePage() {
   // Reset per-round client state when round changes
   useEffect(() => {
     setMyVoteId(null);
+    setTruthGuessedLocal(false);
     setMySubmitted(
       submissions.some(s => s.session_id === mySessionId)
     );
@@ -64,6 +66,11 @@ export function TriviaGamePage() {
   function handleSubmit(answer: string) {
     setMySubmitted(true);
     submitAnswer(answer);
+  }
+
+  function handleTruthGuessEarly() {
+    setTruthGuessedLocal(true);
+    submitTruthGuessEarly();
   }
 
   function handleVote(optionId: string) {
@@ -136,6 +143,9 @@ export function TriviaGamePage() {
               totalSeconds={SUBMISSION_SECONDS}
               hasSubmitted={mySubmitted || submissions.some(s => s.session_id === mySessionId)}
               onSubmit={handleSubmit}
+              onTruthGuessEarly={handleTruthGuessEarly}
+              realAnswer={currentRound.real_answer}
+              truthGuessedLocal={truthGuessedLocal}
               participantCount={participants.length}
               submittedCount={submittedSessions.size}
             />
@@ -149,8 +159,9 @@ export function TriviaGamePage() {
               options={currentRound.options as TriviaOption[]}
               phaseEndsAt={currentRound.phase_ends_at}
               totalSeconds={VOTING_SECONDS}
-              selectedOptionId={myVoteId}
               onVote={handleVote}
+              myVoteId={myVoteId || votes.find(v => v.voter_session_id === mySessionId)?.option_id || null}
+              mySessionId={mySessionId}
               participantCount={participants.length}
               votedCount={votes.length}
             />

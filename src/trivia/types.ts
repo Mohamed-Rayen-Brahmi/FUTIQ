@@ -58,8 +58,8 @@ export interface TriviaOption {
   text: string;
   // These fields are present only after the host reveals the round:
   is_real?: boolean;
-  submitted_by?: string;  // display_name of the human submitter (null = system decoy)
-  session_id?: string;    // session_id of the submitter (for scoring)
+  submitted_by?: string[];  // display_names of the human submitters (undefined = system decoy)
+  session_ids?: string[];   // session_ids of the submitters (for scoring)
 }
 
 export interface TriviaRound {
@@ -144,6 +144,7 @@ export interface RoundScoreDelta {
   /** Why they got points */
   reason: {
     guessed_correctly: boolean;
+    guessed_truth_early: boolean;
     fooled_count: number; // number of OTHER players who picked their fake
   };
 }

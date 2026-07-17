@@ -66,6 +66,11 @@ export function RevealScreen({
                 <Star size={12} /> Correct guess (+2)
               </span>
             )}
+            {myDelta.reason.guessed_truth_early && (
+              <span className="flex items-center gap-1 font-body text-xs text-match-green">
+                <Star size={12} /> Truth guessed early (+2)
+              </span>
+            )}
             {myDelta.reason.fooled_count > 0 && (
               <span className="flex items-center gap-1 font-body text-xs text-gold">
                 <Zap size={12} /> Fooled {myDelta.reason.fooled_count} player{myDelta.reason.fooled_count !== 1 ? 's' : ''} (+{myDelta.reason.fooled_count})
@@ -79,8 +84,8 @@ export function RevealScreen({
       <div className="w-full flex flex-col gap-2">
         {options.map((opt, i) => {
           const votersForThis = votes.filter(v => v.option_id === opt.id);
-          const iMyVote = myVoteId === opt.id;
-          const isSystem = !opt.submitted_by && !opt.is_real;
+          const iMyVote = myVoteId === opt.id || (myVoteId === 'TRUTH_GUESSED' && opt.is_real);
+          const isSystem = (!opt.submitted_by || opt.submitted_by.length === 0) && !opt.is_real;
 
           return (
             <div
@@ -126,13 +131,12 @@ export function RevealScreen({
                   )}
                 </div>
 
-                {/* Attribution */}
                 <div className="flex items-center gap-2 mt-1 flex-wrap">
                   {opt.is_real ? (
                     <span className="font-label text-xs text-match-green/70">Real answer</span>
-                  ) : opt.submitted_by ? (
+                  ) : opt.submitted_by && opt.submitted_by.length > 0 ? (
                     <span className="font-label text-xs text-slate-500">
-                      Submitted by <span className="text-gold">{opt.submitted_by}</span>
+                      Submitted by <span className="text-gold">{opt.submitted_by.join(', ')}</span>
                     </span>
                   ) : isSystem ? (
                     <span className="font-label text-xs text-slate-600">System decoy</span>

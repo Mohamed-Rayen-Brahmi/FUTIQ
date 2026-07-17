@@ -63,12 +63,18 @@ function compileOptions(
   // Human submissions (excluding any that duplicate the real answer)
   for (const sub of submissions) {
     if (sub.answer_text.trim().toLowerCase() === realAnswer.toLowerCase()) continue;
-    if (opts.some(o => o.text.toLowerCase() === sub.answer_text.trim().toLowerCase())) continue;
+    const existing = opts.find(o => o.text.toLowerCase() === sub.answer_text.trim().toLowerCase());
+    if (existing) {
+      if (!existing.session_ids) existing.session_ids = [];
+      if (!existing.session_ids.includes(sub.session_id)) {
+        existing.session_ids.push(sub.session_id);
+      }
+      continue;
+    }
     opts.push({
       id: `sub_${sub.session_id.slice(0, 8)}`,
       text: sub.answer_text.trim(),
-      // session_id stored so host can attribute at reveal — stripped before storing
-      session_id: sub.session_id,
+      session_ids: [sub.session_id],
     });
     if (opts.length >= MAX_OPTIONS) break;
   }
@@ -94,10 +100,10 @@ function compileOptions(
     }
   }
 
-  // Shuffle, then strip session_id from the voting-phase copy (host keeps a separate attributed copy)
+  // Shuffle, then strip session_ids from the voting-phase copy (host keeps a separate attributed copy)
   shuffle(opts);
   // Reassign ids post-shuffle so they reflect stable positions
-  return opts.map((o, i) => ({ id: `opt_${i}`, text: o.text, session_id: o.session_id }));
+  return opts.map((o, i) => ({ id: `opt_${i}`, text: o.text, session_ids: o.session_ids }));
 }
 
 function computeScoreDeltas(
@@ -113,16 +119,20 @@ function computeScoreDeltas(
     let delta = 0;
     const myVote = votes.find(v => v.voter_session_id === p.session_id);
     const guessed_correctly = !!(myVote && myVote.option_id === real?.id);
-    if (guessed_correctly) delta += 2;
+    const guessed_truth_early = !!(myVote && myVote.option_id === 'TRUTH_GUESSED');
+    
+    if (guessed_correctly || guessed_truth_early) delta += 2;
 
     // +1 for every OTHER player who voted for MY fake
+    // Since my fake might be combined with others, we look for any option that has my session_id
     const myOption = revealedOptions.find(
-      o => !o.is_real && o.session_id === p.session_id,
+      o => !o.is_real && o.session_ids?.includes(p.session_id),
     );
     let fooled_count = 0;
     if (myOption) {
+      // Find all votes for this option, excluding votes by ANY of its authors
       fooled_count = votes.filter(
-        v => v.option_id === myOption.id && v.voter_session_id !== p.session_id,
+        v => v.option_id === myOption.id && !myOption.session_ids?.includes(v.voter_session_id),
       ).length;
       delta += fooled_count;
     }
@@ -131,7 +141,7 @@ function computeScoreDeltas(
       session_id: p.session_id,
       display_name: sessionToName.get(p.session_id) ?? 'Player',
       delta,
-      reason: { guessed_correctly, fooled_count },
+      reason: { guessed_correctly, guessed_truth_early, fooled_count },
     });
   }
 
@@ -483,6 +493,19 @@ export function useTriviaRoom() {
     }, { onConflict: 'round_id,session_id' });
   }, [state, sessionId]);
 
+  const submitTruthGuessEarly = useCallback(async () => {
+    const { room, currentRound } = state;
+    if (!room || !currentRound || currentRound.phase !== 'submission') return;
+
+    // Lock them in with a 'TRUTH_GUESSED' vote so they get points and can't vote later
+    await supabase.from('trivia_votes').upsert({
+      round_id: currentRound.id,
+      room_id: room.id,
+      voter_session_id: sessionId,
+      option_id: 'TRUTH_GUESSED',
+    }, { onConflict: 'round_id,voter_session_id' });
+  }, [state, sessionId]);
+
   // ── Player: Vote ───────────────────────────────────────────────────────────
   const submitVote = useCallback(async (optionId: string) => {
     const { room, currentRound } = state;
@@ -546,16 +569,25 @@ export function useTriviaRoom() {
 
     const sessionToName = new Map(participants.map(p => [p.session_id, p.display_name]));
     const revealedOptions: TriviaOption[] = storedOptions.map(o => {
-      const matchingSub = submissions.find(
+      // Find all submissions that match this text
+      const matchingSubs = submissions.filter(
         s => s.answer_text.trim().toLowerCase() === o.text.toLowerCase(),
       );
       const isReal = o.text.toLowerCase() === currentRound.real_answer.toLowerCase();
+      
+      const submitters = matchingSubs.length > 0 
+        ? matchingSubs.map(s => sessionToName.get(s.session_id)!).filter(Boolean)
+        : undefined;
+      const sessionIds = matchingSubs.length > 0
+        ? matchingSubs.map(s => s.session_id)
+        : undefined;
+
       return {
         id: o.id,
         text: o.text,
         is_real: isReal,
-        submitted_by: matchingSub ? sessionToName.get(matchingSub.session_id) : undefined,
-        session_id: matchingSub?.session_id,
+        submitted_by: submitters,
+        session_ids: sessionIds,
       };
     });
 
@@ -659,6 +691,7 @@ export function useTriviaRoom() {
     joinRoom,
     startGame,
     submitAnswer,
+    submitTruthGuessEarly,
     submitVote,
     advanceToVoting,
     advanceToReveal,

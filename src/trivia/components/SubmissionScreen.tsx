@@ -10,6 +10,9 @@ interface SubmissionScreenProps {
   totalSeconds: number;
   hasSubmitted: boolean;
   onSubmit: (answer: string) => void;
+  onTruthGuessEarly?: () => void;
+  realAnswer?: string;
+  truthGuessedLocal?: boolean;
   participantCount: number;
   submittedCount: number;
 }
@@ -22,6 +25,9 @@ export function SubmissionScreen({
   totalSeconds,
   hasSubmitted,
   onSubmit,
+  onTruthGuessEarly,
+  realAnswer,
+  truthGuessedLocal,
   participantCount,
   submittedCount,
 }: SubmissionScreenProps) {
@@ -37,6 +43,13 @@ export function SubmissionScreen({
     e.preventDefault();
     const trimmed = value.trim();
     if (!trimmed) return;
+    
+    if (realAnswer && trimmed.toLowerCase() === realAnswer.toLowerCase()) {
+      if (onTruthGuessEarly) onTruthGuessEarly();
+      setValue('');
+      return;
+    }
+    
     onSubmit(trimmed);
   }
 
@@ -86,8 +99,14 @@ export function SubmissionScreen({
       {/* Submission area */}
       {!hasSubmitted ? (
         <form onSubmit={handleSubmit} className="w-full flex flex-col gap-4">
+          {truthGuessedLocal && (
+            <div className="bg-match-green/20 border border-match-green/50 text-match-green px-4 py-3 rounded-lg text-sm text-center mb-2 animate-bounce">
+              <span className="font-bold">You found the truth! (+2 pts)</span><br />
+              Now enter a convincing lie to trick others.
+            </div>
+          )}
           <p className="font-body text-sm text-slate-400 text-center">
-            Write a convincing fake answer — try to fool everyone!
+            {truthGuessedLocal ? 'Write your fake answer below:' : 'Write a convincing fake answer — try to fool everyone!'}
           </p>
           <div className="relative">
             <input
