@@ -189,6 +189,11 @@ export function useTriviaRoom() {
     loading: false,
   });
 
+  const stateRef = useRef<TriviaRoomState>(state);
+  useEffect(() => {
+    stateRef.current = state;
+  }, [state]);
+
   // ── Load player pool once (used for question generation) ──────────────────
   useEffect(() => {
     supabase
@@ -521,8 +526,8 @@ export function useTriviaRoom() {
 
   // ── HOST: Advance submission → voting ──────────────────────────────────────
   const advanceToVoting = useCallback(async () => {
-    const { room, currentRound, submissions, participants } = state;
-    if (!room || !currentRound || !state.isHost) return;
+    const { room, currentRound, submissions, participants, isHost } = stateRef.current;
+    if (!room || !currentRound || !isHost) return;
 
     clearTimer();
     const allPlayerNames = playerPoolRef.current.map(p => p.name);
@@ -551,8 +556,8 @@ export function useTriviaRoom() {
 
   // ── HOST: Advance voting → reveal ──────────────────────────────────────────
   const advanceToReveal = useCallback(async () => {
-    const { room, currentRound, submissions, votes, participants } = state;
-    if (!room || !currentRound || !state.isHost) return;
+    const { room, currentRound, submissions, votes, participants, isHost } = stateRef.current;
+    if (!room || !currentRound || !isHost) return;
 
     clearTimer();
     // Rebuild attributed options (with is_real + submitted_by)
@@ -613,8 +618,8 @@ export function useTriviaRoom() {
 
   // ── HOST: Advance to next round or finish ──────────────────────────────────
   const advanceToNextRound = useCallback(async () => {
-    const { room, currentRound } = state;
-    if (!room || !currentRound || !state.isHost) return;
+    const { room, currentRound, isHost } = stateRef.current;
+    if (!room || !currentRound || !isHost) return;
 
     clearTimer();
     const nextRoundNumber = currentRound.round_number + 1;
