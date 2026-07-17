@@ -1,4 +1,5 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
+import confetti from 'canvas-confetti';
 import { X, Facebook, Instagram, Check, Download, Clipboard } from 'lucide-react';
 import type { GameMode, GameStatus } from '../types/database';
 import { SkewButton } from './ui';
@@ -72,6 +73,35 @@ export function GameOverModal({
     setConfirming(platform);
   };
 
+  useEffect(() => {
+    if (won) {
+      const duration = 3000;
+      const end = Date.now() + duration;
+
+      const frame = () => {
+        confetti({
+          particleCount: 5,
+          angle: 60,
+          spread: 55,
+          origin: { x: 0 },
+          colors: ['#22c55e', '#facc15', '#ffffff']
+        });
+        confetti({
+          particleCount: 5,
+          angle: 120,
+          spread: 55,
+          origin: { x: 1 },
+          colors: ['#22c55e', '#facc15', '#ffffff']
+        });
+
+        if (Date.now() < end) {
+          requestAnimationFrame(frame);
+        }
+      };
+      frame();
+    }
+  }, [won]);
+
   return (
     <div
       className={`fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/70 backdrop-blur-sm transition-opacity duration-300 ${won ? 'animate-[pulse_1s_ease-in-out]' : 'animate-fade-in'}`}
@@ -89,12 +119,7 @@ export function GameOverModal({
           <X size={20} />
         </button>
 
-        {/* Win Animation Container */}
-        {won && (
-          <div className="absolute -top-10 left-1/2 -translate-x-1/2 w-full h-full pointer-events-none flex justify-center items-start overflow-visible">
-             <div className="text-4xl animate-bounce">🎉🏆🎉</div>
-          </div>
-        )}
+        {/* Confetti handled via canvas-confetti in useEffect */}
 
         <p className={`font-display text-3xl text-center ${won ? 'text-match-green animate-pulse' : 'text-gold'}`}>
           {won ? 'Correct!' : 'Game Over'}
