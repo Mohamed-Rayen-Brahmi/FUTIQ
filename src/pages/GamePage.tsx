@@ -26,6 +26,9 @@ export function GamePage() {
 
   return (
     <div className="max-w-5xl mx-auto px-4 py-6">
+      {/* SEO hidden h1 */}
+      <h1 className="sr-only">Golazio - The Ultimate Football Dle & Trivia Game</h1>
+      
       {/* Mode toggle */}
       <div className="flex items-center justify-center gap-3 mb-6 flex-wrap">
         <SkewButton
@@ -105,6 +108,29 @@ export function GamePage() {
       {mode === 'unlimited' && <PlayerGame mode="unlimited" />}
       {mode === 'coaches_daily' && <CoachGame />}
       {mode === 'teams_daily' && <TeamGame />}
+
+      {/* SEO Rich "How to Play" Section */}
+      <div className="mt-12 mb-8 bg-ink-panel border border-ink-border p-6 rounded-lg">
+        <h2 className="font-display text-2xl text-slate-100 mb-4">
+          How to Play the Daily Football Dle
+        </h2>
+        <div className="space-y-4 font-body text-sm text-slate-300 leading-relaxed">
+          <p>
+            Welcome to <strong className="text-cta">Golazio</strong>, the internet's premier <strong>football dle</strong> puzzle. Every day, a new mystery footballer is selected. Your goal is to guess the footballer in as few attempts as possible.
+          </p>
+          <p>
+            With each guess, our daily guessing game provides vital clues:
+          </p>
+          <ul className="list-disc pl-5 space-y-2 text-slate-400">
+            <li><strong className="text-match-green">Green tiles</strong> mean your guess matches the mystery player exactly (e.g., correct league, nationality, or position).</li>
+            <li><strong className="text-match-yellow">Yellow tiles</strong> indicate a close match (e.g., same continent but different country, or you are within 2 years of the correct age).</li>
+            <li><strong className="text-slate-500">Gray tiles</strong> mean there is no match.</li>
+          </ul>
+          <p>
+            Whether you want to challenge yourself with the daily soccer grid, test your knowledge in the unlimited mode, or invite your friends to play our new multiplayer football trivia party, Golazio is the ultimate daily football quiz. Start guessing today and build your win streak!
+          </p>
+        </div>
+      </div>
     </div>
   );
 }
