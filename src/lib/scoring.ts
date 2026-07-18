@@ -12,7 +12,7 @@
  *  - Loss = 1 point per unique green attribute
  */
 
-type GameType = 'daily' | 'unlimited' | 'coaches_daily' | 'teams_daily';
+type GameType = 'daily' | 'unlimited' | 'coaches_daily' | 'teams_daily' | 'who_am_i_daily';
 
 export function calculateScore(
   mode: GameType,
@@ -21,7 +21,7 @@ export function calculateScore(
   unlockedStats: Set<string>
 ): number {
   if (won) {
-    if (mode === 'daily') {
+    if (mode === 'daily' || mode === 'who_am_i_daily') {
       // 800 down to 100
       const score = 900 - (guessesUsed * 100);
       return Math.max(100, score);
@@ -33,7 +33,7 @@ export function calculateScore(
   } else {
     // Calculate partial points for unique green attributes
     const uniqueMatches = unlockedStats.size;
-    if (mode === 'daily') {
+    if (mode === 'daily' || mode === 'who_am_i_daily') {
       return uniqueMatches * 5;
     } else {
       return uniqueMatches * 1;

@@ -7,9 +7,10 @@ interface PlayerSearchProps {
   onGuess: (player: Player) => void;
   disabled: boolean;
   guessedNames: Set<string>;
+  rpcName?: string;
 }
 
-export function PlayerSearch({ onGuess, disabled, guessedNames }: PlayerSearchProps) {
+export function PlayerSearch({ onGuess, disabled, guessedNames, rpcName = 'search_players' }: PlayerSearchProps) {
   const [query, setQuery] = useState('');
   const [results, setResults] = useState<Player[]>([]);
   const [loading, setLoading] = useState(false);
@@ -31,7 +32,7 @@ export function PlayerSearch({ onGuess, disabled, guessedNames }: PlayerSearchPr
     debounceRef.current = setTimeout(async () => {
       try {
         const { data, error } = await supabase
-          .rpc('search_players', { search_query: query.trim() });
+          .rpc(rpcName as any, { search_query: query.trim() });
 
         if (error) throw error;
         setResults(data || []);

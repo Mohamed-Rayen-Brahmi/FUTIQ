@@ -157,7 +157,12 @@ export interface RankingRow {
   total_score: number;
 }
 
-export type GameMode = 'daily' | 'unlimited' | 'coaches_daily' | 'teams_daily';
+export interface WhoAmIChallenge {
+  id: string;
+  hints: string[];
+}
+
+export type GameMode = 'daily' | 'unlimited' | 'coaches_daily' | 'teams_daily' | 'who_am_i_daily';
 export type GameStatus = 'playing' | 'won' | 'lost';
 
 export interface GuestState {

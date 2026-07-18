@@ -8,6 +8,7 @@ import { AdBanner } from '../components/AdBanner';
 import { PlayerGame } from '../components/PlayerGame';
 import { CoachGame } from '../components/CoachGame';
 import { TeamGame } from '../components/TeamGame';
+import { WhoAmIGame } from '../components/WhoAmIGame';
 import { CountdownTimer } from '../components/ui/CountdownTimer';
 import { Users, ArrowRight } from 'lucide-react';
 
@@ -22,7 +23,8 @@ export function GamePage() {
     mode === 'daily' ? 'Daily' : 
     mode === 'unlimited' ? 'Unlimited' : 
     mode === 'coaches_daily' ? 'Coaches' : 
-    'Teams';
+    mode === 'teams_daily' ? 'Teams' : 
+    'Who Am I';
 
   return (
     <div className="max-w-5xl mx-auto px-4 py-6">
@@ -58,6 +60,13 @@ export function GamePage() {
           onClick={() => setMode('teams_daily')}
         >
           Teams
+        </SkewButton>
+        <SkewButton
+          variant={mode === 'who_am_i_daily' ? 'gold' : 'ghost'}
+          size="sm"
+          onClick={() => setMode('who_am_i_daily')}
+        >
+          Who Am I
         </SkewButton>
       </div>
 
@@ -108,6 +117,7 @@ export function GamePage() {
       {mode === 'unlimited' && <PlayerGame mode="unlimited" />}
       {mode === 'coaches_daily' && <CoachGame />}
       {mode === 'teams_daily' && <TeamGame />}
+      {mode === 'who_am_i_daily' && <WhoAmIGame />}
 
       {/* SEO Rich "How to Play" Section */}
       <div className="mt-12 mb-8 bg-ink-panel border border-ink-border p-6 rounded-lg">
