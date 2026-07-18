@@ -23,6 +23,16 @@ export function TriviaLobbyPage() {
   const [step, setStep]               = useState<SetupStep>('name');
   const [copied, setCopied]           = useState(false);
 
+  // Auto-rejoin if we reload the lobby
+  useEffect(() => {
+    if (!room && code && code !== 'new' && !loading && !error) {
+      const savedName = sessionStorage.getItem('trivia-display-name');
+      if (savedName) {
+        joinRoom(code, savedName);
+      }
+    }
+  }, [room, code, loading, error]);
+
   // Once the room starts playing, navigate to the game page
   if (room?.status === 'playing') {
     navigate(`/trivia/game/${room.room_code}`, { replace: true });
@@ -33,6 +43,7 @@ export function TriviaLobbyPage() {
     e.preventDefault();
     if (!displayName.trim()) return;
     if (step === 'name') { setStep('rounds'); return; }
+    sessionStorage.setItem('trivia-display-name', displayName.trim());
     const roomCode = await createRoom(displayName.trim(), totalRounds);
     if (!roomCode) return; // error handled in hook
   }
@@ -40,6 +51,7 @@ export function TriviaLobbyPage() {
   async function handleJoin(e: React.FormEvent) {
     e.preventDefault();
     if (!displayName.trim() || joinCode.length < 6) return;
+    sessionStorage.setItem('trivia-display-name', displayName.trim());
     const ok = await joinRoom(joinCode.toUpperCase(), displayName.trim());
     if (!ok) return;
   }
