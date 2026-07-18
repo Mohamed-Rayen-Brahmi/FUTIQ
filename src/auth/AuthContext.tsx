@@ -41,9 +41,20 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
         setUser(newSession?.user ?? null);
 
         if (newSession?.user) {
+          // Fix: Proper guest history migration loop that was previously deleted!
           const history = loadGuestHistory();
           if (history.length > 0) {
-            await migrateGuestToAccount(history, newSession.user.id);
+            await migrateGuestToAccount(newSession.user.id);
+            
+            for (const log of history) {
+              await supabase.rpc('record_game_result', {
+                p_player_id: log.playerId,
+                p_guesses_used: log.guessesUsed,
+                p_won: log.won,
+                p_mode: log.mode,
+                p_score: log.score
+              });
+            }
             clearGuestHistory();
           }
 
