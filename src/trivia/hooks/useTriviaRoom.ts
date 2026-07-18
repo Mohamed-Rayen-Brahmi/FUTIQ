@@ -263,7 +263,20 @@ export function useTriviaRoom() {
         const vote = payload.new as TriviaVote;
         setState(s => ({ ...s, votes: [...s.votes.filter(x => x.id !== vote.id), vote] }));
       })
-      .subscribe();
+      .subscribe(async (status) => {
+        if (status === 'SUBSCRIBED') {
+          // If we re-connect after a drop, fetch the latest state so we don't miss anything!
+          refreshParticipants(roomId);
+          const { data: latestRoom } = await supabase
+            .from('trivia_rooms')
+            .select('*')
+            .eq('id', roomId)
+            .single();
+          if (latestRoom) {
+            await fetchFullRoomState(latestRoom as TriviaRoom);
+          }
+        }
+      });
 
     channelRef.current = channel;
   }

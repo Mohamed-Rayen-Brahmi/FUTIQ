@@ -11,6 +11,7 @@ export function RegisterPage() {
   const [password, setPassword] = useState('');
   const [username, setUsername] = useState('');
   const [error, setError] = useState<string | null>(null);
+  const [successMsg, setSuccessMsg] = useState(false);
   const [loading, setLoading] = useState(false);
 
   const handleSubmit = useCallback(async (e: React.FormEvent) => {
@@ -22,15 +23,39 @@ export function RegisterPage() {
     if (error) {
       setError(error);
     } else {
-      navigate('/');
+      setSuccessMsg(true);
     }
-  }, [signUp, email, password, username, navigate]);
+  }, [signUp, email, password, username]);
 
   const handleGoogle = useCallback(async () => {
     setError(null);
     const { error } = await signInWithGoogle();
     if (error) setError(error);
   }, [signInWithGoogle]);
+
+  if (successMsg) {
+    return (
+      <div className="max-w-md mx-auto px-4 py-16">
+        <h1 className="font-display text-5xl text-gold text-center mb-2 text-glow-gold">GOLAZIO</h1>
+        <p className="font-label text-sm uppercase tracking-widest text-slate-500 text-center mb-8">Account Created</p>
+        <Panel className="p-8 text-center flex flex-col items-center">
+          <div className="w-16 h-16 rounded-full bg-match-green/20 text-match-green flex items-center justify-center mb-6">
+            <svg width="32" height="32" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+              <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
+            </svg>
+          </div>
+          <h2 className="font-display text-2xl text-slate-100 mb-2">Check Your Email</h2>
+          <p className="font-body text-slate-400 mb-6">
+            We've sent a verification link to <strong className="text-slate-200">{email}</strong>. 
+            Please check your inbox and verify your email address to activate your account.
+          </p>
+          <SkewButton variant="gold" onClick={() => navigate('/login')} className="w-full">
+            Go to Login
+          </SkewButton>
+        </Panel>
+      </div>
+    );
+  }
 
   return (
     <div className="max-w-md mx-auto px-4 py-16">
