@@ -119,26 +119,55 @@ export function GamePage() {
       {mode === 'teams_daily' && <TeamGame />}
       {mode === 'who_am_i_daily' && <WhoAmIGame />}
 
-      {/* SEO Rich "How to Play" Section */}
-      <div className="mt-12 mb-8 bg-ink-panel border border-ink-border p-6 rounded-lg">
-        <h2 className="font-display text-2xl text-slate-100 mb-4">
-          How to Play the Daily Football Dle
+      {/* SEO Rich "Ultimate Guide" Section for Google AdSense & SEO */}
+      <div className="mt-12 mb-8 bg-ink-panel border border-ink-border p-6 md:p-10 rounded-lg">
+        <h2 className="font-display text-2xl md:text-3xl text-slate-100 mb-6 border-b border-ink-border pb-4">
+          The Ultimate Guide to Daily Football Dle & Soccer Trivia
         </h2>
-        <div className="space-y-4 font-body text-sm text-slate-300 leading-relaxed">
-          <p>
-            Welcome to <strong className="text-cta">Golazio</strong>, the internet's premier <strong>football dle</strong> puzzle. Every day, a new mystery footballer is selected. Your goal is to guess the footballer in as few attempts as possible.
-          </p>
-          <p>
-            With each guess, our daily guessing game provides vital clues:
-          </p>
-          <ul className="list-disc pl-5 space-y-2 text-slate-400">
-            <li><strong className="text-match-green">Green tiles</strong> mean your guess matches the mystery player exactly (e.g., correct league, nationality, or position).</li>
-            <li><strong className="text-match-yellow">Yellow tiles</strong> indicate a close match (e.g., same continent but different country, or you are within 2 years of the correct age).</li>
-            <li><strong className="text-slate-500">Gray tiles</strong> mean there is no match.</li>
-          </ul>
-          <p>
-            Whether you want to challenge yourself with the daily soccer grid, test your knowledge in the unlimited mode, or invite your friends to play our new multiplayer football trivia party, Golazio is the ultimate daily football quiz. Start guessing today and build your win streak!
-          </p>
+        
+        <div className="space-y-6 font-body text-sm md:text-base text-slate-300 leading-relaxed">
+          <section>
+            <h3 className="font-display text-xl text-gold mb-2">Welcome to Golazio</h3>
+            <p>
+              Welcome to <strong className="text-cta">Golazio</strong>, the internet's premier destination for the daily <strong>football dle</strong> puzzle and global soccer trivia. If you are a massive fan of the beautiful game, you have found the ultimate hub to test your knowledge. Every single day, our system selects a new mystery footballer from the top leagues across the world. Your ultimate goal is to guess the identity of the mystery footballer in as few attempts as possible. Drawing inspiration from the popular wordle format, Golazio transforms the traditional text puzzle into a deep, engaging, statistical challenge for football fanatics everywhere.
+            </p>
+          </section>
+
+          <section>
+            <h3 className="font-display text-xl text-gold mb-2">How to Play the Daily Football Puzzle</h3>
+            <p>
+              Playing the daily puzzle is simple to learn but difficult to master. You begin by typing the name of any active (or sometimes retired) professional soccer player into the search bar. With each guess you submit, our sophisticated feedback system provides you with vital, color-coded clues to help you narrow down the mystery player:
+            </p>
+            <ul className="list-disc pl-6 mt-4 space-y-3 text-slate-400">
+              <li><strong className="text-match-green">Green Tiles (Exact Match):</strong> A green tile indicates that your guessed player perfectly matches the mystery player in that specific category. For example, if you see a green tile under "League", it means the mystery player plays in the exact same league as the player you guessed.</li>
+              <li><strong className="text-match-yellow">Yellow Tiles (Close Match):</strong> A yellow tile indicates you are very close. If the "Nation" tile is yellow, it means the mystery player is from the same continent, but a different country. For the "Age" or "Shirt Number" categories, a yellow tile means your guess is within exactly 2 units (years or numbers) of the correct answer.</li>
+              <li><strong className="text-slate-500">Gray Tiles (No Match):</strong> A gray tile means there is absolutely no overlap between your guess and the mystery player for that specific attribute. Use this to quickly eliminate leagues, nations, or positions!</li>
+            </ul>
+          </section>
+
+          <section>
+            <h3 className="font-display text-xl text-gold mb-2">Explore Multiple Game Modes</h3>
+            <p>
+              We know that one puzzle a day just isn't enough for true football tacticians. That is why Golazio offers a rich variety of game modes to keep you entertained for hours:
+            </p>
+            <ul className="list-disc pl-6 mt-4 space-y-3 text-slate-400">
+              <li><strong>Daily Mode:</strong> The classic experience. One player, one puzzle, updated at midnight every day. Compete on the global leaderboards.</li>
+              <li><strong>Unlimited Mode:</strong> Missed a day or just want to keep playing? The unlimited mode generates random mystery players endlessly so you can practice your deductive skills.</li>
+              <li><strong>Coaches & Teams Mode:</strong> Think you know the masterminds behind the tactics? Try guessing the daily Coach, or identify the daily club in our Teams mode!</li>
+              <li><strong>Who Am I Mode:</strong> A completely different style of trivia. You are presented with a heavily blurred avatar of a famous player and a series of text hints. With every wrong guess, the blur is reduced and a new hint is revealed. Can you guess who it is before the final hint?</li>
+              <li><strong>Multiplayer Party Mode:</strong> Invite your friends into a private lobby for a real-time trivia battle. Bluff your friends, answer questions rapidly, and prove who really knows the most about world football.</li>
+            </ul>
+          </section>
+
+          <section>
+            <h3 className="font-display text-xl text-gold mb-2">Build Your Streak and Climb the Ranks</h3>
+            <p>
+              By creating a free account on Golazio, you unlock the ability to track your win streaks, view your historical statistics, and most importantly, climb the Global Rankings. Every time you successfully complete a daily puzzle—whether it's the player, the coach, the team, or the Who Am I challenge—you earn points based on how quickly you solved it. The fewer guesses you take, the more points you earn. These points aggregate into your all-time score, cementing your legacy on the global leaderboard.
+            </p>
+            <p className="mt-4">
+              So, what are you waiting for? Dive into the ultimate daily soccer grid, challenge your friends to our multiplayer football trivia party, and prove that you are the greatest football mind on the internet. Start guessing today, build your win streak, and become a Golazio legend!
+            </p>
+          </section>
         </div>
       </div>
     </div>
