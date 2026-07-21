@@ -2,13 +2,13 @@ import { Trophy, Globe } from 'lucide-react';
 import { SkewButton } from './ui';
 
 export type SupportedLeague = 
-  | 'Premier League' 
-  | 'La Liga' 
-  | 'Serie A' 
-  | 'Bundesliga' 
-  | 'Ligue 1' 
-  | 'Saudi Pro League' 
-  | 'Major League Soccer'
+  | 'English Premier League' 
+  | 'Spanish La Liga' 
+  | 'Italian Serie A' 
+  | 'German Bundesliga' 
+  | 'French Ligue 1' 
+  | 'Saudi-Arabian Pro League' 
+  | 'American Major League Soccer'
   | 'Global';
 
 interface LeagueSelectorProps {
@@ -18,13 +18,13 @@ interface LeagueSelectorProps {
 }
 
 const LEAGUES: { name: SupportedLeague; label: string; icon: string; color: string }[] = [
-  { name: 'Premier League', label: 'Premier League', icon: '🏴󠁧󠁢󠁥󠁮󠁧󠁿', color: 'from-[#38003c] to-[#e90052]' },
-  { name: 'La Liga', label: 'La Liga', icon: '🇪🇸', color: 'from-[#ee8707] to-[#f6b211]' },
-  { name: 'Serie A', label: 'Serie A', icon: '🇮🇹', color: 'from-[#002f6c] to-[#0068a8]' },
-  { name: 'Bundesliga', label: 'Bundesliga', icon: '🇩🇪', color: 'from-[#d11019] to-[#ffffff]' },
-  { name: 'Ligue 1', label: 'Ligue 1', icon: '🇫🇷', color: 'from-[#dae025] to-[#121c29]' },
-  { name: 'Saudi Pro League', label: 'Saudi Pro League', icon: '🇸🇦', color: 'from-[#1a4a38] to-[#18754b]' },
-  { name: 'Major League Soccer', label: 'MLS', icon: '🇺🇸', color: 'from-[#002b5e] to-[#e31837]' }
+  { name: 'English Premier League', label: 'Premier League', icon: '🏴󠁧󠁢󠁥󠁮󠁧󠁿', color: 'from-[#38003c] to-[#e90052]' },
+  { name: 'Spanish La Liga', label: 'La Liga', icon: '🇪🇸', color: 'from-[#ee8707] to-[#f6b211]' },
+  { name: 'Italian Serie A', label: 'Serie A', icon: '🇮🇹', color: 'from-[#002f6c] to-[#0068a8]' },
+  { name: 'German Bundesliga', label: 'Bundesliga', icon: '🇩🇪', color: 'from-[#d11019] to-[#ffffff]' },
+  { name: 'French Ligue 1', label: 'Ligue 1', icon: '🇫🇷', color: 'from-[#dae025] to-[#121c29]' },
+  { name: 'Saudi-Arabian Pro League', label: 'Saudi Pro League', icon: '🇸🇦', color: 'from-[#1a4a38] to-[#18754b]' },
+  { name: 'American Major League Soccer', label: 'MLS', icon: '🇺🇸', color: 'from-[#002b5e] to-[#e31837]' }
 ];
 
 export function LeagueSelector({ modeLabel, onSelectLeague, onBack }: LeagueSelectorProps) {
