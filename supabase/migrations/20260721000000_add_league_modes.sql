@@ -19,11 +19,18 @@ CREATE INDEX IF NOT EXISTS idx_players_popular ON players (active, is_popular, l
 
 -- Temporary script: Auto-flag the first 20 players of each club as "popular" so the game works immediately
 -- The admin can refine this list later in the dashboard
+-- We MUST ensure they have an image_url, otherwise the game looks broken!
+
+-- First, reset everyone to false just in case
+UPDATE players SET is_popular = false;
+
 WITH ranked_players AS (
   SELECT id, 
          ROW_NUMBER() OVER(PARTITION BY club ORDER BY age ASC, id) as rn
   FROM players
   WHERE active = true
+    AND image_url IS NOT NULL
+    AND image_url != ''
 )
 UPDATE players
 SET is_popular = true
