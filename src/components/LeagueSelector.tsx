@@ -3,7 +3,7 @@ import { SkewButton } from './ui';
 
 export type SupportedLeague = 
   | 'Premier League' 
-  | 'LALIGA EA SPORTS' 
+  | 'La Liga' 
   | 'Serie A' 
   | 'Bundesliga' 
   | 'Ligue 1' 
@@ -19,7 +19,7 @@ interface LeagueSelectorProps {
 
 const LEAGUES: { name: SupportedLeague; label: string; icon: string; color: string }[] = [
   { name: 'Premier League', label: 'Premier League', icon: '🏴󠁧󠁢󠁥󠁮󠁧󠁿', color: 'from-[#38003c] to-[#e90052]' },
-  { name: 'LALIGA EA SPORTS', label: 'La Liga', icon: '🇪🇸', color: 'from-[#ee8707] to-[#f6b211]' },
+  { name: 'La Liga', label: 'La Liga', icon: '🇪🇸', color: 'from-[#ee8707] to-[#f6b211]' },
   { name: 'Serie A', label: 'Serie A', icon: '🇮🇹', color: 'from-[#002f6c] to-[#0068a8]' },
   { name: 'Bundesliga', label: 'Bundesliga', icon: '🇩🇪', color: 'from-[#d11019] to-[#ffffff]' },
   { name: 'Ligue 1', label: 'Ligue 1', icon: '🇫🇷', color: 'from-[#dae025] to-[#121c29]' },
