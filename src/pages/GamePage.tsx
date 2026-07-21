@@ -11,6 +11,7 @@ import { TeamGame } from '../components/TeamGame';
 import { WhoAmIGame } from '../components/WhoAmIGame';
 import { CountdownTimer } from '../components/ui/CountdownTimer';
 import { Users, ArrowRight } from 'lucide-react';
+import { PlayerModeFlow } from '../components/PlayerModeFlow';
 
 export function GamePage() {
   const navigate = useNavigate();
@@ -113,11 +114,14 @@ export function GamePage() {
         </button>
       </div>
 
-      {mode === 'daily' && <PlayerGame mode="daily" />}
-      {mode === 'unlimited' && <PlayerGame mode="unlimited" />}
       {mode === 'coaches_daily' && <CoachGame />}
       {mode === 'teams_daily' && <TeamGame />}
       {mode === 'who_am_i_daily' && <WhoAmIGame />}
+      
+      {/* League Selection for Player Modes */}
+      {(mode === 'daily' || mode === 'unlimited') && (
+        <PlayerModeFlow mode={mode} />
+      )}
 
       {/* SEO Rich "Ultimate Guide" Section for Google AdSense & SEO */}
       <div className="mt-12 mb-8 bg-ink-panel border border-ink-border p-6 md:p-10 rounded-lg">

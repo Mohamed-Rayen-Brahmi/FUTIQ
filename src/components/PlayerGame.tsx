@@ -10,8 +10,10 @@ import { Link } from 'react-router-dom';
 import { AdBanner } from './AdBanner';
 import { useAuth } from '../auth/AuthContext';
 
-export function PlayerGame({ mode }: { mode: 'daily' | 'unlimited' }) {
-  const game = useGame(mode);
+import { SupportedLeague } from './LeagueSelector';
+
+export function PlayerGame({ mode, league, onBack }: { mode: 'daily' | 'unlimited'; league?: SupportedLeague; onBack?: () => void }) {
+  const game = useGame(mode, league);
   const { user } = useAuth();
   const [showModal, setShowModal] = useState(false);
   const prevStatusRef = useRef(game.status);
@@ -66,10 +68,18 @@ export function PlayerGame({ mode }: { mode: 'daily' | 'unlimited' }) {
             <div className="w-full">
               {game.status === 'playing' && (
                 <div className="mb-4">
+                  {onBack && (
+                    <div className="mb-4">
+                      <SkewButton variant="ghost" size="sm" onClick={onBack}>
+                        ← Change League
+                      </SkewButton>
+                    </div>
+                  )}
                   <PlayerSearch
                     onGuess={game.makeGuess}
                     disabled={game.status !== 'playing'}
                     guessedNames={guessedNames}
+                    league={league !== 'Global' ? league : undefined}
                   />
                 </div>
               )}

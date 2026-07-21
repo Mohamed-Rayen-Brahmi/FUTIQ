@@ -8,9 +8,10 @@ interface PlayerSearchProps {
   disabled: boolean;
   guessedNames: Set<string>;
   rpcName?: string;
+  league?: string;
 }
 
-export function PlayerSearch({ onGuess, disabled, guessedNames, rpcName = 'search_players' }: PlayerSearchProps) {
+export function PlayerSearch({ onGuess, disabled, guessedNames, rpcName = 'search_players', league }: PlayerSearchProps) {
   const [query, setQuery] = useState('');
   const [results, setResults] = useState<Player[]>([]);
   const [loading, setLoading] = useState(false);
@@ -32,7 +33,10 @@ export function PlayerSearch({ onGuess, disabled, guessedNames, rpcName = 'searc
     debounceRef.current = setTimeout(async () => {
       try {
         const { data, error } = await supabase
-          .rpc(rpcName as any, { search_query: query.trim() });
+          .rpc(rpcName as any, { 
+            search_query: query.trim(),
+            p_league: league || null 
+          });
 
         if (error) throw error;
         setResults(data || []);

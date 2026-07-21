@@ -11,7 +11,10 @@ function maxGuessesForMode(mode: GameMode): number | null {
   return MAX_GUESSES;
 }
 
-export function useGame(mode: GameMode) {
+export function useGame(baseMode: GameMode, league?: string) {
+  const mode = league && league !== 'Global' 
+    ? `${baseMode}_${league.toLowerCase().replace(/\s+/g, '-')}` as GameMode 
+    : baseMode;
   const { user, profile, refreshProfile } = useAuth();
   const [mysteryPlayer, setMysteryPlayer] = useState<Player | null>(null);
   const [guesses, setGuesses] = useState<GuessRow[]>([]);
@@ -47,7 +50,10 @@ export function useGame(mode: GameMode) {
               setMysteryPlayer(saved.answer as Player);
             } else {
               // Fetch just the image for ongoing games
-              const { data: imgUrl } = await supabase.rpc('get_daily_player_image', { date_seed: seed });
+              const { data: imgUrl } = await supabase.rpc('get_daily_player_image', { 
+                date_seed: seed,
+                p_league: league !== 'Global' ? league : null 
+              });
               setMysteryPlayer({ image_url: imgUrl } as Player);
             }
           } else {
@@ -55,18 +61,27 @@ export function useGame(mode: GameMode) {
             setStatus('playing');
             setUnlockedStats(new Set());
             // Fetch just the image for new games
-            const { data: imgUrl } = await supabase.rpc('get_daily_player_image', { date_seed: seed });
+            const { data: imgUrl } = await supabase.rpc('get_daily_player_image', { 
+              date_seed: seed,
+              p_league: league !== 'Global' ? league : null 
+            });
             setMysteryPlayer({ image_url: imgUrl } as Player);
           }
         } else {
           // UNLIMITED MODE: Client-side comparison (practice, no rankings)
           const seed = getDailySeed();
           const { data: excludeId } = await supabase
-            .rpc('get_daily_player_id', { date_seed: seed })
+            .rpc('get_daily_player_id', { 
+              date_seed: seed,
+              p_league: league !== 'Global' ? league : null 
+            })
             .single();
 
           const { data, error: rpcError } = await supabase
-            .rpc('get_random_player', { exclude_player_id: excludeId })
+            .rpc('get_random_player', { 
+              exclude_player_id: excludeId,
+              p_league: league !== 'Global' ? league : null 
+            })
             .single();
           if (rpcError) throw rpcError;
 
@@ -118,6 +133,7 @@ export function useGame(mode: GameMode) {
           p_guess_id: guessPlayer.id,
           p_date_seed: seed,
           p_guess_number: guessNumber,
+          p_league: league !== 'Global' ? league : null 
         });
 
       if (rpcError) {
@@ -237,6 +253,7 @@ export function useGame(mode: GameMode) {
           p_guess_id: guesses[0]?.player?.id || '00000000-0000-0000-0000-000000000000',
           p_date_seed: seed,
           p_guess_number: 8, // Force reveal
+          p_league: league !== 'Global' ? league : null
         });
       if (data?.answer) {
         setMysteryPlayer(data.answer as Player);
