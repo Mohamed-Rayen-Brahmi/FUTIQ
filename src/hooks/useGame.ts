@@ -26,7 +26,7 @@ export function useGame(baseMode: GameMode, league?: string) {
   const [roundId, setRoundId] = useState(0);
   const maxGuesses = maxGuessesForMode(mode);
 
-  const isDaily = mode === 'daily';
+  const isDaily = baseMode === 'daily';
 
   // ── Initialize game ──────────────────────────────────────────────────────
   useEffect(() => {
